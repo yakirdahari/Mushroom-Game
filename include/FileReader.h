@@ -8,13 +8,18 @@
 
 enum Objects 
 {
-    PlayerChar = 'a',
-    DemonChar = '&',
-    WallChar = '#',
-    DoorChar = 'D',
-    KeyChar = '%',
-    CookieChar = '*',
-    GiftChar = '$',
+    Player_Char = 'P',
+    Monster1_Char = '1',
+    Monster2_Char = '2',
+    Monster3_Char = '3',
+    Monster4_Char = '4',
+    NPC1_Char = '!',
+    NPC2_Char = '@',
+    NPC3_Char = '#',
+    NPC4_Char = '$',
+    Ground_Char = '_',
+    Wall_Char = '|',
+    MonsterWall_Char = ']',
     Empty = ' ',
 };
 

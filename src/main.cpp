@@ -15,4 +15,4 @@ catch (...)
 {
 	std::cerr << "Unknown exception\n";
 	return EXIT_FAILURE;
-}
+} 

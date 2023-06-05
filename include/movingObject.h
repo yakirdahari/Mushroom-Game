@@ -3,6 +3,7 @@
 #include "gameObject.h"
 #include "Direction.h"
 #include "Animation.h"
+#include "PhysicsData.h"
 
 class movingObject : public gameObject
 {
@@ -14,8 +15,10 @@ public:
 	
 	// Functions
 	virtual void update(const sf::Time delta) = 0;
+	void updatePhysics();
 
 	// Variables
 protected:
 	Direction m_dir = Direction::Stay;
+	PhysicsData physics;
 };
