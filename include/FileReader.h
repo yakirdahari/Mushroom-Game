@@ -4,7 +4,7 @@
 #include <memory>
 #include <fstream>
 #include "Map.h"
-#include "Demon.h"
+#include "Monster.h"
 
 enum Objects 
 {

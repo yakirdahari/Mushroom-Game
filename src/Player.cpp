@@ -57,7 +57,7 @@ Player::Player(const sf::Vector2f& position)
       m_animation(Resources::instance().animationData(Resources::Player), Direction::Stay, m_sp),
       m_attack(false), framesLeft(3)
 {
-    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 2.f));
+    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 1.5f));
 }
 
 Player::Player(const sf::Vector2f& position, const sf::Vector2f& mapSize,
@@ -66,7 +66,7 @@ Player::Player(const sf::Vector2f& position, const sf::Vector2f& mapSize,
       m_animation(Resources::instance().animationData(Resources::Player), Direction::Stay, m_sp),
       m_attack(false), framesLeft(3)
 {
-    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 2.f));
+    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 1.5f));
 }
 
 void Player::update(sf::Time delta)

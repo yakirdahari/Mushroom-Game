@@ -6,12 +6,12 @@
 
 #include <SFML/Graphics.hpp>
 
-class Demon : public movingObject
+class Monster : public movingObject
 {
 public:
-    Demon(const sf::Vector2f& position);
-    Demon(const sf::Vector2f& position, const sf::Vector2f& mapSize,
-          const sf::Vector2f& resolution);
+    Monster(const sf::Vector2f& position);
+    Monster(const sf::Vector2f& position, const sf::Vector2f& mapSize,
+        const sf::Vector2f& resolution);
 
     void update(sf::Time delta) override;
 

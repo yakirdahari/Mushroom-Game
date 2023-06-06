@@ -69,7 +69,7 @@ bool isValid(const std::vector<string>& map, std::unique_ptr<Player>& player)
 	sf::Vector2f position(0, 0);  // position of object's sprite
 	//sf::Vector2f mapSize(m_mapWidth, m_mapHeight);
 	//sf::Vector2f resolution(WindowWidth, WindowHeight);
-
+	// 
 	// stores objects in vectors
 	for (int i = 0; i < map.size(); i++)
 	{
@@ -78,15 +78,15 @@ bool isValid(const std::vector<string>& map, std::unique_ptr<Player>& player)
 		{
 			switch (c)
 			{
-			case PlayerChar:
+			case Player_Char:
 			{
 				playerCount++;
 				player->setPosition(position);
 			}
 			break;
-			case DemonChar:
+			case Monster4_Char:
 			{
-				Map::instance().movables().push_back(std::move(std::make_unique<Demon>(position)));
+				Map::instance().movables().push_back(std::move(std::make_unique<Monster>(position)));
 			}
 			}
 			position.x += 10.f;

@@ -73,12 +73,12 @@ void Controller::updateGameObjects()
 
 	// movement + collision
 	player->update(delta);
-	player->updatePhysics();
+	//player->updatePhysics();
 
 	for (auto& movable : Map::instance().movables())
 	{
 		movable->update(delta);
-		movable->updatePhysics();
+		//movable->updatePhysics();
 	}
 }
 //--------------------------------------------------

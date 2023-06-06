@@ -2,7 +2,7 @@
 
 #include "gameObject.h"
 #include "Player.h"
-#include "Demon.h"
+#include "Monster.h"
 
 class staticObject : public gameObject
 {

@@ -11,7 +11,7 @@ class Resources
 public:
     enum Objects
     {
-        RedDemon,
+        Mushroom,
         Player,
         Max,
     };
