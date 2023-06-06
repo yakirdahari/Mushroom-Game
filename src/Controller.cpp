@@ -3,7 +3,7 @@
 
 // Opening file
 Controller::Controller()
-    : m_window(sf::VideoMode(WindowWidth, WindowHeight), "Pacman", sf::Style::Resize),
+    : m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Titlebar | sf::Style::Close),
 	  m_level(1), player(std::make_unique<Player>(sf::Vector2f(0,0)))
 {
 	m_window.setFramerateLimit(60);
