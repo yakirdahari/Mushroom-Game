@@ -7,7 +7,7 @@
 using std::string;
 
 class Player;
-class Demon;
+class Monster;
 
 class gameObject
 {

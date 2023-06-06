@@ -1,9 +1,7 @@
 #pragma once
 
 #include "AnimationData.h"
-
 #include <SFML/graphics.hpp>
-
 #include <vector>
 
 class Resources

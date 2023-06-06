@@ -17,6 +17,9 @@ public:
     // updates the sprite to show the next frame in the animation
     void update(sf::Time delta);
 
+    // resets index
+    void resetAnimation();
+
 private:
     // Update the sprite to take the correct part of the texture,
     // based on current dir and index
@@ -24,7 +27,7 @@ private:
 
     const AnimationData& m_data;
     sf::Time m_elapsed = {};
-    Direction m_dir = Direction::Up;
+    Direction m_dir = Direction::Stay;
     int m_index = 0;
     sf::Sprite& m_sprite;
 };

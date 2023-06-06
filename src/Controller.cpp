@@ -28,7 +28,7 @@ void Controller::draw()
 	m_window.clear();
 	if (auto debugSpriteSheet = 0) // use 1 to debug animation data
 	{
-		//displayAll(m_window, Resources::instance().animationData(Resources::RedDemon));
+		displayAll(m_window, Resources::instance().animationData(Resources::Player));
 	}
 	else
 	{

@@ -1,14 +1,16 @@
 #pragma once
 #include "movingObject.h"
 
-movingObject::movingObject(const sf::Vector2f& position)
-	: gameObject(position)
+movingObject::movingObject(const sf::Vector2f& position, Resources::Objects object)
+	: gameObject(position),
+	  m_animation(Resources::instance().animationData(object), Direction::Stay, m_sp)
 {
 }
 
 movingObject::movingObject(const sf::Vector2f& position, const sf::Vector2f& mapSize,
-	                       const sf::Vector2f& resolution)
-	: gameObject(position, mapSize, resolution)
+	                       const sf::Vector2f& resolution, Resources::Objects object)
+	: gameObject(position, mapSize, resolution),
+	  m_animation(Resources::instance().animationData(object), Direction::Stay, m_sp)
 {
 }
 

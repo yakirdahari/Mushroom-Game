@@ -1,6 +1,6 @@
 #include "Player.h"
 
-constexpr auto PlayerSpeed = 80.f;
+constexpr auto PlayerSpeed = 110.f;
 constexpr auto AttackSpeed = 0.8f;
 
 Direction Player::keyToDirection()
@@ -12,7 +12,7 @@ Direction Player::keyToDirection()
         { sf::Keyboard::Right, Direction::Right },
         { sf::Keyboard::Left,  Direction::Left },
         { sf::Keyboard::Up,    Direction::Up },
-        { sf::Keyboard::Down,  Direction::Down },
+        { sf::Keyboard::Down,  Direction::Prone},
         { sf::Keyboard::LControl,  Direction::Attack1 },
         { sf::Keyboard::LAlt,  Direction::Jump },
     };
@@ -32,11 +32,19 @@ Direction Player::keyToDirection()
             case sf::Keyboard::Up:
                 break;
             case sf::Keyboard::Down:
-                break;
+                m_prone = true;
+                continue;
             case sf::Keyboard::LControl:
             {
                 m_attack = true;
                 m_attackTime.restart();
+                m_animation.resetAnimation();
+
+                if (m_prone)
+                {
+                    return Direction::ProneStab;
+                }
+
                 int attackType = rand() % 2;
                 if (attackType == 0)
                 {
@@ -44,29 +52,32 @@ Direction Player::keyToDirection()
                 }
                 return Direction::Attack2;
             }
-            break;
             }
+            m_prone = false;
             return pair.second;
         }
+    }
+    if (m_prone)
+    {
+        m_prone = false;
+        return Direction::Prone;
     }
     return Direction::Stay;
 }
 
 Player::Player(const sf::Vector2f& position)
-    : movingObject(position),
-      m_animation(Resources::instance().animationData(Resources::Player), Direction::Stay, m_sp),
-      m_attack(false), framesLeft(3)
+    : movingObject(position, Resources::Player),
+      m_attack(false), m_prone(false)
 {
-    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 1.5f));
+    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 1.7f, getGlobalBounds().height / 1.5f));
 }
 
 Player::Player(const sf::Vector2f& position, const sf::Vector2f& mapSize,
                const sf::Vector2f& resolution)
-    : movingObject(position, mapSize, resolution), 
-      m_animation(Resources::instance().animationData(Resources::Player), Direction::Stay, m_sp),
-      m_attack(false), framesLeft(3)
+    : movingObject(position, mapSize, resolution, Resources::Player),
+      m_attack(false), m_prone(false)
 {
-    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 1.5f));
+    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 1.7f, getGlobalBounds().height / 1.5f));
 }
 
 void Player::update(sf::Time delta)
@@ -74,32 +85,11 @@ void Player::update(sf::Time delta)
     // can't move during attack
     if (m_attackTime.getElapsedTime().asSeconds() >= AttackSpeed)
     {
-        m_attack = false;
-
-        // check for key input
-        m_dir = keyToDirection();
+        m_dir = keyToDirection();   // check for key input
     }
-    // move & animate player
+
+    // animate & move player
     m_animation.direction(m_dir);
     m_animation.update(delta);
-    m_sp.move(toVector(m_dir) * delta.asSeconds() * PlayerSpeed);   
+    m_sp.move(toVector(m_dir) * delta.asSeconds() * PlayerSpeed);    
 }
-
-void Player::direction(sf::Keyboard::Key key)
-{
-    /*if (auto dir = toDirection(key))
-    {
-        m_dir = *dir;
-
-        if (m_dir == Direction::Right)
-        {
-            m_sp.setScale(-1.f, 1.f);
-        }
-        else if (m_dir == Direction::Left)
-        {
-            m_sp.setScale(1.f, 1.f);
-        }
-        m_animation.direction(*dir);
-    }*/
-}
-

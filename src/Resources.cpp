@@ -41,7 +41,7 @@ namespace
 
     AnimationData playerData()
     {
-        const auto size = sf::Vector2i(80, 80);
+        const auto size = sf::Vector2i(110, 80);
         const auto initSpace = sf::Vector2i(0, 2);
         const auto middleSpace = sf::Vector2i(0, 20);
 
@@ -68,8 +68,14 @@ namespace
         player.m_data[Direction::Prone].emplace_back(nextStart(), size);
         player.m_data[Direction::ProneStab].emplace_back(nextStart(), size);
         player.m_data[Direction::ProneStab].emplace_back(nextStart(), size);
+        player.m_data[Direction::ProneStab].emplace_back(currentStart, size);
+        player.m_data[Direction::ProneStab].emplace_back(currentStart, size);
+        player.m_data[Direction::ProneStab].emplace_back(currentStart, size);
         player.m_data[Direction::Attack1].emplace_back(nextStart(), size);
         player.m_data[Direction::Attack1].emplace_back(nextStart(), size);
+        player.m_data[Direction::Attack1].emplace_back(nextStart(), size);
+        player.m_data[Direction::Attack1].emplace_back(currentStart, size);
+        player.m_data[Direction::Attack1].emplace_back(currentStart, size);
         player.m_data[Direction::Stay].emplace_back(nextStart(), size);
         player.m_data[Direction::Stay].emplace_back(nextStart(), size);
         player.m_data[Direction::Stay].emplace_back(nextStart(), size);
@@ -77,6 +83,8 @@ namespace
         player.m_data[Direction::Attack2].emplace_back(nextStart(), size);
         player.m_data[Direction::Attack2].emplace_back(nextStart(), size);
         player.m_data[Direction::Attack2].emplace_back(nextStart(), size);
+        player.m_data[Direction::Attack2].emplace_back(currentStart, size);
+        player.m_data[Direction::Attack2].emplace_back(currentStart, size);
         player.m_data[Direction::Left].emplace_back(nextStart(), size);
         player.m_data[Direction::Right].emplace_back(currentStart, size);
         player.m_data[Direction::Left].emplace_back(nextStart(), size);

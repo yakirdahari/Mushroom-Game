@@ -2,19 +2,17 @@
 
 #include "Resources.h"
 
-constexpr auto MonsterSpeed = 80.f;
+constexpr auto MonsterSpeed = 110.f;
 
-Monster::Monster(const sf::Vector2f& position)
-    : movingObject(position),
-    m_animation(Resources::instance().animationData(Resources::Mushroom), Direction::Stay, m_sp)
+Monster::Monster(const sf::Vector2f& position, Resources::Objects object)
+    : movingObject(position, object)
 {
     m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 1.5f));
 }
 
 Monster::Monster(const sf::Vector2f& position, const sf::Vector2f& mapSize,
-    const sf::Vector2f& resolution)
-    : movingObject(position, mapSize, resolution),
-    m_animation(Resources::instance().animationData(Resources::Mushroom), Direction::Stay, m_sp)
+    const sf::Vector2f& resolution, Resources::Objects object)
+    : movingObject(position, mapSize, resolution, object)
 {
     m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 1.5f));
 }

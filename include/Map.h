@@ -2,10 +2,6 @@
 
 #include "movingObject.h"
 #include "staticObject.h"
-#include <SFML/graphics.hpp>
-#include <SFML/Audio.hpp>
-
-#include <vector>
 
 class Map
 {
