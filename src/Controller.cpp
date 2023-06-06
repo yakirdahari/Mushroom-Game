@@ -3,7 +3,7 @@
 
 // Opening file
 Controller::Controller()
-    : m_window(sf::VideoMode(WindowWidth, WindowHeight), "Pacman", sf::Style::Close),
+    : m_window(sf::VideoMode(WindowWidth, WindowHeight), "Pacman", sf::Style::Resize),
 	  m_level(1), player(std::make_unique<Player>(sf::Vector2f(0,0)))
 {
 	m_window.setFramerateLimit(60);
@@ -85,105 +85,3 @@ void Controller::updateGameObjects()
 Controller::~Controller()
 {
 }
-//--------------------------------------------------
-//void Controller::readFile(int mapNumber)
-//{
-//	std::ifstream m_file;
-//	m_file.open("Board.txt");
-//
-//	if (!m_file.is_open())
-//	{
-//		throw std::exception("Error loading board.txt");
-//	}
-//
-//	std::vector<string> map;
-//
-//	// check if no more levels
-//	if (mapNumber == 4)
-//	{
-//		Controller::~Controller();
-//	}
-//
-//	for (int currentMap = 1; currentMap <= mapNumber; currentMap++)
-//	{
-//		// clear existing map
-//		map.clear();
-//		m_movables.clear();
-//		m_unmovables.clear();
-//
-//		// read height, width
-//		string line;
-//		m_file >> line;
-//		m_mapHeight = stoi(line);
-//		std::getline(m_file, line);
-//		m_mapWidth = stoi(line);
-//		std::getline(m_file, line);
-//
-//		// put each line in map vector
-//		for (int i = 0; i < m_mapHeight; i++)
-//		{
-//			std::getline(m_file, line);
-//			map.push_back(line);
-//		}
-//
-//		// eat space between maps
-//		std::getline(m_file, line);
-//
-//		// skip maps till reached wanted map
-//		if (currentMap != mapNumber)
-//		{
-//			continue;
-//		}
-//
-//		// check if map is valid
-//		if (!isValid(map))
-//		{
-//			// Wrong Board.txt format!
-//			// Would you like to create a new map?
-//			// *enters editor*
-//		}
-//	}
-//	m_file.close();
-//}
-////--------------------------------------------------
-//// checks if map is valid
-//// creates objects
-//// sorts movables and unmovables
-//
-//bool Controller::isValid(const std::vector<string>& map)
-//{
-//	int playerCount = 0;
-//
-//	sf::Vector2f position(20, 140);  // position of object's sprite
-//	sf::Vector2f mapSize(m_mapWidth, m_mapHeight);
-//	sf::Vector2f resolution(WindowWidth, WindowHeight);
-//
-//	// stores objects in vectors
-//	for (int i = 0; i < map.size(); i++)
-//	{
-//		position.x = 20;   // reset x for each new line
-//		for (const auto& c : map[i])
-//		{
-//			switch (c)
-//			{
-//			case PlayerChar: 
-//			{
-//				playerCount++;
-//				player = std::make_unique<Player>(position,
-//												   mapSize,
-//											   resolution);
-//			}
-//			break;
-//			case DemonChar: 
-//			{
-//				m_movables.push_back(std::make_unique<Demon>(position,
-//					                                          mapSize,
-//														 resolution));
-//			}
-//			}
-//			position.x += (float)(WindowWidth / m_mapWidth) * 1.f;
-//		}
-//		position.y += (float)(WindowHeight / m_mapHeight) * 0.7f;
-//	}
-//	return playerCount == 1 ? true : false;
-//}

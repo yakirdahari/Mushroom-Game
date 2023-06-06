@@ -24,7 +24,7 @@ public:
 	// Public Functions
 	void run();
 
-	
+	//----------------------
 	enum Settings
 	{
 		WindowWidth = 1710,
@@ -37,19 +37,13 @@ public:
 private:
 	
 	// Variables
-	
 	sf::RenderWindow m_window;
 	std::unique_ptr<Player> player;
 	sf::Clock gameClock;
 	int m_level;
 
-
-
 	// Private Functions
-	//void readFile(int mapNumber);     // converts Board.txt to a vector of strings
-	//bool isValid(const std::vector<string>& map);
 	void draw();         // draws objects
 	void handleEvents();
 	void updateGameObjects();  // movement
-	
 };
