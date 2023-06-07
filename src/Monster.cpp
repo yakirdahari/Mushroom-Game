@@ -1,8 +1,7 @@
 #include "Monster.h"
+#include "Ground.h"
 
-#include "Resources.h"
-
-constexpr auto MonsterSpeed = 110.f;
+constexpr auto MonsterSpeed = 140.f;
 
 Monster::Monster(const sf::Vector2f& position, Resources::Objects object)
     : movingObject(position, object)
@@ -44,7 +43,11 @@ void Monster::handleCollision(gameObject& gameObject)
 
 void Monster::handleCollision(Ground& ground)
 {
-    physics.velocity = sf::Vector2f(0, -1);
+    if (m_lastPosition.y < ground.getPosition().y - 0.9f)
+    {
+        physics.velocity = sf::Vector2f(0.f, 0.f);
+        m_sp.move(0.f, -1.f);
+    }
 }
 
 void Monster::handleCollision(Wall& wall)

@@ -7,6 +7,6 @@ struct PhysicsData
 	float velocityMaxY = 1.f;
 	float velocityMin = 1.f;
 	float acceleration = 2.f;
-	float drag = 0.99f;
-	float gravity = 1.5f;
+	float drag = 0.75f;
+	float gravity = 2.f;
 };

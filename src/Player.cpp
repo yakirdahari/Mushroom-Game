@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "Ground.h"
 
-constexpr auto PlayerSpeed = 110.f;
+constexpr auto PlayerSpeed = 140.f;
 constexpr auto AttackSpeed = 0.8f;
 constexpr auto JumpSpeed = 0.5f;
 
@@ -88,7 +88,7 @@ Direction Player::jump()
     {
         m_jump = true;
         m_jumpCooldown.restart();
-        physics.velocity = sf::Vector2f(0, -20);
+        physics.velocity = sf::Vector2f(0, -45);
         updatePhysics();
         switch (m_dir)
         {
@@ -148,10 +148,11 @@ void Player::handleCollision(Monster& monster)
 
 void Player::handleCollision(Ground& ground)
 {
-    if (m_lastPosition.y < ground.getPosition().y)
+    if (m_lastPosition.y < ground.getPosition().y - 0.9f)
     {
         m_jump = false;
-        physics.velocity = sf::Vector2f(0, -1);
+        physics.velocity = sf::Vector2f(0.f, 0.f);
+        m_sp.move(0.f, -1.f);
     }
 }
 
