@@ -42,9 +42,12 @@ private:
 	sf::Clock gameClock;
 	int m_level;
 
+	sf::View m_view;
+
 	// Private Functions
 	void draw();         // draws objects
 	void handleEvents();
 	void updateGameObjects();  // movement
 	void handleCollisions(gameObject& gameObject);
+
 };

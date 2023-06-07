@@ -126,6 +126,11 @@ void Player::update(sf::Time delta)
     m_sp.move(toVector(m_dir) * delta.asSeconds() * PlayerSpeed);    
 }
 
+sf::Vector2f Player::getPosition() const
+{
+    return sf::Vector2f();
+}
+
 void Player::handleCollision(gameObject& gameObject)
 {
     // ignore self collision

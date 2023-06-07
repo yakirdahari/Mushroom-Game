@@ -6,6 +6,9 @@ Controller::Controller()
     : m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Titlebar | sf::Style::Close),
 	  m_level(1), player(std::make_unique<Player>(sf::Vector2f(0,0)))
 {
+	//m_view.setCenter(855.f, 357.5f);
+	m_view.setCenter(855.f, 357.5f);
+	m_view.setSize(WindowWidth, WindowHeight);
 	m_window.setFramerateLimit(60);
 	
 }
@@ -32,6 +35,7 @@ void Controller::draw()
 	}
 	else
 	{
+		m_window.setView(m_view);
 		m_window.draw(Map::instance().background());
 		m_window.draw(Map::instance().map());
 
