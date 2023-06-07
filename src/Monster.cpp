@@ -7,11 +7,12 @@ constexpr auto MonsterSpeed = 110.f;
 Monster::Monster(const sf::Vector2f& position, Resources::Objects object)
     : movingObject(position, object)
 {
-    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 1.5f));
 }
 
 void Monster::update(sf::Time delta)
 {
+    m_lastPosition = m_sp.getPosition();
+
     // Each direction is kept for at least 3 seconds
     int nextDirection = (rand() % 5) + 1;
     if (m_aiTime.getElapsedTime().asSeconds() >= nextDirection)
@@ -20,11 +21,11 @@ void Monster::update(sf::Time delta)
         m_dir = static_cast<Direction>(rand() % static_cast<int>(Direction::Max));
         if (m_dir == Direction::Left)
         {
-            m_sp.setScale(1.f, 1.f);
+            m_sp.setScale(-1.f, 1.f);
         }
         else if (m_dir == Direction::Right)
         {
-            m_sp.setScale(-1.f, 1.f);
+            m_sp.setScale(1.f, 1.f);
         }
     }
     m_animation.direction(m_dir);
@@ -46,8 +47,16 @@ void Monster::handleCollision(Ground& ground)
     physics.velocity = sf::Vector2f(0, -1);
 }
 
-//void Monster::handleCollision(MonsterWall& monsterWall)
-//{
-//    m_dir = opposite(m_dir);
-//    m_animation.direction(m_dir);
-//}
+void Monster::handleCollision(Wall& wall)
+{
+    setPosition(m_lastPosition);
+}
+
+void Monster::handleCollision(MonsterWall& monsterWall)
+{
+    /*if (m_dir == Direction::Left || m_dir == Direction::Right)
+    {
+        m_sp.move(toVector(opposite(m_dir)));
+    }*/
+    setPosition(m_lastPosition);
+}

@@ -9,7 +9,7 @@ namespace
     AnimationData MushroomData()
     {
         const auto size = sf::Vector2i(65, 65);
-        const auto initSpace = sf::Vector2i(145, 20);
+        const auto initSpace = sf::Vector2i(116, 20);
         const auto middleSpace = sf::Vector2i(0, 20);
 
         auto Mushroom = AnimationData{};
@@ -41,8 +41,9 @@ namespace
 
     AnimationData playerData()
     {
+        const auto walkSize = sf::Vector2i(58, 80);
         const auto size = sf::Vector2i(110, 80);
-        const auto initSpace = sf::Vector2i(0, 2);
+        const auto initSpace = sf::Vector2i(232, 2);
         const auto middleSpace = sf::Vector2i(0, 20);
 
         auto player = AnimationData{};
@@ -64,9 +65,9 @@ namespace
         player.m_data[Direction::Hit].emplace_back(nextStart(), size);
         player.m_data[Direction::Hit].emplace_back(nextStart(), size);
         player.m_data[Direction::Hit].emplace_back(nextStart(), size);
-        player.m_data[Direction::Jump].emplace_back(nextStart(), size);
-        player.m_data[Direction::JumpLeft].emplace_back(currentStart, size);
-        player.m_data[Direction::JumpRight].emplace_back(currentStart, size);
+        player.m_data[Direction::Jump].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::JumpLeft].emplace_back(currentStart, walkSize);
+        player.m_data[Direction::JumpRight].emplace_back(currentStart, walkSize);
         player.m_data[Direction::Prone].emplace_back(nextStart(), size);
         player.m_data[Direction::ProneStab].emplace_back(nextStart(), size);
         player.m_data[Direction::ProneStab].emplace_back(nextStart(), size);
@@ -78,23 +79,23 @@ namespace
         player.m_data[Direction::Attack1].emplace_back(nextStart(), size);
         player.m_data[Direction::Attack1].emplace_back(currentStart, size);
         player.m_data[Direction::Attack1].emplace_back(currentStart, size);
-        player.m_data[Direction::Stay].emplace_back(nextStart(), size);
-        player.m_data[Direction::Stay].emplace_back(nextStart(), size);
-        player.m_data[Direction::Stay].emplace_back(nextStart(), size);
-        player.m_data[Direction::Stay].emplace_back(nextStart(), size);
+        player.m_data[Direction::Stay].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::Stay].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::Stay].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::Stay].emplace_back(nextStart(), walkSize);
         player.m_data[Direction::Attack2].emplace_back(nextStart(), size);
         player.m_data[Direction::Attack2].emplace_back(nextStart(), size);
         player.m_data[Direction::Attack2].emplace_back(nextStart(), size);
         player.m_data[Direction::Attack2].emplace_back(currentStart, size);
         player.m_data[Direction::Attack2].emplace_back(currentStart, size);
-        player.m_data[Direction::Left].emplace_back(nextStart(), size);
-        player.m_data[Direction::Right].emplace_back(currentStart, size);
-        player.m_data[Direction::Left].emplace_back(nextStart(), size);
-        player.m_data[Direction::Right].emplace_back(currentStart, size);
-        player.m_data[Direction::Left].emplace_back(nextStart(), size);
-        player.m_data[Direction::Right].emplace_back(currentStart, size);
-        player.m_data[Direction::Left].emplace_back(nextStart(), size);
-        player.m_data[Direction::Right].emplace_back(currentStart, size);
+        player.m_data[Direction::Left].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::Right].emplace_back(currentStart, walkSize);
+        player.m_data[Direction::Left].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::Right].emplace_back(currentStart, walkSize);
+        player.m_data[Direction::Left].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::Right].emplace_back(currentStart, walkSize);
+        player.m_data[Direction::Left].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::Right].emplace_back(currentStart, walkSize);
 
         return player;
     }

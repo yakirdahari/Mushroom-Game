@@ -7,6 +7,8 @@
 #include "Mushroom.h"
 #include "Ground.h"
 #include "Player.h"
+#include "Wall.h"
+#include "MonsterWall.h"
 
 enum Objects 
 {

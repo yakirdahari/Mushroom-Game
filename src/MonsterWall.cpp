@@ -1,13 +1,13 @@
-#include "Wall.h"
+#include "MonsterWall.h"
 
-Wall::Wall(const sf::Vector2f& position)
-	: staticObject(position, Resources::instance().texture(Resources::Wall))
+MonsterWall::MonsterWall(const sf::Vector2f& position)
+	: staticObject(position, Resources::instance().texture(Resources::MonsterWall))
 {
 	m_sp.setScale(0.13f, 0.13f);
 	m_sp.setOrigin(m_sp.getTextureRect().width / 2.5f, m_sp.getTextureRect().height - 100);
 }
 
-void Wall::handleCollision(gameObject& gameObject)
+void MonsterWall::handleCollision(gameObject& gameObject)
 {
 	// ignore self collision
 	if (&gameObject == this) return;
@@ -16,12 +16,12 @@ void Wall::handleCollision(gameObject& gameObject)
 	gameObject.handleCollision(*this);
 }
 
-void Wall::handleCollision(Player& player)
+void MonsterWall::handleCollision(Player& player)
 {
 	player.handleCollision(*this);
 }
 
-void Wall::handleCollision(Monster& monster)
+void MonsterWall::handleCollision(Monster& monster)
 {
 	monster.handleCollision(*this);
 }

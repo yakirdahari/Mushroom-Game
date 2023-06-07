@@ -77,8 +77,8 @@ void Controller::updateGameObjects()
 
 	// movement + collision
 	player->update(delta);
-	handleCollisions(*player);
 	player->updatePhysics();
+	handleCollisions(*player);
 	
 	for (auto& movable : Map::instance().movables())
 	{

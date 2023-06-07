@@ -31,6 +31,11 @@ void gameObject::draw(sf::RenderWindow& window) const
 	window.draw(m_sp);
 }
 
+sf::Vector2f gameObject::getPosition() const
+{
+	return m_sp.getPosition();
+}
+
 bool gameObject::collidesWith(const sf::FloatRect& other) const
 {
 	return m_sp.getGlobalBounds().intersects(other);
