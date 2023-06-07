@@ -14,6 +14,12 @@ Direction opposite(Direction dir)
         return Direction::Left;
     case Direction::Left:
         return Direction::Right;
+    case Direction::JumpRight:
+        return Direction::JumpLeft;
+    case Direction::JumpLeft:
+        return Direction::JumpRight;
+    case Direction::Jump:
+        return Direction::Jump;
     case Direction::Stay:
         return Direction::Stay;
     }

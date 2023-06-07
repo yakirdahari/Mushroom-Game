@@ -2,7 +2,6 @@
 
 #include "movingObject.h"
 
-
 class Player : public movingObject
 {
 public:
@@ -20,7 +19,8 @@ public:
     void handleCollision(Player& player) override {};   // ignore another player
     void handleCollision(Monster& monster) override;
     void handleCollision(Ground& ground) override;
-    //void handleCollision(MonsterWall& monsterWall) override {};    // ignore
+    void handleCollision(Wall& wall) override;
+    void handleCollision(MonsterWall& monsterWall) override {};    // ignore
     /*virtual void handleCollision(Ladder& ladder);
     virtual void handleCollision(Rope& rope);*/
 

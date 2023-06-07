@@ -16,7 +16,8 @@ public:
     void handleCollision(Player& player) override {};   // ignore another player
     void handleCollision(Monster& monster) override {}; // ignore another monster
     void handleCollision(Ground& ground) override;
+    void handleCollision(Wall& wall) override;
+    void handleCollision(MonsterWall& monsterWall) override;
     //virtual void handleCollision(Ladder& ladder) {};
     //virtual void handleCollision(Rope& rope) {};
-    //void handleCollision(MonsterWall& monsterWall) override;
 };

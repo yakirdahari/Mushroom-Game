@@ -3,7 +3,8 @@
 
 movingObject::movingObject(const sf::Vector2f& position, Resources::Objects object)
 	: gameObject(position),
-	  m_animation(Resources::instance().animationData(object), Direction::Stay, m_sp)
+	  m_animation(Resources::instance().animationData(object), Direction::Stay, m_sp),
+	  m_position(position), m_lastPosition(position)
 {
 }
 
@@ -31,9 +32,3 @@ void movingObject::updatePhysics()
 	}
 	m_sp.move(physics.velocity);
 }
-
-//void movingObject::handleCollision(Wall& wall)
-//{
-//	m_dir = opposite(m_dir);
-//	m_animation.direction(m_dir);
-//}

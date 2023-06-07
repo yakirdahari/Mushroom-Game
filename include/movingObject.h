@@ -22,6 +22,8 @@ public:
 	// Variables
 protected:
 	Direction m_dir = Direction::Stay;
+	sf::Vector2f m_position;
+	sf::Vector2f m_lastPosition;
 	PhysicsData physics;
 	Animation m_animation;
 	sf::Clock m_aiTime;

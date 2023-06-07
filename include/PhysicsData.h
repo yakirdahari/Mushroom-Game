@@ -8,5 +8,5 @@ struct PhysicsData
 	float velocityMin = 1.f;
 	float acceleration = 2.f;
 	float drag = 0.99f;
-	float gravity = 2.f;
+	float gravity = 1.5f;
 };
