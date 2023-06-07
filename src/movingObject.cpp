@@ -7,17 +7,10 @@ movingObject::movingObject(const sf::Vector2f& position, Resources::Objects obje
 {
 }
 
-movingObject::movingObject(const sf::Vector2f& position, const sf::Vector2f& mapSize,
-	                       const sf::Vector2f& resolution, Resources::Objects object)
-	: gameObject(position, mapSize, resolution),
-	  m_animation(Resources::instance().animationData(object), Direction::Stay, m_sp)
-{
-}
-
 void movingObject::updatePhysics()
 {
 	// gravity
-	physics.velocity.y += 1.0 * physics.gravity;
+	physics.velocity.y += physics.gravity;
 	
 	if (std::abs(physics.velocity.x) > physics.velocityMaxY)
 	{
@@ -38,3 +31,9 @@ void movingObject::updatePhysics()
 	}
 	m_sp.move(physics.velocity);
 }
+
+//void movingObject::handleCollision(Wall& wall)
+//{
+//	m_dir = opposite(m_dir);
+//	m_animation.direction(m_dir);
+//}

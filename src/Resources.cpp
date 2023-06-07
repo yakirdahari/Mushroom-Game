@@ -65,6 +65,8 @@ namespace
         player.m_data[Direction::Hit].emplace_back(nextStart(), size);
         player.m_data[Direction::Hit].emplace_back(nextStart(), size);
         player.m_data[Direction::Jump].emplace_back(nextStart(), size);
+        player.m_data[Direction::JumpLeft].emplace_back(currentStart, size);
+        player.m_data[Direction::JumpRight].emplace_back(currentStart, size);
         player.m_data[Direction::Prone].emplace_back(nextStart(), size);
         player.m_data[Direction::ProneStab].emplace_back(nextStart(), size);
         player.m_data[Direction::ProneStab].emplace_back(nextStart(), size);

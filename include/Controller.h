@@ -46,4 +46,5 @@ private:
 	void draw();         // draws objects
 	void handleEvents();
 	void updateGameObjects();  // movement
+	void handleCollisions(gameObject& gameObject);
 };

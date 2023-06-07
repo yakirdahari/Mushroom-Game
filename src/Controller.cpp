@@ -73,12 +73,34 @@ void Controller::updateGameObjects()
 
 	// movement + collision
 	player->update(delta);
-	//player->updatePhysics();
-
+	handleCollisions(*player);
+	player->updatePhysics();
+	
 	for (auto& movable : Map::instance().movables())
 	{
 		movable->update(delta);
-		//movable->updatePhysics();
+		handleCollisions(*movable);
+		movable->updatePhysics();
+	}
+}
+void Controller::handleCollisions(gameObject& gameObject)
+{
+	// check collision with movables
+	for (auto& movable : Map::instance().movables())
+	{
+		if (gameObject.collidesWith(movable->getGlobalBounds()))
+		{
+			gameObject.handleCollision(*movable);
+		}
+	}
+
+	// check collision with unmovables
+	for (auto& unmovable : Map::instance().unmovables())
+	{
+		if (gameObject.collidesWith(unmovable->getGlobalBounds()))
+		{
+			gameObject.handleCollision(*unmovable);
+		}
 	}
 }
 //--------------------------------------------------

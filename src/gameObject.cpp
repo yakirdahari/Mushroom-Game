@@ -3,18 +3,17 @@
 #include "gameObject.h"
 
 gameObject::gameObject(const sf::Vector2f& position)
+	: m_isDeleted(false)
 {
 	m_sp.setPosition(position);
 }
 
 // Constructor
-gameObject::gameObject(const sf::Vector2f& position, const sf::Vector2f& mapSize,
-	                   const sf::Vector2f& resolution)
-	: m_isDeleted(false), m_resolution(resolution)
+gameObject::gameObject(const sf::Vector2f& position, const sf::Texture& texture)
+	: m_isDeleted(false)
 {
-	//m_sp.setOrigin(sf::Vector2f(150.f, 150.f));
+	m_sp.setTexture(texture);
 	m_sp.setPosition(position);	
-	//m_sp.scale(0.129f, 0.1285f);
 }
 
 void gameObject::setImage(const sf::Texture& texture)
@@ -50,4 +49,13 @@ bool gameObject::isDeleted() const
 void gameObject::remove()
 {
 	m_isDeleted = true;
+}
+
+void gameObject::handleCollision(gameObject& gameObject)
+{
+	// ignore self collision
+	if (&gameObject == this) return;
+
+	// use double dispatch to find which object
+	gameObject.handleCollision(*this);
 }

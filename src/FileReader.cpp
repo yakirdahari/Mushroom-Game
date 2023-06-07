@@ -86,6 +86,9 @@ bool isValid(const std::vector<string>& map, std::unique_ptr<Player>& player)
 			{
 				Map::instance().movables().push_back(std::move(std::make_unique<Mushroom>(position)));
 			}
+			break;
+			case Ground_Char:
+				Map::instance().unmovables().push_back(std::move(std::make_unique<Ground>(position)));
 			}
 			position.x += 10.f;
 		}

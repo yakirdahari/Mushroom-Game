@@ -7,6 +7,7 @@
 class Resources
 {
 public:
+    // ---------------
     enum Objects
     {
         Mushroom,
@@ -17,8 +18,15 @@ public:
     enum Textures
     {
         MenuBackground,
+        Background1,
+        MushroomTown,
+        Ground,
+        Wall,
+        MonsterWall,
+        Ladder,
+        Rope,
     };
-
+    // ---------------
     static Resources& instance();
 
     Resources(const Resources&) = delete;

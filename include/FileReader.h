@@ -5,6 +5,8 @@
 #include <fstream>
 #include "Map.h"
 #include "Mushroom.h"
+#include "Ground.h"
+#include "Player.h"
 
 enum Objects 
 {

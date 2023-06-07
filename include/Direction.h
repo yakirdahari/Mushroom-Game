@@ -14,6 +14,8 @@ enum class Direction
     Dead,
     Hit,
     Jump,
+    JumpRight,
+    JumpLeft,
     ProneStab,
     Prone,
     Attack1,

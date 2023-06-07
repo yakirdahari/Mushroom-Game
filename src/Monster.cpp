@@ -10,13 +10,6 @@ Monster::Monster(const sf::Vector2f& position, Resources::Objects object)
     m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 1.5f));
 }
 
-Monster::Monster(const sf::Vector2f& position, const sf::Vector2f& mapSize,
-    const sf::Vector2f& resolution, Resources::Objects object)
-    : movingObject(position, mapSize, resolution, object)
-{
-    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 4.f, getGlobalBounds().height / 1.5f));
-}
-
 void Monster::update(sf::Time delta)
 {
     // Each direction is kept for at least 3 seconds
@@ -38,3 +31,23 @@ void Monster::update(sf::Time delta)
     m_animation.update(delta);
     m_sp.move(toVector(m_dir) * delta.asSeconds() * MonsterSpeed);
 }
+
+void Monster::handleCollision(gameObject& gameObject)
+{
+    // ignore self collision
+    if (&gameObject == this) return;
+
+    // use double dispatch to find which object
+    gameObject.handleCollision(*this);
+}
+
+void Monster::handleCollision(Ground& ground)
+{
+    physics.velocity = sf::Vector2f(0, -1);
+}
+
+//void Monster::handleCollision(MonsterWall& monsterWall)
+//{
+//    m_dir = opposite(m_dir);
+//    m_animation.direction(m_dir);
+//}

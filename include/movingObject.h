@@ -11,12 +11,13 @@ class movingObject : public gameObject
 public:
 	// Constructors
 	movingObject(const sf::Vector2f& position, Resources::Objects object);
-	movingObject(const sf::Vector2f& position, const sf::Vector2f& mapSize,
-		         const sf::Vector2f& resolution, Resources::Objects object);
 	
 	// Functions
 	virtual void update(const sf::Time delta) = 0;
 	void updatePhysics();
+
+	// Collision Handlers
+	//void handleCollision(Wall& wall) override;
 
 	// Variables
 protected:

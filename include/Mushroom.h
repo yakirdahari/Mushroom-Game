@@ -7,7 +7,7 @@
 class Mushroom : public Monster
 {
 public:
+    using movingObject::handleCollision;
+
     Mushroom(const sf::Vector2f& position);
-    Mushroom(const sf::Vector2f& position, const sf::Vector2f& mapSize,
-        const sf::Vector2f& resolution);
 };
