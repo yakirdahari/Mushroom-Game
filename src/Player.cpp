@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Ground.h"
+#include "Wall.h"
 
 constexpr auto PlayerSpeed = 140.f;
 constexpr auto AttackSpeed = 0.8f;
@@ -45,9 +46,7 @@ Direction Player::keyToDirection()
                 m_prone = true;
                 continue;
             case sf::Keyboard::LControl:
-            {
                 return attack();
-            }
             case sf::Keyboard::LAlt:
                 return jump();
             }
@@ -88,7 +87,7 @@ Direction Player::jump()
     {
         m_jump = true;
         m_jumpCooldown.restart();
-        physics.velocity = sf::Vector2f(0, -45);
+        physics.velocity = sf::Vector2f(0, -16);
         updatePhysics();
         switch (m_dir)
         {
@@ -105,7 +104,7 @@ Player::Player(const sf::Vector2f& position)
     : movingObject(position, Resources::Player),
       m_attack(false), m_prone(false), m_jump(false)
 {
-    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 2.f, getGlobalBounds().height / 1.5f));
+    m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 2.f, getGlobalBounds().height / 2.f));
 }
 
 void Player::update(sf::Time delta)
@@ -148,23 +147,31 @@ void Player::handleCollision(Monster& monster)
 
 void Player::handleCollision(Ground& ground)
 {
-    if (m_lastPosition.y < ground.getPosition().y - 0.9f)
+    if (m_lastPosition.y < ground.getPosition().y - 12.f)
     {
         m_jump = false;
-        physics.velocity = sf::Vector2f(0.f, 0.f);
-        m_sp.move(0.f, -1.f);
+        physics.velocity = sf::Vector2f(0.f, -1.f);
+        m_sp.move(0.f, -0.8f);
     }
 }
 
 void Player::handleCollision(Wall& wall)
 {
-    if (m_jump)
+    /*if (m_jump)
     {
         m_sp.move(toVector(opposite(m_dir)) * 2.f);
     }
     else
     {
         setPosition(m_lastPosition);
+    }*/
+    if (m_lastPosition.x < wall.getPosition().x)
+    {
+        m_sp.move(-1.f, 0.f);
+    }
+    else
+    {
+        m_sp.move(1.f, 0.f);
     }
 }
 

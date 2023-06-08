@@ -1,5 +1,6 @@
 #include "Monster.h"
 #include "Ground.h"
+#include "MonsterWall.h"
 
 constexpr auto MonsterSpeed = 140.f;
 
@@ -43,10 +44,10 @@ void Monster::handleCollision(gameObject& gameObject)
 
 void Monster::handleCollision(Ground& ground)
 {
-    if (m_lastPosition.y < ground.getPosition().y - 0.9f)
+    if (m_lastPosition.y < ground.getPosition().y - 0.12f)
     {
-        physics.velocity = sf::Vector2f(0.f, 0.f);
-        m_sp.move(0.f, -1.f);
+        physics.velocity = sf::Vector2f(0.f, -1.f);
+        m_sp.move(0.f, -0.8f);
     }
 }
 
@@ -61,5 +62,13 @@ void Monster::handleCollision(MonsterWall& monsterWall)
     {
         m_sp.move(toVector(opposite(m_dir)));
     }*/
-    setPosition(m_lastPosition);
+    //setPosition(m_lastPosition);
+    if (m_lastPosition.x < monsterWall.getPosition().x)
+    {
+        m_sp.move(-1.f, 0.f);
+    }
+    else
+    {
+        m_sp.move(1.f, 0.f);
+    }
 }
