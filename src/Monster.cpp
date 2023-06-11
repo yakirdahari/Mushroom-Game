@@ -46,7 +46,7 @@ void Monster::handleCollision(Ground& ground)
 {
     if (m_lastPosition.y < ground.getPosition().y - 0.12f)
     {
-        physics.velocity = sf::Vector2f(0.f, -1.f);
+        physics.velocity = sf::Vector2f(0.f, 0.f);
         m_sp.move(0.f, -0.8f);
     }
 }

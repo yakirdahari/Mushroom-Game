@@ -28,12 +28,16 @@ Direction Player::keyToDirection()
             {
             case sf::Keyboard::Left:
                 m_sp.setScale(-1.f, 1.f);
+                if (m_jump)
+                    return Direction::JumpLeft;
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
                     return jump();
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
                     return attack();
                 break;
             case sf::Keyboard::Right:
+                if (m_jump)
+                    return Direction::JumpRight;
                 m_sp.setScale(1.f, 1.f);
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
                     return jump();
@@ -54,10 +58,16 @@ Direction Player::keyToDirection()
             return pair.second;
         }
     }
+    if (m_jump)
+        return Direction::Jump;
     if (m_prone)
     {
         m_prone = false;
         return Direction::Prone;
+    }
+    if (m_attack && m_dir == Direction::Stay)
+    {
+        m_attack = false;
     }
     return Direction::Stay;
 }
@@ -83,19 +93,19 @@ Direction Player::attack()
 
 Direction Player::jump()
 {
-    if (m_jumpCooldown.getElapsedTime().asSeconds() >= JumpSpeed)
+    if (m_jumpCooldown.getElapsedTime().asSeconds() >= JumpSpeed && !m_jump)
     {
         m_jump = true;
         m_jumpCooldown.restart();
         physics.velocity = sf::Vector2f(0, -16);
         updatePhysics();
-        switch (m_dir)
-        {
-        case Direction::Left: return Direction::JumpLeft;
-        case Direction::Right: return Direction::JumpRight;
-        case Direction::Stay: return Direction::Jump;
-        default: return Direction::Jump;
-        }
+
+        // check direction of jump (can't change mid-jump)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            return Direction::JumpLeft;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            return Direction::JumpRight;
+        return Direction::Jump;
     }
     return m_dir;
 }
@@ -150,28 +160,20 @@ void Player::handleCollision(Ground& ground)
     if (m_lastPosition.y < ground.getPosition().y - 12.f)
     {
         m_jump = false;
-        physics.velocity = sf::Vector2f(0.f, -1.f);
+        physics.velocity = sf::Vector2f(0.f, 0.f);
         m_sp.move(0.f, -0.8f);
     }
 }
 
 void Player::handleCollision(Wall& wall)
 {
-    /*if (m_jump)
-    {
-        m_sp.move(toVector(opposite(m_dir)) * 2.f);
-    }
-    else
-    {
-        setPosition(m_lastPosition);
-    }*/
     if (m_lastPosition.x < wall.getPosition().x)
     {
-        m_sp.move(-1.f, 0.f);
+        m_sp.move(-0.8f, 0.f);
     }
     else
     {
-        m_sp.move(1.f, 0.f);
+        m_sp.move(-0.8f, 0.f);
     }
 }
 
