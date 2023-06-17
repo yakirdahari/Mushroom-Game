@@ -16,9 +16,6 @@ public:
 	virtual void update(const sf::Time delta) = 0;
 	void updatePhysics();
 
-	// Collision Handlers
-	//void handleCollision(Wall& wall) override;
-
 	// Variables
 protected:
 	Direction m_dir = Direction::Stay;

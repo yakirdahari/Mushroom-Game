@@ -18,6 +18,6 @@ public:
     void handleCollision(Ground& ground) override;
     void handleCollision(Wall& wall) override;
     void handleCollision(MonsterWall& monsterWall) override;
-    //virtual void handleCollision(Ladder& ladder) {};
+    virtual void handleCollision(Ladder& ladder) {};
     //virtual void handleCollision(Rope& rope) {};
 };

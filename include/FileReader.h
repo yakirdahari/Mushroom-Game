@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Wall.h"
 #include "MonsterWall.h"
+#include "Ladder.h"
 
 enum Objects 
 {
@@ -24,6 +25,9 @@ enum Objects
     Ground_Char = '_',
     Wall_Char = '|',
     MonsterWall_Char = ']',
+    Ladder_Char = 'L',
+    Rope_Char = 'R',
+    Portal_Char = 'O',
     Empty = ' ',
 };
 

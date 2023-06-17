@@ -12,6 +12,10 @@ public:
     Direction keyToDirection();
     Direction attack();
     Direction jump();
+    Direction left();
+    Direction right();
+    Direction up();
+    Direction prone();
     void update(sf::Time delta) override;
     sf::Vector2f getPosition() const;
 
@@ -22,13 +26,15 @@ public:
     void handleCollision(Ground& ground) override;
     void handleCollision(Wall& wall) override;
     void handleCollision(MonsterWall& monsterWall) override {};    // ignore
-    /*virtual void handleCollision(Ladder& ladder);
-    virtual void handleCollision(Rope& rope);*/
+    virtual void handleCollision(Ladder& ladder);
+    //virtual void handleCollision(Rope& rope);
 
 private:
     bool m_attack;
     bool m_prone;
     bool m_jump;
+    bool m_climbLadder;
+    bool m_climbRope;
     sf::Clock m_attackTime;
     sf::Clock m_jumpCooldown;
 };

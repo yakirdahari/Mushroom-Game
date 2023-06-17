@@ -8,9 +8,9 @@ namespace
 {
     AnimationData MushroomData()
     {
-        const auto size = sf::Vector2i(65, 65);
+        const auto size = sf::Vector2i(65, 71);
         const auto initSpace = sf::Vector2i(116, 20);
-        const auto middleSpace = sf::Vector2i(0, 20);
+        const auto middleSpace = sf::Vector2i(0, 14);
 
         auto Mushroom = AnimationData{};
         auto currentStart = initSpace;
@@ -42,7 +42,7 @@ namespace
     AnimationData playerData()
     {
         const auto walkSize = sf::Vector2i(61, 80);
-        const auto size = sf::Vector2i(110, 80);
+        const auto size = sf::Vector2i(95, 80);
         const auto initSpace = sf::Vector2i(232, 2);
         const auto middleSpace = sf::Vector2i(0, 20);
 
@@ -57,10 +57,16 @@ namespace
         };
 
 
-        player.m_data[Direction::Up].emplace_back(currentStart, size);
-        player.m_data[Direction::Up].emplace_back(nextStart(), size);
-        player.m_data[Direction::Down].emplace_back(nextStart(), size);
-        player.m_data[Direction::Down].emplace_back(nextStart(), size);
+        player.m_data[Direction::Ladder].emplace_back(currentStart, size);
+        player.m_data[Direction::LadderUp].emplace_back(currentStart, size);
+        player.m_data[Direction::LadderDown].emplace_back(currentStart, size);
+        player.m_data[Direction::LadderUp].emplace_back(nextStart(), size);
+        player.m_data[Direction::LadderDown].emplace_back(currentStart, size);
+        player.m_data[Direction::Rope].emplace_back(nextStart(), size);
+        player.m_data[Direction::RopeUp].emplace_back(currentStart, size);
+        player.m_data[Direction::RopeDown].emplace_back(currentStart, size);
+        player.m_data[Direction::RopeUp].emplace_back(nextStart(), size);
+        player.m_data[Direction::RopeDown].emplace_back(currentStart, size);
         player.m_data[Direction::Hit].emplace_back(nextStart(), size);
         player.m_data[Direction::Hit].emplace_back(nextStart(), size);
         player.m_data[Direction::Hit].emplace_back(nextStart(), size);
@@ -81,15 +87,11 @@ namespace
         player.m_data[Direction::Attack1].emplace_back(currentStart, size);
         player.m_data[Direction::Stay].emplace_back(nextStart(), walkSize);
         player.m_data[Direction::Stay].emplace_back(currentStart, walkSize);
+        player.m_data[Direction::Stay].emplace_back(nextStart(), walkSize);
         player.m_data[Direction::Stay].emplace_back(currentStart, walkSize);
         player.m_data[Direction::Stay].emplace_back(nextStart(), walkSize);
         player.m_data[Direction::Stay].emplace_back(currentStart, walkSize);
-        player.m_data[Direction::Stay].emplace_back(currentStart, walkSize);
         player.m_data[Direction::Stay].emplace_back(nextStart(), walkSize);
-        player.m_data[Direction::Stay].emplace_back(currentStart, walkSize);
-        player.m_data[Direction::Stay].emplace_back(currentStart, walkSize);
-        player.m_data[Direction::Stay].emplace_back(nextStart(), walkSize);
-        player.m_data[Direction::Stay].emplace_back(currentStart, walkSize);
         player.m_data[Direction::Stay].emplace_back(currentStart, walkSize);
         player.m_data[Direction::Attack2].emplace_back(nextStart(), size);
         player.m_data[Direction::Attack2].emplace_back(nextStart(), size);

@@ -17,6 +17,10 @@ void movingObject::updatePhysics()
 	{
 		physics.velocity.y = physics.velocityMaxY * ((physics.velocity.y < 0.f) ? -1.f : 1.f);
 	}
+	if (std::abs(physics.velocity.y) > physics.velocityMaxY)
+	{
+		physics.velocity.y = physics.velocityMaxY;
+	}
 
 	// deceleration
 	physics.velocity *= physics.drag;

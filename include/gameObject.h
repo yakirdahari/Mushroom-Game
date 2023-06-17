@@ -38,7 +38,7 @@ public:
 	virtual void handleCollision(Ground& ground) = 0;
 	virtual void handleCollision(Wall& wall) = 0;
 	virtual void handleCollision(MonsterWall& monsterWall) = 0;
-	//virtual void handleCollision(Ladder& ladder) = 0;
+	virtual void handleCollision(Ladder& ladder) = 0;
 	//virtual void handleCollision(Rope& rope) = 0;
 
 	// Destructor

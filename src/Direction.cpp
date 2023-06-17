@@ -30,10 +30,20 @@ sf::Vector2f toVector(Direction dir)
 {
     switch (dir)
     {
-    case Direction::Up:
+    case Direction::Ladder:
+        return { 0, 0 };
+    case Direction::LadderUp:
         return { 0, -1 };
-    case Direction::Down:
+    case Direction::LadderDown:
         return { 0, 1 };
+    case Direction::Rope:
+        return { 0, 0 };
+    case Direction::RopeUp:
+        return { 0, -1 };
+    case Direction::RopeDown:
+        return { 0, 1 };
+    case Direction::Up:
+        return { 0, 0 };
     case Direction::Right:
         return { 1, 0 };
     case Direction::Left:
