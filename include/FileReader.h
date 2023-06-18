@@ -33,5 +33,6 @@ enum Objects
 
 //----------------------
 //  reads board.txt and inserts objects to map
-bool readFile(const int& mapNumber, std::unique_ptr<Player>& player);
+bool readFile(const int& mapID, std::unique_ptr<Player>& player);
 bool isValid(const std::vector<string>& map, std::unique_ptr<Player>& player);
+void insertObject(Objects object, sf::Vector2f position);

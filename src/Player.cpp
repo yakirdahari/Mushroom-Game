@@ -39,19 +39,11 @@ Direction Player::keyToDirection()
         }
     }
     if (m_climbLadder)
-    {
         return Direction::Ladder;
-    }
     if (m_jump)
         return Direction::Jump;
-    /*if (m_prone)
-    {
-        return Direction::Prone;
-    }*/
     if (m_attack && m_dir == Direction::Stay)
-    {
         m_attack = false;
-    }
     return Direction::Stay;
 }
 
@@ -256,7 +248,7 @@ void Player::handleCollision(Ground& ground)
 
 void Player::handleCollision(Wall& wall)
 {
-    if (m_lastPosition.x < wall.getPosition().x)
+    if (m_sp.getPosition().x < wall.getPosition().x)
     {
         m_sp.move(-0.8f, 0.f);
     }
@@ -301,6 +293,10 @@ void Player::handleCollision(Ladder& ladder)
     {
         physics.velocity = sf::Vector2f(0.f, -0.8f);
     }
+}
+
+void Player::handleCollision(Portal& ladder)
+{
 }
 
 //void Player::handleCollision(Rope& rope)

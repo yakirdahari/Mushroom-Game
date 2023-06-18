@@ -1,8 +1,10 @@
 #include "Map.h"
 
 Map::Map()
-	: m_mapWidth(0), m_mapHeight(0), m_background(Resources::instance().texture(1)),
-	                                        m_map(Resources::instance().texture(2))
+	: m_mapWidth(0), m_mapHeight(0), 
+	  m_background(std::make_unique<sf::Sprite>(Resources::instance().backgrounds().at(MushroomTown))),
+	  m_map(std::make_unique<sf::Sprite>(Resources::instance().maps().at(MushroomTown))),
+	  m_mapID(MushroomTown)
 {
 }
 

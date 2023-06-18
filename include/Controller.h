@@ -38,12 +38,19 @@ private:
 	
 	// Variables
 	sf::RenderWindow m_window;
+	sf::RectangleShape m_transitionScreen;
 	std::unique_ptr<Player> player;
 	sf::Clock gameClock;
+	bool m_changingMap;
 
 	// Private Functions
-	void draw();         // draws objects
+	void draw();              // draws objects
 	void handleEvents();
-	void updateGameObjects();  // movement
+	void updateGameObjects(); // movement
 	void handleCollisions(gameObject& gameObject);
+	void spawn(const int& mapID);
+	void changeMap(const int& mapID, const int& exitPortal);
+	void fadeIn();		      // screen fades in when changing maps
+	void fadeOut();			  // screen fades out when changing maps
+	bool checkPortals();      // player on a portal = can change map
 };

@@ -24,5 +24,4 @@ void Ground::handleCollision(Player& player)
 void Ground::handleCollision(Monster& monster)
 {
 	monster.handleCollision(*this);
-
 }

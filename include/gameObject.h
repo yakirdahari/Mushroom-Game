@@ -13,6 +13,7 @@ class Wall;
 class MonsterWall;
 class Ladder;
 class Rope;
+class Portal;
 
 class gameObject
 {
@@ -39,6 +40,7 @@ public:
 	virtual void handleCollision(Wall& wall) = 0;
 	virtual void handleCollision(MonsterWall& monsterWall) = 0;
 	virtual void handleCollision(Ladder& ladder) = 0;
+	virtual void handleCollision(Portal& portal) = 0;
 	//virtual void handleCollision(Rope& rope) = 0;
 
 	// Destructor

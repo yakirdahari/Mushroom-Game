@@ -27,6 +27,7 @@ public:
     void handleCollision(Wall& wall) override;
     void handleCollision(MonsterWall& monsterWall) override {};    // ignore
     virtual void handleCollision(Ladder& ladder);
+    virtual void handleCollision(Portal& portal);
     //virtual void handleCollision(Rope& rope);
 
 private:

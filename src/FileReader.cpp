@@ -1,6 +1,6 @@
 #include "FileReader.h"
 
-bool readFile(const int& mapNumber, std::unique_ptr<Player>& player)
+bool readFile(const int& mapID, std::unique_ptr<Player>& player)
 {
 	std::ifstream file;
 	file.open("Board.txt");
@@ -12,19 +12,27 @@ bool readFile(const int& mapNumber, std::unique_ptr<Player>& player)
 
 	std::vector<string> map;
 
-	// check if no more levels
-	if (mapNumber == 4)
+	// check if there are no more levels
+	if (mapID >= Map::Max)
 	{
 		return false;	// read unsuccessful
 	}
 
-	for (int currentMap = 1; currentMap <= mapNumber; currentMap++)
+	// read maps till we read wanted map
+	for (int currentMap = 1; currentMap <= mapID; currentMap++)
 	{
 		// clear existing map
 		map.clear();
 		
 		Map::instance().movables().clear();
 		Map::instance().unmovables().clear();
+		Map::instance().portals().clear();
+		//Map::instance().map().release();
+		//Map::instance().background().release();
+
+
+		// assign mapID
+		Map::instance().mapID() = mapID;
 
 		// read height, width
 		string line;
@@ -45,17 +53,15 @@ bool readFile(const int& mapNumber, std::unique_ptr<Player>& player)
 		std::getline(file, line);
 
 		// skip maps till reached wanted map
-		if (currentMap != mapNumber)
+		if (currentMap != mapID)
 		{
 			continue;
 		}
 
 		// check if map is valid
-		if (!isValid(map, player))
+		if (currentMap == mapID && !isValid(map, player))
 		{
-			// Wrong Board.txt format!
-			// Would you like to create a new map?
-			// *enters editor*
+			throw std::exception("Invalid map!");
 		}
 	}
 	file.close();
@@ -82,26 +88,50 @@ bool isValid(const std::vector<string>& map, std::unique_ptr<Player>& player)
 				player->setPosition(position);
 			}
 			break;
-			case Monster4_Char:
-			{
-				Map::instance().movables().push_back(std::move(std::make_unique<Mushroom>(position)));
-			}
-			break;
-			case Ground_Char:
-				Map::instance().unmovables().push_back(std::move(std::make_unique<Ground>(position)));
-				break;
-			case Wall_Char:
-				Map::instance().unmovables().push_back(std::move(std::make_unique<Wall>(position)));
-				break;
-			case MonsterWall_Char:
-				Map::instance().unmovables().push_back(std::move(std::make_unique<MonsterWall>(position)));
-				break;
-			case Ladder_Char:
-				Map::instance().unmovables().push_back(std::move(std::make_unique<Ladder>(position)));
+			default: insertObject(static_cast<Objects>(c), position);
 			}
 			position.x += 10.f;
 		}
 		position.y += +10.f;
 	}
-	return playerCount == 1 ? true : false;
+	return playerCount == 1 || Map::instance().portals().size() != 0 ? true : false;
+}
+
+void insertObject(Objects object, sf::Vector2f position)
+{
+	// Mushroom Town
+	if (Map::instance().mapID() == Map::MushroomTown)
+	{
+		switch (object)
+		{
+		case Monster4_Char: Map::instance().movables().push_back(std::move(std::make_unique<Mushroom>(position)));
+			break;
+		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SmallForest, 1)));
+		}
+		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps().at(Map::MushroomTown));
+		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds().at(Map::MushroomTown));
+	}
+
+	// Mushroom Town
+	if (Map::instance().mapID() == Map::SmallForest)
+	{
+		switch (object)
+		{
+		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::MushroomTown, 0)));
+		}
+		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps().at(Map::SmallForest));
+		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds().at(Map::SmallForest));
+	}
+
+	// everything else
+	switch (object)
+	{
+	case Ground_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<Ground>(position)));
+		break;
+	case Wall_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<Wall>(position)));
+		break;
+	case MonsterWall_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<MonsterWall>(position)));
+		break;
+	case Ladder_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<Ladder>(position)));
+	}
 }
