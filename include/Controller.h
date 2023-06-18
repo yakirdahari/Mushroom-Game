@@ -52,5 +52,5 @@ private:
 	void changeMap(const int& mapID, const int& exitPortal);
 	void fadeIn();		      // screen fades in when changing maps
 	void fadeOut();			  // screen fades out when changing maps
-	bool checkPortals();      // player on a portal = can change map
+	void checkPortals();      // player on a portal = can change map
 };

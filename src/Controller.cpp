@@ -198,7 +198,7 @@ void Controller::fadeOut()
 	}
 }
 //----------------------------------------------------
-bool Controller::checkPortals()
+void Controller::checkPortals()
 {
 	// when player is on a portal he can change map
 	for (auto& portal : Map::instance().portals())
