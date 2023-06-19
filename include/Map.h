@@ -29,6 +29,7 @@ public:
     std::unique_ptr<sf::Sprite>& background() { return m_background; }
     std::unique_ptr<sf::Sprite>& map() { return m_map; }
     //std::unique_ptr<sf::Sound>& music() { return m_music; }
+    void respawn();
 
 private:
     Map();
@@ -41,4 +42,5 @@ private:
     //std::unique_ptr<sf::Sound> m_music;                           // BGM (background music)
     int m_mapWidth;                                                 // tile count per row
     int m_mapHeight;                                                // tile count per column
+    sf::Clock respawnTime;                                          // helps respawning objects on time
 };

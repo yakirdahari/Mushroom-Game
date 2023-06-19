@@ -64,6 +64,10 @@ sf::Vector2f toVector(Direction dir)
         return { 0, 0 };
     case Direction::ProneStab:
         return { 0, 0 };
+    case Direction::Hit:
+        return { 0, 0 };
+    case Direction::Dead:
+        return { 0, 0 };
     }
     throw std::runtime_error("Unknown direction");
 }

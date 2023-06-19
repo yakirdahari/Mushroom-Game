@@ -92,6 +92,8 @@ void Controller::updateGameObjects()
 	
 	for (auto& portal : Map::instance().portals())
 		portal->update(delta);
+
+	Map::instance().respawn();
 }
 //----------------------------------------------------
 void Controller::handleCollisions(gameObject& gameObject)

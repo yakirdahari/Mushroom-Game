@@ -12,7 +12,7 @@ namespace
         const auto initSpace = sf::Vector2i(116, 20);
         const auto middleSpace = sf::Vector2i(0, 14);
 
-        auto Mushroom = AnimationData{};
+        auto Mushroom = AnimationData{};    
         auto currentStart = initSpace;
 
         auto nextStart = [&]()
@@ -67,10 +67,10 @@ namespace
         player.m_data[Direction::RopeDown].emplace_back(currentStart, size);
         player.m_data[Direction::RopeUp].emplace_back(nextStart(), size);
         player.m_data[Direction::RopeDown].emplace_back(currentStart, size);
-        player.m_data[Direction::Hit].emplace_back(nextStart(), size);
-        player.m_data[Direction::Hit].emplace_back(nextStart(), size);
-        player.m_data[Direction::Hit].emplace_back(nextStart(), size);
-        player.m_data[Direction::Hit].emplace_back(nextStart(), size);
+        player.m_data[Direction::Hit].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::Hit].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::Hit].emplace_back(nextStart(), walkSize);
+        player.m_data[Direction::Hit].emplace_back(nextStart(), walkSize);
         player.m_data[Direction::Jump].emplace_back(nextStart(), walkSize);
         player.m_data[Direction::JumpLeft].emplace_back(currentStart, walkSize);
         player.m_data[Direction::JumpRight].emplace_back(currentStart, walkSize);

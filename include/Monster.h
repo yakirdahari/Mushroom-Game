@@ -10,10 +10,11 @@ public:
     Monster(const sf::Vector2f& position, Resources::Objects object);
 
     void update(sf::Time delta) override;
+    void death();
 
     // Collision Handlers
     void handleCollision(gameObject& gameObject);
-    void handleCollision(Player& player) override {};   // ignore another player
+    void handleCollision(Player& player) override;
     void handleCollision(Monster& monster) override {}; // ignore another monster
     void handleCollision(Ground& ground) override;
     void handleCollision(Wall& wall) override;
@@ -21,4 +22,7 @@ public:
     void handleCollision(Ladder& ladder) {};
     void handleCollision(Portal& portal) {};
     //virtual void handleCollision(Rope& rope) {};
+
+protected:
+    sf::Clock m_aiTime;
 };

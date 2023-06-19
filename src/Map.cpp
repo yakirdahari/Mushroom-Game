@@ -8,6 +8,19 @@ Map::Map()
 {
 }
 
+void Map::respawn()
+{
+	// respawns movables every set interval
+	if (respawnTime.getElapsedTime().asSeconds() >= 14.f)
+	{
+		respawnTime.restart();
+
+		for (auto& movable : m_movables)
+			if (movable->isDead())
+				movable->respawn();
+	}
+}
+
 Map& Map::instance()
 {
 	static Map instance;

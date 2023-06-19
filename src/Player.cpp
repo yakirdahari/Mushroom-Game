@@ -2,10 +2,12 @@
 #include "Ground.h"
 #include "Wall.h"
 #include "Ladder.h"
+#include "Map.h"
 
 constexpr auto PlayerSpeed = 160.f;
 constexpr auto AttackSpeed = 0.8f;
 constexpr auto JumpSpeed = 0.5f;
+constexpr auto HitDuration = 1.5f;
 
 Direction Player::keyToDirection()
 {
@@ -44,7 +46,7 @@ Direction Player::keyToDirection()
         return Direction::Jump;
     if (m_attack && m_dir == Direction::Stay)
         m_attack = false;
-    return Direction::Stay;
+    return data.wasHit ? Direction::Hit : Direction::Stay;
 }
 
 Direction Player::attack()
@@ -74,6 +76,9 @@ Direction Player::attack()
 
 Direction Player::jump()
 {
+    if (m_hitTime.getElapsedTime().asSeconds() <= HitDuration)
+        return m_dir;
+
     // jump left
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
@@ -179,6 +184,28 @@ Direction Player::prone()
     return Direction::Prone;
 }
 
+void Player::attackHitbox()
+{
+    auto hitbox = sf::RectangleShape(sf::Vector2f(40.f , m_sp.getGlobalBounds().height));
+    
+    // hitbox location based on where player is looking (we multiply by getScale)
+    const auto offset = sf::Vector2f(45.f, 0.f) * m_sp.getScale().x;
+
+    // hitbox location
+    hitbox.setPosition(m_sp.getPosition().x - 20.f + offset.x, m_sp.getPosition().y);
+
+    // check collision with movables
+    for (auto& movable : Map::instance().movables())
+    {
+        if (hitbox.getGlobalBounds().intersects(movable->getGlobalBounds()))
+        {
+            movable->wasHit(randomDamage(), m_sp.getScale());
+            if (movable->isDead()) {}
+                // kill reward
+        }
+    }
+}
+
 Player::Player(const sf::Vector2f& position)
     : movingObject(position, Resources::Player),
       m_attack(false), m_prone(false), m_jump(false), m_climbLadder(false), m_climbRope(false)
@@ -188,13 +215,17 @@ Player::Player(const sf::Vector2f& position)
 
 void Player::update(sf::Time delta)
 {
-    m_lastPosition = m_sp.getPosition();
-
     // can't move during attack/jump
     if (m_attackTime.getElapsedTime().asSeconds() >= AttackSpeed && !m_jump)
-    {
         m_dir = keyToDirection();   // check for key input
-    }
+
+    // remove hit status after hit duration
+    if (m_hitTime.getElapsedTime().asSeconds() >= HitDuration)
+        data.wasHit = false;
+
+    if (m_attackTime.getElapsedTime().asSeconds() >= AttackSpeed * 0.4f &&
+        m_attackTime.getElapsedTime().asSeconds() <= AttackSpeed * 0.6f)
+        attackHitbox();
 
     // animate & move player
     m_animation.direction(m_dir);
@@ -218,15 +249,10 @@ void Player::handleCollision(gameObject& gameObject)
 
 void Player::handleCollision(Monster& monster)
 {
-    // -HP
-    m_dir = Direction::Hit;
-    m_animation.direction(m_dir);
-    m_attackTime.restart();
 }
 
 void Player::handleCollision(Ground& ground)
 {
-    // m_lastPosition.y < ground.getPosition().y - 23.f
     if (m_sp.getPosition().y < ground.getPosition().y - 10.f &&
         physics.velocity.y > -0.41f)
     {
@@ -261,8 +287,8 @@ void Player::handleCollision(Wall& wall)
 void Player::handleCollision(Ladder& ladder)
 {
     // check if player is close
-    if (m_lastPosition.x < ladder.getPosition().x - 10.f ||
-        m_lastPosition.x > ladder.getPosition().x + 10.f)
+    if (m_sp.getPosition().x < ladder.getPosition().x - 10.f ||
+        m_sp.getPosition().x > ladder.getPosition().x + 10.f)
         return;
 
     // climb up
