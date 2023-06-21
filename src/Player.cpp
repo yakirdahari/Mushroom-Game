@@ -84,7 +84,7 @@ Direction Player::jump()
     {
         m_climbLadder = m_climbRope = false;
         m_sp.setScale(-1.f, 1.f);
-        physics.velocity = sf::Vector2f(0, -10);
+        physics.velocity = sf::Vector2f(0, -9);
         updatePhysics();
         m_jump = true;
         m_jumpCooldown.restart();
@@ -95,7 +95,7 @@ Direction Player::jump()
     {
         m_climbLadder = m_climbRope = false;
         m_sp.setScale(1.f, 1.f);
-        physics.velocity = sf::Vector2f(0, -10);
+        physics.velocity = sf::Vector2f(0, -9);
         updatePhysics();
         m_jump = true;
         m_jumpCooldown.restart();
@@ -114,7 +114,7 @@ Direction Player::jump()
     // jump
     if (!m_climbLadder && !m_climbRope)
     {
-        physics.velocity = sf::Vector2f(0, -10);
+        physics.velocity = sf::Vector2f(0, -9);
         updatePhysics();
         m_jump = true;
         m_jumpCooldown.restart();

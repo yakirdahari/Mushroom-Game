@@ -57,7 +57,7 @@ void Info::update(const Data& data)
 	level.setString(std::to_string(data.level));
 	HP.setString('(' + std::to_string(data.HP) + "/" + std::to_string(data.MaxHP) + ')');
 	MP.setString('(' + std::to_string(data.MP) + "/" + std::to_string(data.MaxMP) + ')');
-	EXP.setString(std::to_string(data.EXP) + '(' + std::to_string((data.EXP / static_cast<float>(data.MaxEXP) * 100.f)) + "%)");
+	EXP.setString(std::to_string(data.EXP) + '(' + std::to_string((data.EXP / static_cast<float>(data.MaxEXP) * 100.f)).substr(0,5) + "%)");
 	job.setString(data.job);
 	HPbar.setSize(sf::Vector2f(105.f * (data.HP / static_cast<float>(data.MaxHP)), 14.f));
 	MPbar.setSize(sf::Vector2f(105.f * (data.MP / static_cast<float>(data.MaxMP)), 14.f));
