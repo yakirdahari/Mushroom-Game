@@ -3,7 +3,6 @@
 #include "AnimationData.h"
 #include <SFML/graphics.hpp>
 #include <vector>
-//#include "Map.h"
 
 class Resources
 {
@@ -25,6 +24,7 @@ public:
         MonsterWall,
         Ladder,
         Rope,
+        Panel,
     };
     // ---------------
     enum Maps

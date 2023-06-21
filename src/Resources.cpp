@@ -218,4 +218,9 @@ void Resources::loadTextures()
         throw std::runtime_error("Can't load file");
 
     m_textures.push_back(texture);
+
+    if (!texture.loadFromFile("Panel.png"))
+        throw std::runtime_error("Can't load file");
+
+    m_textures.push_back(texture);
 }

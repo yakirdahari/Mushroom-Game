@@ -20,6 +20,7 @@ void Controller::run()
 		draw();
 		handleEvents();
 		updateGameObjects();
+		updateInfo();
 	}
 	Controller::~Controller();
 }
@@ -46,6 +47,7 @@ void Controller::draw()
 			portal->draw(m_window);
 
 		player->draw(m_window);
+		Info::instance().draw(m_window);
 		m_window.draw(m_transitionScreen);
 	}
 	m_window.display();
@@ -62,14 +64,10 @@ void Controller::handleEvents()
 			break;
 		case sf::Event::KeyPressed:
 			if (event.key.code == sf::Keyboard::Escape)
-			{
 				m_window.close();
-			}
+
 			if (event.key.code == sf::Keyboard::Up)
-			{
 				checkPortals();
-			}
-			break;
 		}			
 	}
 }
@@ -96,25 +94,22 @@ void Controller::updateGameObjects()
 	Map::instance().respawn();
 }
 //----------------------------------------------------
+void Controller::updateInfo()
+{
+	Info::instance().update(player->getData());
+}
+//----------------------------------------------------
 void Controller::handleCollisions(gameObject& gameObject)
 {
 	// check collision with movables
 	for (auto& movable : Map::instance().movables())
-	{
 		if (gameObject.collidesWith(movable->getGlobalBounds()))
-		{
 			gameObject.handleCollision(*movable);
-		}
-	}
 
 	// check collision with unmovables
 	for (auto& unmovable : Map::instance().unmovables())
-	{
 		if (gameObject.collidesWith(unmovable->getGlobalBounds()))
-		{
 			gameObject.handleCollision(*unmovable);
-		}
-	}
 }
 //----------------------------------------------------
 void Controller::spawn(const int& mapID)
@@ -126,12 +121,13 @@ void Controller::spawn(const int& mapID)
 	for (auto& movable : Map::instance().movables())
 		for (int i = 0; i < 5; i++)
 			handleCollisions(*movable);
+
 	for (int i = 0; i < 5; i++)
 		handleCollisions(*player);
 
 	fadeOut();
 
-	gameClock.restart();	// unfreeze the game
+	gameClock.restart();	// unfreeze clock
 }
 //----------------------------------------------------
 void Controller::changeMap(const int& mapID, const int& exitPortal)
@@ -148,12 +144,13 @@ void Controller::changeMap(const int& mapID, const int& exitPortal)
 	for (auto& movable : Map::instance().movables())
 		for (int i=0 ; i<5 ; i++)
 			handleCollisions(*movable);
+
 	for (int i=0; i<5; i++)
 		handleCollisions(*player);
 
 	fadeOut();			// transition screen
 
-	gameClock.restart();	// unfreeze the game
+	gameClock.restart();	// unfreeze clock
 	handleEvents();
 	m_changingMap = false;
 }

@@ -18,7 +18,7 @@ public:
     Direction prone();
     void attackHitbox();
     void update(sf::Time delta) override;
-    sf::Vector2f getPosition() const;
+    sf::Vector2f getPosition() const;   
 
     // Collision Handlers
     void handleCollision(gameObject& gameObject);

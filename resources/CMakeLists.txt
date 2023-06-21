@@ -6,6 +6,7 @@ configure_file ("MonsterWall.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Rope.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Ladder.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Empty.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Panel.png" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Maps
 configure_file ("MushroomTown.png" ${CMAKE_BINARY_DIR} COPYONLY)
@@ -19,7 +20,6 @@ configure_file ("Background1.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Buttons_Font.otf" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Audio
-
 
 # Animation Data
 configure_file ("Animations.png" ${CMAKE_BINARY_DIR} COPYONLY)

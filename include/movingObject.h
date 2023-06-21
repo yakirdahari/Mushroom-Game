@@ -20,8 +20,9 @@ public:
 	void knockback(const sf::Vector2f& direction);					// knock back when hit
 	void updatePhysics();
 	void respawn();												    // revives object and sends back to spawn
-	int randomDamage();
+	int randomDamage() const;
 	bool isDead();													// checks if HP is negative
+	const Data& getData() const;									// read data of object
 
 	// Variables
 protected:

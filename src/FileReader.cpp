@@ -2,34 +2,25 @@
 
 bool readFile(const int& mapID, std::unique_ptr<Player>& player)
 {
-	std::ifstream file;
-	file.open("Board.txt");
-
-	if (!file.is_open())
-	{
-		throw std::exception("Error loading board.txt");
-	}
-
 	std::vector<string> map;
+	std::ifstream file;
+
+	file.open("Board.txt");
+	if (!file.is_open())
+		throw std::exception("Error loading board.txt");
 
 	// check if there are no more levels
 	if (mapID >= Map::Max)
-	{
 		return false;	// read unsuccessful
-	}
 
 	// read maps till we read wanted map
 	for (int currentMap = 1; currentMap <= mapID; currentMap++)
 	{
 		// clear existing map
 		map.clear();
-		
 		Map::instance().movables().clear();
 		Map::instance().unmovables().clear();
 		Map::instance().portals().clear();
-		//Map::instance().map().release();
-		//Map::instance().background().release();
-
 
 		// assign mapID
 		Map::instance().mapID() = mapID;

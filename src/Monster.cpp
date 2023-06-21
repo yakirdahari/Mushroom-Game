@@ -5,7 +5,7 @@
 
 constexpr auto MonsterSpeed = 160.f;
 constexpr auto HitDuration = 0.6f;
-constexpr auto deathAnimationTime = 0.6f;
+constexpr auto deathAnimationTime = 0.5f;
 
 
 Monster::Monster(const sf::Vector2f& position, Resources::Objects object)
@@ -31,6 +31,7 @@ void Monster::update(sf::Time delta)
     {
         physics.drag = 1.12f;       // turn drag back to normal after knockback is done
         m_aiTime.restart();
+        m_animation.resetAnimation();
 
         m_dir = static_cast<Direction>(rand() % static_cast<int>(Direction::Max));
         if (m_dir == Direction::Left)

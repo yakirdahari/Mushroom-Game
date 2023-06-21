@@ -18,10 +18,12 @@ void movingObject::wasHit(const int& damage, const sf::Vector2f& direction)
 		m_dir != Direction::ProneStab)
 	{
 		m_hitTime.restart();
-		data.wasHit = true;
-		data.HP -= damage;		// reduce health points
 		m_dir = Direction::Hit;
 		knockback(direction);
+		data.wasHit = true;
+		data.HP -= damage;		// reduce health points
+		if (data.HP < 0)
+			data.HP = 0;		// hp can't go under 0
 	}
 }
 
@@ -80,7 +82,7 @@ void movingObject::respawn()
 	setPosition(m_spawnLocation);
 }
 
-int movingObject::randomDamage()
+int movingObject::randomDamage() const
 {
 	int maxDamage = data.damage * 1.2f;
 	int minDamage = data.damage * 0.8f;
@@ -90,7 +92,7 @@ int movingObject::randomDamage()
 
 bool movingObject::isDead()
 {
-	if (data.HP <= 0)
+	if (data.HP == 0 && !dead)
 	{
 		dead = true;
 		m_dir = Direction::Dead;
@@ -100,4 +102,9 @@ bool movingObject::isDead()
 		return true;
 	}
 	return false;
+}
+
+const Data& movingObject::getData() const
+{
+	return data;
 }

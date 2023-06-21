@@ -84,7 +84,7 @@ Direction Player::jump()
     {
         m_climbLadder = m_climbRope = false;
         m_sp.setScale(-1.f, 1.f);
-        physics.velocity = sf::Vector2f(0, -8);
+        physics.velocity = sf::Vector2f(0, -10);
         updatePhysics();
         m_jump = true;
         m_jumpCooldown.restart();
@@ -95,7 +95,7 @@ Direction Player::jump()
     {
         m_climbLadder = m_climbRope = false;
         m_sp.setScale(1.f, 1.f);
-        physics.velocity = sf::Vector2f(0, -8);
+        physics.velocity = sf::Vector2f(0, -10);
         updatePhysics();
         m_jump = true;
         m_jumpCooldown.restart();
@@ -114,7 +114,7 @@ Direction Player::jump()
     // jump
     if (!m_climbLadder && !m_climbRope)
     {
-        physics.velocity = sf::Vector2f(0, -8);
+        physics.velocity = sf::Vector2f(0, -10);
         updatePhysics();
         m_jump = true;
         m_jumpCooldown.restart();
@@ -183,7 +183,7 @@ Direction Player::prone()
         return attack();
     return Direction::Prone;
 }
-
+    
 void Player::attackHitbox()
 {
     auto hitbox = sf::RectangleShape(sf::Vector2f(40.f , m_sp.getGlobalBounds().height));
@@ -199,9 +199,22 @@ void Player::attackHitbox()
     {
         if (hitbox.getGlobalBounds().intersects(movable->getGlobalBounds()))
         {
-            movable->wasHit(randomDamage(), m_sp.getScale());
-            if (movable->isDead()) {}
-                // kill reward
+            auto damage = randomDamage();
+
+            // send amount of damage and direction of attack
+            movable->wasHit(damage, m_sp.getScale());
+
+            // check if the thing died and give rewards
+            if (movable->isDead())
+            {
+                data.EXP += movable->getData().expReward;
+                while (data.EXP >= data.MaxEXP)
+                {
+                    data.level += 1;
+                    data.EXP -= data.MaxEXP;
+                    data.MaxEXP *= 1.5f;
+                }
+            }
         }
     }
 }
@@ -275,13 +288,9 @@ void Player::handleCollision(Ground& ground)
 void Player::handleCollision(Wall& wall)
 {
     if (m_sp.getPosition().x < wall.getPosition().x)
-    {
         m_sp.move(-0.8f, 0.f);
-    }
     else
-    {
         m_sp.move(0.8f, 0.f);
-    }
 }
 
 void Player::handleCollision(Ladder& ladder)
@@ -316,9 +325,7 @@ void Player::handleCollision(Ladder& ladder)
         physics.velocity = sf::Vector2f(0.f, -0.4f);
     }
     else if (m_climbLadder)
-    {
         physics.velocity = sf::Vector2f(0.f, -0.8f);
-    }
 }
 
 void Player::handleCollision(Portal& ladder)

@@ -8,12 +8,10 @@
 #include <memory>
 #include <ctime>
 #include "Player.h"
-#include "GameOver.h"
-#include "Victory.h"
-#include "Map.h"
 #include "FileReader.h"
 #include "Resources.h"
 #include "DebugUtils.h"
+#include "Info.h"
 
 class Controller
 {
@@ -47,6 +45,7 @@ private:
 	void draw();              // draws objects
 	void handleEvents();
 	void updateGameObjects(); // movement
+	void updateInfo();
 	void handleCollisions(gameObject& gameObject);
 	void spawn(const int& mapID);
 	void changeMap(const int& mapID, const int& exitPortal);
