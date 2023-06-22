@@ -15,9 +15,9 @@ void Map::respawn()
 	{
 		respawnTime.restart();
 
-		for (auto& movable : m_movables)
-			if (movable->isDead())
-				movable->respawn();
+		for (auto& monster : m_monsters)
+			if (monster->isDead())
+				monster->respawn();
 	}
 }
 

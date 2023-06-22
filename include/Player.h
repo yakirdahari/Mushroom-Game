@@ -16,6 +16,7 @@ public:
     Direction right();
     Direction up();
     Direction prone();
+    bool isAttacking();
     void attackHitbox();
     void update(sf::Time delta) override;
     sf::Vector2f getPosition() const;   

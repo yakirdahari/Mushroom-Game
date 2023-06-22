@@ -50,6 +50,13 @@ void Info::draw(sf::RenderWindow& window)
 	window.draw(MP);
 	window.draw(EXP);
 	window.draw(job);
+
+	for (const auto& damage : damageInfo)
+		damage->draw(window);
+
+	for (auto& monster : Map::instance().monsters())
+		if (monster->getData().wasHit)
+			monster->drawInfo(window);
 }
 
 void Info::update(const Data& data)
@@ -62,6 +69,22 @@ void Info::update(const Data& data)
 	HPbar.setSize(sf::Vector2f(105.f * (data.HP / static_cast<float>(data.MaxHP)), 14.f));
 	MPbar.setSize(sf::Vector2f(105.f * (data.MP / static_cast<float>(data.MaxMP)), 14.f));
 	EXPbar.setSize(sf::Vector2f(115.f * (data.EXP / static_cast<float>(data.MaxEXP)), 14.f));
+
+	for (auto damage = damageInfo.begin(); damage != damageInfo.end(); )
+	{
+		(*damage)->update();
+
+		if ((*damage)->deletion())
+			damage = damageInfo.erase(damage)	;
+		else
+			++damage;
+	}
+}
+
+void Info::showDamage(const std::string& type, const int& amount, const sf::Vector2f& location)
+{
+	// add damage to be shown on screen
+	damageInfo.push_back(std::make_unique<Damage>(type, amount, location));
 }
 
 Info& Info::instance()

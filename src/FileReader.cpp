@@ -18,7 +18,7 @@ bool readFile(const int& mapID, std::unique_ptr<Player>& player)
 	{
 		// clear existing map
 		map.clear();
-		Map::instance().movables().clear();
+		Map::instance().monsters().clear();
 		Map::instance().unmovables().clear();
 		Map::instance().portals().clear();
 
@@ -95,7 +95,7 @@ void insertObject(Objects object, sf::Vector2f position)
 	{
 		switch (object)
 		{
-		case Monster4_Char: Map::instance().movables().push_back(std::move(std::make_unique<Mushroom>(position)));
+		case Monster4_Char: Map::instance().monsters().push_back(std::move(std::make_unique<Mushroom>(position)));
 			break;
 		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SmallForest, 1)));
 		}
@@ -103,7 +103,7 @@ void insertObject(Objects object, sf::Vector2f position)
 		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds().at(Map::MushroomTown));
 	}
 
-	// Mushroom Town
+	// Small Forest
 	if (Map::instance().mapID() == Map::SmallForest)
 	{
 		switch (object)

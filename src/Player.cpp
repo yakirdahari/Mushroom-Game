@@ -2,7 +2,7 @@
 #include "Ground.h"
 #include "Wall.h"
 #include "Ladder.h"
-#include "Map.h"
+#include "Info.h"
 
 constexpr auto PlayerSpeed = 160.f;
 constexpr auto AttackSpeed = 0.8f;
@@ -183,6 +183,11 @@ Direction Player::prone()
         return attack();
     return Direction::Prone;
 }
+
+bool Player::isAttacking()
+{
+    return m_attack;
+}
     
 void Player::attackHitbox()
 {
@@ -195,19 +200,20 @@ void Player::attackHitbox()
     hitbox.setPosition(m_sp.getPosition().x - 20.f + offset.x, m_sp.getPosition().y);
 
     // check collision with movables
-    for (auto& movable : Map::instance().movables())
+    for (auto& monster : Map::instance().monsters())
     {
-        if (hitbox.getGlobalBounds().intersects(movable->getGlobalBounds()))
+        if (hitbox.getGlobalBounds().intersects(monster->getGlobalBounds()))
         {
             auto damage = randomDamage();
 
             // send amount of damage and direction of attack
-            movable->wasHit(damage, m_sp.getScale());
+            monster->wasHit(damage, m_sp.getScale());
+            Info::instance().showDamage("Player", damage, monster->getPosition());
 
             // check if the thing died and give rewards
-            if (movable->isDead())
+            if (monster->isDead())
             {
-                data.EXP += movable->getData().expReward;
+                data.EXP += monster->getData().expReward;
                 while (data.EXP >= data.MaxEXP)
                 {
                     data.level += 1;
@@ -237,7 +243,7 @@ void Player::update(sf::Time delta)
         data.wasHit = false;
 
     if (m_attackTime.getElapsedTime().asSeconds() >= AttackSpeed * 0.4f &&
-        m_attackTime.getElapsedTime().asSeconds() <= AttackSpeed * 0.6f)
+        m_attackTime.getElapsedTime().asSeconds() <= AttackSpeed * 0.42f)
         attackHitbox();
 
     // animate & move player

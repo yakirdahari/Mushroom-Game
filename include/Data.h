@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 struct Data
 {
 	int level = 1;					// player level
@@ -13,6 +15,7 @@ struct Data
 	int damage = 25;				// amount of damage dealt
 	bool wasHit = false;			// for hit detection
 	std::string job = "Beginner";	// current job
+	std::string name;
 
 	// monster rewards
 	int expReward;

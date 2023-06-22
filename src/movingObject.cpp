@@ -78,6 +78,7 @@ void movingObject::respawn()
 {
 	data.HP = data.MaxHP;
 	dead = false;
+	data.wasHit = false;
 	physics.drag = 1.12f;
 	setPosition(m_spawnLocation);
 }

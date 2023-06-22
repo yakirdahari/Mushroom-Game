@@ -1,6 +1,6 @@
 #pragma once
 
-#include "movingObject.h"
+#include "Monster.h"
 #include "staticObject.h"
 #include "Portal.h"
 
@@ -20,7 +20,7 @@ public:
     Map(const Map&) = delete;
     Map& operator=(const Map&) = delete;
 
-    std::vector<std::unique_ptr<movingObject>>& movables() { return m_movables; }
+    std::vector<std::unique_ptr<Monster>>& monsters() { return m_monsters; }
     std::vector<std::unique_ptr<staticObject>>& unmovables() { return m_unmovables; }
     std::vector<std::unique_ptr<Portal>>& portals() { return m_portals; }
     int& mapWidth() { return m_mapWidth; }
@@ -34,7 +34,7 @@ public:
 private:
     Map();
     int m_mapID;                                                    // each map has its own ID number to identify it
-    std::vector<std::unique_ptr<movingObject>> m_movables;          // monsters
+    std::vector<std::unique_ptr<Monster>> m_monsters;          // monsters
     std::vector<std::unique_ptr<staticObject>> m_unmovables;        // ground, wall, etc
     std::vector<std::unique_ptr<Portal>> m_portals;                 // map portals (transport to another map)
     std::unique_ptr<sf::Sprite> m_background;                       // 2nd layer of map

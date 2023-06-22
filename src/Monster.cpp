@@ -2,14 +2,16 @@
 #include "Ground.h"
 #include "MonsterWall.h"
 #include "Wall.h"
+#include "Info.h"
 
-constexpr auto MonsterSpeed = 160.f;
+constexpr auto MonsterSpeed = 140.f;
 constexpr auto HitDuration = 0.6f;
 constexpr auto deathAnimationTime = 0.5f;
 
 
 Monster::Monster(const sf::Vector2f& position, Resources::Objects object)
-    : movingObject(position, object)
+    : movingObject(position, object),
+      m_info(data)
 {
     physics.knockback = { 4.f, 4.f };
 }
@@ -23,6 +25,8 @@ void Monster::update(sf::Time delta)
     // dead = disappear
     if (dead && m_deathTime.getElapsedTime().asSeconds() >= deathAnimationTime)
         death();
+
+    m_info.update(data, m_sp.getPosition());
 
     // move in a random direction
     int nextDirection = (rand() % 5) + 1;
@@ -51,6 +55,12 @@ void Monster::death()
     m_sp.setPosition(10000, 10000);
     m_dir == Direction::Stay;
     dead = false;   // get ready to respawn
+    data.wasHit = false;
+}
+
+void Monster::drawInfo(sf::RenderWindow& window)
+{
+    m_info.draw(window);
 }
 
 void Monster::handleCollision(gameObject& gameObject)
@@ -64,13 +74,17 @@ void Monster::handleCollision(gameObject& gameObject)
 
 void Monster::handleCollision(Player& player)
 {
-    if (!dead &&
+    if (!dead && !player.getData().wasHit && !player.isAttacking() &&
         player.getGlobalBounds().left > m_sp.getGlobalBounds().left - 50.f &&
         player.getGlobalBounds().left < m_sp.getGlobalBounds().left + m_sp.getGlobalBounds().width - 18.f &&
         player.getGlobalBounds().top + player.getGlobalBounds().height < m_sp.getGlobalBounds().top + m_sp.getGlobalBounds().height + 50.f &&
         player.getGlobalBounds().top + player.getGlobalBounds().height > m_sp.getGlobalBounds().top + m_sp.getGlobalBounds().height - 50.f)
     {
-        player.wasHit(randomDamage(), m_sp.getScale());
+        const int& damage = randomDamage();
+
+        player.wasHit(damage, m_sp.getScale());
+
+        Info::instance().showDamage("Monster", damage, sf::Vector2f(player.getGlobalBounds().left, player.getGlobalBounds().top));
     }
 }
 

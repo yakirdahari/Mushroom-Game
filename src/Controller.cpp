@@ -40,8 +40,8 @@ void Controller::draw()
 		for (auto& unmovable : Map::instance().unmovables())
 			unmovable->draw(m_window);
 
-		for (auto& movable : Map::instance().movables())
-			movable->draw(m_window);
+		for (auto& monster : Map::instance().monsters())
+			monster->draw(m_window);
 
 		for (auto& portal : Map::instance().portals())
 			portal->draw(m_window);
@@ -81,11 +81,11 @@ void Controller::updateGameObjects()
 	player->updatePhysics();
 	handleCollisions(*player);
 	
-	for (auto& movable : Map::instance().movables())
+	for (auto& monster : Map::instance().monsters())
 	{
-		movable->update(delta);
-		handleCollisions(*movable);
-		movable->updatePhysics();
+		monster->update(delta);
+		handleCollisions(*monster);
+		monster->updatePhysics();
 	}
 	
 	for (auto& portal : Map::instance().portals())
@@ -101,10 +101,9 @@ void Controller::updateInfo()
 //----------------------------------------------------
 void Controller::handleCollisions(gameObject& gameObject)
 {
-	// check collision with movables
-	for (auto& movable : Map::instance().movables())
-		if (gameObject.collidesWith(movable->getGlobalBounds()))
-			gameObject.handleCollision(*movable);
+	// check collision with player
+	if (gameObject.collidesWith(player->getGlobalBounds()))
+		gameObject.handleCollision(*player);
 
 	// check collision with unmovables
 	for (auto& unmovable : Map::instance().unmovables())
@@ -118,9 +117,9 @@ void Controller::spawn(const int& mapID)
 	readFile(mapID, player);
 
 	// so we don't fall off the map
-	for (auto& movable : Map::instance().movables())
+	for (auto& monster : Map::instance().monsters())
 		for (int i = 0; i < 5; i++)
-			handleCollisions(*movable);
+			handleCollisions(*monster);
 
 	for (int i = 0; i < 5; i++)
 		handleCollisions(*player);
@@ -141,9 +140,9 @@ void Controller::changeMap(const int& mapID, const int& exitPortal)
 	player->setPosition(Map::instance().portals()[exitPortal]->getPosition()); 	// spawn in exit portal
 	
 	// so we don't fall off the map
-	for (auto& movable : Map::instance().movables())
+	for (auto& monster : Map::instance().monsters())
 		for (int i=0 ; i<5 ; i++)
-			handleCollisions(*movable);
+			handleCollisions(*monster);
 
 	for (int i=0; i<5; i++)
 		handleCollisions(*player);
