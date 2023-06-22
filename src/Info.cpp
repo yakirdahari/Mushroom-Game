@@ -12,9 +12,9 @@ Info::Info()
 	init(HP,    11, { 218, Controller::WindowHeight - 33.f });
 	init(MP,    11, { 329, Controller::WindowHeight - 33.f });
 	init(EXP,   11, { 447, Controller::WindowHeight - 33.f });
-	init(HPbar,  sf::Color::Red,    { 198, Controller::WindowHeight - 18.f }, { 105.f, 14.f });
-	init(MPbar,  sf::Color::Blue,   { 306, Controller::WindowHeight - 18.f }, { 105.f, 14.f });
-	init(EXPbar, sf::Color::Yellow, { 419, Controller::WindowHeight - 18.f }, { 115.f, 14.f });
+	init(HPbar,  sf::Color(233.f, 0.f, 1.f), {198, Controller::WindowHeight - 18.f}, {105.f, 14.f});
+	init(MPbar,  sf::Color(11.f, 120.f, 230.f), {306, Controller::WindowHeight - 18.f}, {105.f, 14.f});
+	init(EXPbar, sf::Color(222.f, 239.f, 5.f), { 419, Controller::WindowHeight - 18.f }, { 115.f, 14.f });
 	init(background1, sf::Color(189.f, 189.f, 189.f), { 198, Controller::WindowHeight - 18.f }, { 105.f, 14.f });
 	init(background2, sf::Color(189.f, 189.f, 189.f), { 306, Controller::WindowHeight - 18.f }, { 105.f, 14.f });
 	init(background3, sf::Color(189.f, 189.f, 189.f), { 419, Controller::WindowHeight - 18.f }, { 115.f, 14.f });
