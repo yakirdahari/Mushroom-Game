@@ -17,11 +17,12 @@ public:
 	int exitPortal();
 
 	// Collision Handlers
-	void handleCollision(gameObject& gameObject);
-	virtual void handleCollision(Player& movingObject) override;
-	virtual void handleCollision(Monster& monster) override {};
+	void handleCollision(gameObject& gameObject) {};
+	virtual void handleCollision(Player& movingObject) {};
+	virtual void handleCollision(Monster& monster) {};
 
 private:
 	int m_destination;	// mapID of destination
 	int m_exitPortal;	// which portal to exit from?
+	sf::Sound m_teleportSound;
 };

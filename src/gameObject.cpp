@@ -6,6 +6,7 @@ gameObject::gameObject(const sf::Vector2f& position)
 	: m_isDeleted(false)
 {
 	m_sp.setPosition(position);
+	m_effect.setPosition(10000.f, 10000.f);
 }
 
 // Constructor
@@ -28,6 +29,7 @@ void gameObject::setPosition(sf::Vector2f position)
 
 void gameObject::draw(sf::RenderWindow& window) const
 {
+	window.draw(m_effect);
 	window.draw(m_sp);
 }
 

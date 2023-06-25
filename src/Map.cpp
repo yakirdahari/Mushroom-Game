@@ -2,8 +2,9 @@
 
 Map::Map()
 	: m_mapWidth(0), m_mapHeight(0), 
-	  m_background(std::make_unique<sf::Sprite>(Resources::instance().backgrounds().at(MushroomTown))),
-	  m_map(std::make_unique<sf::Sprite>(Resources::instance().maps().at(MushroomTown))),
+	  m_background(std::make_unique<sf::Sprite>()),
+	  m_map(std::make_unique<sf::Sprite>()),
+	  m_music(std::make_unique<sf::Sound>(Resources::instance().music(Map::MushroomTown))),
 	  m_mapID(MushroomTown)
 {
 }
@@ -17,7 +18,7 @@ void Map::respawn()
 
 		for (auto& monster : m_monsters)
 			if (monster->isDead())
-				monster->respawn();
+				monster->respawn(true);
 	}
 }
 

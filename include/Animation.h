@@ -15,7 +15,7 @@ public:
 
     // Add more time to the elapsed time; if enough time passed, it
     // updates the sprite to show the next frame in the animation
-    void update(sf::Time delta);
+    bool update(sf::Time delta);
 
     // resets index
     void resetAnimation();
@@ -30,4 +30,5 @@ private:
     Direction m_dir = Direction::Stay;
     int m_index = 0;
     sf::Sprite& m_sprite;
+    bool m_ended = false;
 };

@@ -37,8 +37,9 @@ private:
 	// Variables
 	sf::RenderWindow m_window;
 	sf::RectangleShape m_transitionScreen;
-	std::unique_ptr<Player> player;
 	sf::Clock gameClock;
+	sf::Sound m_teleportSound;
+	sf::Sprite cursor;
 	bool m_changingMap;
 
 	// Private Functions
@@ -49,7 +50,7 @@ private:
 	void handleCollisions(gameObject& gameObject);
 	void spawn(const int& mapID);
 	void changeMap(const int& mapID, const int& exitPortal);
-	void fadeIn();		      // screen fades in when changing maps
-	void fadeOut();			  // screen fades out when changing maps
+	void fadeIn();	  // screen fades in when changing maps
+	void fadeOut();	  // screen fades out when changing maps
 	void checkPortals();      // player on a portal = can change map
 };

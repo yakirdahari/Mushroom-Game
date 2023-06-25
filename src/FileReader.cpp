@@ -1,6 +1,13 @@
 #include "FileReader.h"
+#include "Mushroom.h"
+#include "Ground.h"
+#include "Player.h"
+#include "Wall.h"
+#include "MonsterWall.h"
+#include "Ladder.h"
+#include "Heena.h"
 
-bool readFile(const int& mapID, std::unique_ptr<Player>& player)
+bool readFile(const int& mapID)
 {
 	std::vector<string> map;
 	std::ifstream file;
@@ -21,6 +28,7 @@ bool readFile(const int& mapID, std::unique_ptr<Player>& player)
 		Map::instance().monsters().clear();
 		Map::instance().unmovables().clear();
 		Map::instance().portals().clear();
+		Map::instance().npcs().clear();
 
 		// assign mapID
 		Map::instance().mapID() = mapID;
@@ -49,20 +57,14 @@ bool readFile(const int& mapID, std::unique_ptr<Player>& player)
 			continue;
 		}
 
-		// check if map is valid
-		if (currentMap == mapID && !isValid(map, player))
-		{
-			throw std::exception("Invalid map!");
-		}
+		scan(map);
 	}
 	file.close();
 	return true;	// successful read
 }
 
-bool isValid(const std::vector<string>& map, std::unique_ptr<Player>& player)
+void scan(const std::vector<string>& map)
 {
-	int playerCount = 0;
-
 	sf::Vector2f position(0, 0);  // position of object's sprite
 	
 	// stores objects in vectors
@@ -71,36 +73,31 @@ bool isValid(const std::vector<string>& map, std::unique_ptr<Player>& player)
 		position.x = 0;   // reset x for each new line
 		for (const auto& c : map[i])
 		{
-			switch (c)
-			{
-			case Player_Char:
-			{
-				playerCount++;
-				player->setPosition(position);
-			}
-			break;
-			default: insertObject(static_cast<Objects>(c), position);
-			}
+			insertObject(static_cast<Objects>(c), position);
 			position.x += 10.f;
 		}
 		position.y += +10.f;
 	}
-	return playerCount == 1 || Map::instance().portals().size() != 0 ? true : false;
 }
 
-void insertObject(Objects object, sf::Vector2f position)
+void insertObject(const Objects& object, const sf::Vector2f& position)
 {
 	// Mushroom Town
 	if (Map::instance().mapID() == Map::MushroomTown)
 	{
 		switch (object)
 		{
+		case NPC1_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Heena>(position)));
+			break;
 		case Monster4_Char: Map::instance().monsters().push_back(std::move(std::make_unique<Mushroom>(position)));
 			break;
 		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SmallForest, 1)));
 		}
-		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps().at(Map::MushroomTown));
-		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds().at(Map::MushroomTown));
+		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::MushroomTown));
+		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::MushroomTown));
+		
+		if (!Map::instance().music())
+			Map::instance().music()->setBuffer(Resources::instance().music(Map::MushroomTown));
 	}
 
 	// Small Forest
@@ -110,13 +107,20 @@ void insertObject(Objects object, sf::Vector2f position)
 		{
 		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::MushroomTown, 0)));
 		}
-		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps().at(Map::SmallForest));
-		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds().at(Map::SmallForest));
+		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::SmallForest));
+		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::SmallForest));
+
+		if (!Map::instance().music())
+			Map::instance().music()->setBuffer(Resources::instance().music(Map::SmallForest));
 	}
 
 	// everything else
 	switch (object)
 	{
+	case Player_Char:
+		if (!Map::instance().player())
+			Map::instance().player() = std::make_unique<Player>(position);
+		break;
 	case Ground_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<Ground>(position)));
 		break;
 	case Wall_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<Wall>(position)));
@@ -124,5 +128,11 @@ void insertObject(Objects object, sf::Vector2f position)
 	case MonsterWall_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<MonsterWall>(position)));
 		break;
 	case Ladder_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<Ladder>(position)));
+	}
+
+	if (Map::instance().music()->getStatus() == sf::Sound::Status::Stopped)
+	{
+		Map::instance().music()->play();
+		Map::instance().music()->setLoop(true);
 	}
 }

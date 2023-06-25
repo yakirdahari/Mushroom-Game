@@ -2,14 +2,23 @@
 
 #include "Map.h"
 #include "Damage.h"
+#include "ReviveGUI.h"
 
 class Info
 {
 public:
+    // ---------------
+    enum GUI_List
+    {
+        Revive,
+    };
+    // ---------------
+
     static Info& instance();
     void draw(sf::RenderWindow& window);
     void update(const Data& data);
     void showDamage(const std::string& type, const int& amount, const sf::Vector2f& location);
+    void addGUI(const int& type);
 
     Info(const Info&) = delete;
     Info& operator=(const Info&) = delete;
@@ -21,7 +30,8 @@ private:
               const sf::Vector2f& position, const sf::Vector2f& size);
 
     // Damage
-    std::vector<std::unique_ptr<Damage>> damageInfo;          // holds all damage objects to be shown on screen
+    std::vector<std::unique_ptr<Damage>> damageInfo;    // holds all damage objects
+    std::vector<std::unique_ptr<GUI>> GUIs;              // holds all GUI objects
     
     // Font
     sf::Font infoFont;

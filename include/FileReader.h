@@ -4,12 +4,7 @@
 #include <memory>
 #include <fstream>
 #include "Map.h"
-#include "Mushroom.h"
-#include "Ground.h"
-#include "Player.h"
-#include "Wall.h"
-#include "MonsterWall.h"
-#include "Ladder.h"
+
 
 enum Objects 
 {
@@ -33,6 +28,6 @@ enum Objects
 
 //----------------------
 //  reads board.txt and inserts objects to map
-bool readFile(const int& mapID, std::unique_ptr<Player>& player);
-bool isValid(const std::vector<string>& map, std::unique_ptr<Player>& player);
-void insertObject(Objects object, sf::Vector2f position);
+bool readFile(const int& mapID);
+void scan(const std::vector<string>& map);
+void insertObject(const Objects& object, const sf::Vector2f& position);

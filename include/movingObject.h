@@ -11,17 +11,17 @@ class movingObject : public gameObject
 {
 public:
 	// Constructors
-	movingObject(const sf::Vector2f& position,
-		         const Resources::Objects& object);
+	movingObject(const sf::Vector2f& position, const Resources::Objects& object,
+		         const int& deathSound);
 	
 	// Functions
 	virtual void update(const sf::Time delta) = 0;
 	void wasHit(const int& damage, const sf::Vector2f& direction);
 	void knockback(const sf::Vector2f& direction);					// knock back when hit
 	void updatePhysics();
-	void respawn();												    // revives object and sends back to spawn
 	int randomDamage() const;
 	bool isDead();													// checks if HP is negative
+	void respawn(bool enable = false);								// revives object and sends back to spawn
 	const Data& getData() const;									// read data of object
 
 	// Variables
@@ -32,6 +32,5 @@ protected:
 	PhysicsData physics;
 	Animation m_animation;
 	sf::Clock m_hitTime;		// how long hit effect lasts
-	sf::Clock m_deathTime;		// helps with death animations
-	bool dead;					// is object dead?
+	sf::Sound m_deathSound;
 };

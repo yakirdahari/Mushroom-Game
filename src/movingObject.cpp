@@ -3,11 +3,12 @@
 
 constexpr auto HitDuration = 0.8f;
 
-movingObject::movingObject(const sf::Vector2f& position,
-	                       const Resources::Objects& object)
+movingObject::movingObject(const sf::Vector2f& position, const Resources::Objects& object,
+	                       const int& deathSound)
 	: gameObject(position),
+	  m_deathSound(Resources::instance().sound(deathSound)),
 	  m_animation(Resources::instance().animationData(object), Direction::Stay, m_sp),
-	  m_spawnLocation(position), dead(false)
+	  m_spawnLocation(position)
 {
 }
 
@@ -19,11 +20,12 @@ void movingObject::wasHit(const int& damage, const sf::Vector2f& direction)
 	{
 		m_hitTime.restart();
 		m_dir = Direction::Hit;
-		knockback(direction);
 		data.wasHit = true;
-		data.HP -= damage;		// reduce health points
-		if (data.HP < 0)
-			data.HP = 0;		// hp can't go under 0
+		data.HP -= damage;			// reduce health points
+		if (data.HP <= 0)
+			data.HP = 0;			// hp can't go under 0
+		else
+			knockback(direction);	// no knockback when dead
 	}
 }
 
@@ -74,13 +76,23 @@ void movingObject::updatePhysics()
 	m_sp.move(physics.velocity);
 }
 
-void movingObject::respawn()
+void movingObject::respawn(bool enable)
 {
-	data.HP = data.MaxHP;
-	dead = false;
-	data.wasHit = false;
-	physics.drag = 1.12f;
-	setPosition(m_spawnLocation);
+	// once enabled, respawns on next func call so we can add effects in-between calls
+	if (!enable)
+	{
+		data.HP = data.MaxHP;
+		data.dead = false;
+		data.wasHit = false;
+		physics.drag = 1.09f;
+		setPosition(m_spawnLocation - sf::Vector2f(0.f, 20.f));
+		m_dir = Direction::Stay;
+		m_animation.direction(m_dir);
+		m_effect.setPosition(10000.f, 10000.f);
+		m_animation.resetAnimation();
+		data.respawn = false;
+	}
+	data.respawn = enable;
 }
 
 int movingObject::randomDamage() const
@@ -93,12 +105,14 @@ int movingObject::randomDamage() const
 
 bool movingObject::isDead()
 {
-	if (data.HP == 0 && !dead)
+	if (data.HP == 0 && data.dead)
+		return true;
+
+	if (data.HP == 0 && !data.dead ||
+		data.HP == data.MaxHP && data.dead)
 	{
-		dead = true;
 		m_dir = Direction::Dead;
-		m_deathTime.restart();
-		physics.drag = 0.9f;
+		m_animation.direction(m_dir);
 		m_animation.resetAnimation();
 		return true;
 	}

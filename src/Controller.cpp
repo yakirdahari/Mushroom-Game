@@ -5,9 +5,12 @@
 Controller::Controller()
 	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Titlebar | sf::Style::Close),
 	  m_transitionScreen(sf::Vector2f(WindowWidth, WindowHeight)),
-	  player(std::make_unique<Player>(sf::Vector2f(0,0))), m_changingMap(false)
+	  m_teleportSound(Resources::instance().sound(Resources::Portal_Sound)),
+	  m_changingMap(false),
+	  cursor(Resources::instance().texture(Resources::Cursor))
 {
 	m_window.setFramerateLimit(60);	
+	m_window.setMouseCursorVisible(false);
 	m_transitionScreen.setFillColor(sf::Color::Transparent);
 }
 //----------------------------------------------------
@@ -30,7 +33,7 @@ void Controller::draw()
 	m_window.clear();
 	if (auto debugSpriteSheet = 0) // use 1 to debug animation data
 	{
-		displayAll(m_window, Resources::instance().animationData(Resources::Portal));
+		displayAll(m_window, Resources::instance().animationData(Resources::LevelUp));
 	}
 	else
 	{
@@ -43,11 +46,16 @@ void Controller::draw()
 		for (auto& monster : Map::instance().monsters())
 			monster->draw(m_window);
 
+		for (auto& npc : Map::instance().npcs())
+			npc->draw(m_window);
+
+		Map::instance().player()->draw(m_window);
+
 		for (auto& portal : Map::instance().portals())
 			portal->draw(m_window);
-
-		player->draw(m_window);
+		
 		Info::instance().draw(m_window);
+		m_window.draw(cursor);
 		m_window.draw(m_transitionScreen);
 	}
 	m_window.display();
@@ -68,6 +76,15 @@ void Controller::handleEvents()
 
 			if (event.key.code == sf::Keyboard::Up)
 				checkPortals();
+			break;
+		case sf::Event::MouseButtonReleased:
+			if (Map::instance().player()->getData().respawn)
+			{
+				fadeIn();
+				Map::instance().player()->respawn();
+				updateGameObjects();
+				fadeOut();
+			}
 		}			
 	}
 }
@@ -77,9 +94,9 @@ void Controller::updateGameObjects()
 	const auto delta = gameClock.restart();
 
 	// movement + collision
-	player->update(delta);
-	player->updatePhysics();
-	handleCollisions(*player);
+	Map::instance().player()->update(delta);
+	Map::instance().player()->updatePhysics();
+	handleCollisions(*Map::instance().player());
 	
 	for (auto& monster : Map::instance().monsters())
 	{
@@ -91,19 +108,24 @@ void Controller::updateGameObjects()
 	for (auto& portal : Map::instance().portals())
 		portal->update(delta);
 
+	for (auto& npc : Map::instance().npcs())
+		npc->update(delta);
+
+	cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(m_window)));
+
 	Map::instance().respawn();
 }
 //----------------------------------------------------
 void Controller::updateInfo()
 {
-	Info::instance().update(player->getData());
+	Info::instance().update(Map::instance().player()->getData());
 }
 //----------------------------------------------------
 void Controller::handleCollisions(gameObject& gameObject)
 {
 	// check collision with player
-	if (gameObject.collidesWith(player->getGlobalBounds()))
-		gameObject.handleCollision(*player);
+	if (gameObject.collidesWith(Map::instance().player()->getGlobalBounds()))
+		gameObject.handleCollision(*Map::instance().player());
 
 	// check collision with unmovables
 	for (auto& unmovable : Map::instance().unmovables())
@@ -113,8 +135,10 @@ void Controller::handleCollisions(gameObject& gameObject)
 //----------------------------------------------------
 void Controller::spawn(const int& mapID)
 {
+	m_teleportSound.play();
+
 	// transition screen
-	readFile(mapID, player);
+	readFile(mapID);
 
 	// so we don't fall off the map
 	for (auto& monster : Map::instance().monsters())
@@ -122,7 +146,7 @@ void Controller::spawn(const int& mapID)
 			handleCollisions(*monster);
 
 	for (int i = 0; i < 5; i++)
-		handleCollisions(*player);
+		handleCollisions(*Map::instance().player());
 
 	fadeOut();
 
@@ -135,9 +159,10 @@ void Controller::changeMap(const int& mapID, const int& exitPortal)
 
 	fadeIn();			// transition screen
 
-	readFile(mapID, player);
+	readFile(mapID);
 
-	player->setPosition(Map::instance().portals()[exitPortal]->getPosition()); 	// spawn in exit portal
+	// spawn in exit portal
+	Map::instance().player()->setPosition(Map::instance().portals()[exitPortal]->getPosition());
 	
 	// so we don't fall off the map
 	for (auto& monster : Map::instance().monsters())
@@ -145,9 +170,9 @@ void Controller::changeMap(const int& mapID, const int& exitPortal)
 			handleCollisions(*monster);
 
 	for (int i=0; i<5; i++)
-		handleCollisions(*player);
+		handleCollisions(*Map::instance().player());
 
-	fadeOut();			// transition screen
+	fadeOut();				// transition screen
 
 	gameClock.restart();	// unfreeze clock
 	handleEvents();
@@ -169,6 +194,7 @@ void Controller::fadeIn()
 		screenColor.a = static_cast<sf::Uint8>(alpha);
 		m_transitionScreen.setFillColor(screenColor);
 		draw();
+		updateInfo();
 
 		if (alpha == 255.f)
 			fadingIn = false;
@@ -201,12 +227,13 @@ void Controller::checkPortals()
 	// when player is on a portal he can change map
 	for (auto& portal : Map::instance().portals())
 	{
-		if (!m_changingMap &&
-			player->collidesWith(portal->getGlobalBounds()) &&
-			player->getGlobalBounds().left > portal->getGlobalBounds().left &&
-			player->getGlobalBounds().left < portal->getGlobalBounds().left + player->getGlobalBounds().width &&
-			player->getGlobalBounds().top > portal->getGlobalBounds().top + player->getGlobalBounds().height)
+		if (!m_changingMap && !Map::instance().player()->isDead() &&
+			Map::instance().player()->collidesWith(portal->getGlobalBounds()) &&
+			Map::instance().player()->getGlobalBounds().left > portal->getGlobalBounds().left &&
+			Map::instance().player()->getGlobalBounds().left < portal->getGlobalBounds().left + Map::instance().player()->getGlobalBounds().width &&
+			Map::instance().player()->getGlobalBounds().top > portal->getGlobalBounds().top + Map::instance().player()->getGlobalBounds().height)
 		{
+			m_teleportSound.play();
 			changeMap(portal->destination(), portal->exitPortal());
 		}
 	}

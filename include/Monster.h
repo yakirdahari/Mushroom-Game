@@ -8,10 +8,12 @@ class Monster : public movingObject
 public:
     using movingObject::handleCollision;
 
-    Monster(const sf::Vector2f& position, Resources::Objects object);
+    Monster(const sf::Vector2f& position, const Resources::Objects& object,
+            const int& hitSound, const int& deathSound);
 
     void update(sf::Time delta) override;
-    void death();
+    void death(sf::Time delta);
+    void playHitSound();
     void drawInfo(sf::RenderWindow& window);
 
     // Collision Handlers
@@ -27,5 +29,6 @@ public:
 
 protected:
     sf::Clock m_aiTime;
+    sf::Sound m_hitSound;
     MonsterInfo m_info;
 };

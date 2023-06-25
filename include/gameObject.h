@@ -47,6 +47,7 @@ public:
 	virtual ~gameObject() = default;
 protected:
 	sf::Sprite m_sp;
+	sf::Sprite m_effect;
 	bool m_isDeleted;
 	sf::Vector2f m_resolution;
 };

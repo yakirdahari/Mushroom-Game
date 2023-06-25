@@ -6,32 +6,30 @@
 
 constexpr auto MonsterSpeed = 140.f;
 constexpr auto HitDuration = 0.6f;
-constexpr auto deathAnimationTime = 0.5f;
 
-
-Monster::Monster(const sf::Vector2f& position, Resources::Objects object)
-    : movingObject(position, object),
-      m_info(data)
+Monster::Monster(const sf::Vector2f& position, const Resources::Objects& object,
+                 const int& hitSound, const int& deathSound)
+    : movingObject(position, object, deathSound),
+      m_info(data), m_hitSound(Resources::instance().sound(hitSound))
 {
     physics.knockback = { 4.f, 4.f };
 }
 
 void Monster::update(sf::Time delta)
 {
+    if (data.HP == 0)
+        return death(delta);
+
     // for smoother knockback
     if (m_hitTime.getElapsedTime().asSeconds() <= HitDuration)
         physics.drag = 0.9f;
-
-    // dead = disappear
-    if (dead && m_deathTime.getElapsedTime().asSeconds() >= deathAnimationTime)
-        death();
 
     m_info.update(data, m_sp.getPosition());
 
     // move in a random direction
     int nextDirection = (rand() % 5) + 1;
     if (m_aiTime.getElapsedTime().asSeconds() > nextDirection &&
-        m_hitTime.getElapsedTime().asSeconds() > HitDuration)
+        m_hitTime.getElapsedTime().asSeconds() > HitDuration && !data.dead)
     {
         physics.drag = 1.12f;       // turn drag back to normal after knockback is done
         m_aiTime.restart();
@@ -50,12 +48,28 @@ void Monster::update(sf::Time delta)
     m_sp.move(toVector(m_dir) * delta.asSeconds() * MonsterSpeed);
 }
 
-void Monster::death()
+void Monster::death(sf::Time delta)
+{   
+    if (data.wasHit)
+    {
+        data.wasHit = false;
+        m_deathSound.play();
+    }
+
+    data.dead = m_animation.update(delta);
+
+    if (!data.dead)
+    {
+        m_sp.setPosition(10000, 10000);
+        data.dead = true;
+        data.HP = data.MaxHP;
+    }
+        
+}
+
+void Monster::playHitSound()
 {
-    m_sp.setPosition(10000, 10000);
-    m_dir == Direction::Stay;
-    dead = false;   // get ready to respawn
-    data.wasHit = false;
+    m_hitSound.play();
 }
 
 void Monster::drawInfo(sf::RenderWindow& window)
@@ -74,7 +88,7 @@ void Monster::handleCollision(gameObject& gameObject)
 
 void Monster::handleCollision(Player& player)
 {
-    if (!dead && !player.getData().wasHit && !player.isAttacking() &&
+    if (!data.dead && !player.getData().wasHit && !player.isAttacking() &&
         player.getGlobalBounds().left > m_sp.getGlobalBounds().left - 50.f &&
         player.getGlobalBounds().left < m_sp.getGlobalBounds().left + m_sp.getGlobalBounds().width - 18.f &&
         player.getGlobalBounds().top + player.getGlobalBounds().height < m_sp.getGlobalBounds().top + m_sp.getGlobalBounds().height + 50.f &&
@@ -82,9 +96,11 @@ void Monster::handleCollision(Player& player)
     {
         const int& damage = randomDamage();
 
-        player.wasHit(damage, m_sp.getScale());
-
-        Info::instance().showDamage("Monster", damage, sf::Vector2f(player.getGlobalBounds().left, player.getGlobalBounds().top));
+        if (!player.isDead())
+        {
+            player.wasHit(damage, m_sp.getScale());
+            Info::instance().showDamage("Monster", damage, sf::Vector2f(player.getGlobalBounds().left, player.getGlobalBounds().top));
+        }
     }
 }
 

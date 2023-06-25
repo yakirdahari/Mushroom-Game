@@ -57,6 +57,12 @@ void Info::draw(sf::RenderWindow& window)
 	for (auto& monster : Map::instance().monsters())
 		if (monster->getData().wasHit)
 			monster->drawInfo(window);
+
+	for (const auto& gui : GUIs)
+	{
+		gui->draw(window);
+		gui->handleEvents(window);
+	}
 }
 
 void Info::update(const Data& data)
@@ -70,21 +76,51 @@ void Info::update(const Data& data)
 	MPbar.setSize(sf::Vector2f(105.f * (data.MP / static_cast<float>(data.MaxMP)), 14.f));
 	EXPbar.setSize(sf::Vector2f(115.f * (data.EXP / static_cast<float>(data.MaxEXP)), 14.f));
 
-	for (auto damage = damageInfo.begin(); damage != damageInfo.end(); )
+	// find objects marked for deletion
+	std::erase_if(damageInfo, [](auto& damage)
+	{
+			damage->update();
+			return damage->deletion();
+	});
+
+	std::erase_if(GUIs, [](auto& gui)
+	{
+		return gui->closed();
+	});
+
+	/*for (auto damage = damageInfo.begin(); damage != damageInfo.end(); )
 	{
 		(*damage)->update();
 
 		if ((*damage)->deletion())
-			damage = damageInfo.erase(damage)	;
+			damage = damageInfo.erase(damage);
 		else
 			++damage;
-	}
+	}*/
+
+	/*for (auto gui = GUIs.begin(); gui != GUIs.end(); )
+	{
+		if ((*gui)->closed())
+			gui = GUIs.erase(gui);
+		else
+			++gui;
+	}*/
 }
 
 void Info::showDamage(const std::string& type, const int& amount, const sf::Vector2f& location)
 {
 	// add damage to be shown on screen
 	damageInfo.push_back(std::make_unique<Damage>(type, amount, location));
+}
+
+void Info::addGUI(const int& type)
+{
+	// add GUI to be shown on screen
+	switch (type)
+	{
+	case Revive: GUIs.push_back(std::make_unique<ReviveGUI>());
+		break;
+	}
 }
 
 Info& Info::instance()

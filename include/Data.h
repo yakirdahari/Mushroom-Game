@@ -14,6 +14,8 @@ struct Data
 	int MaxMP = 100;		   		// maximum mana points
 	int damage = 25;				// amount of damage dealt
 	bool wasHit = false;			// for hit detection
+	bool dead = false;				// is object dead?
+	bool respawn = false;			// should object respawn?
 	std::string job = "Beginner";	// current job
 	std::string name;
 
