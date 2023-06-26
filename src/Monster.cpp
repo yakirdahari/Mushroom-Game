@@ -24,7 +24,7 @@ void Monster::update(sf::Time delta)
     if (m_hitTime.getElapsedTime().asSeconds() <= HitDuration)
         physics.drag = 0.9f;
 
-    m_info.update(data, m_sp.getPosition());
+    m_info.update(data, sf::Vector2f(m_sp.getGlobalBounds().left + m_sp.getGlobalBounds().width / 2.f, m_sp.getGlobalBounds().top));
 
     // move in a random direction
     int nextDirection = (rand() % 5) + 1;
@@ -106,11 +106,11 @@ void Monster::handleCollision(Player& player)
 
 void Monster::handleCollision(Ground& ground)
 {
-    if (m_sp.getPosition().y < ground.getPosition().y -5.f &&
+    if (m_sp.getPosition().y < ground.getPosition().y - 10.f &&
         physics.velocity.y > -0.41f)
     {
-        physics.velocity = sf::Vector2f(0.f, 0.f);
-        m_sp.move(0.f, -0.8f);
+        physics.velocity = sf::Vector2f(0.f, 0.1f);
+        m_sp.move(0.f, -0.6f);
     }
 }
 

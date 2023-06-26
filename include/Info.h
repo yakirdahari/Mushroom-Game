@@ -3,6 +3,8 @@
 #include "Map.h"
 #include "Damage.h"
 #include "ReviveGUI.h"
+#include "TutorialGUI.h"
+#include "DialogueGUI.h"
 
 class Info
 {
@@ -11,6 +13,7 @@ public:
     enum GUI_List
     {
         Revive,
+        Tutorial,
     };
     // ---------------
 
@@ -19,6 +22,8 @@ public:
     void update(const Data& data);
     void showDamage(const std::string& type, const int& amount, const sf::Vector2f& location);
     void addGUI(const int& type);
+    void showDialogue(const Resources::Objects& dialogue, const sf::Text& name, std::shared_ptr<sf::Sprite> sprite);
+    void drawMonsterInfo(sf::RenderWindow& window);
 
     Info(const Info&) = delete;
     Info& operator=(const Info&) = delete;
@@ -32,9 +37,6 @@ private:
     // Damage
     std::vector<std::unique_ptr<Damage>> damageInfo;    // holds all damage objects
     std::vector<std::unique_ptr<GUI>> GUIs;              // holds all GUI objects
-    
-    // Font
-    sf::Font infoFont;
 
     // Text
     sf::Text level;

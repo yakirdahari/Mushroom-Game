@@ -1,16 +1,15 @@
 #include "Damage.h"
+#include "Resources.h"
 
 Damage::Damage(std::string type, const int& amount, const sf::Vector2f& location)
 	: m_delete(false)
 {
-	m_damageFont.loadFromFile("Buttons_Font.otf");
-
 	if (type == "Player")
 		m_damage.setFillColor(sf::Color( 242.f, 140.f, 40.f));
 	else
 		m_damage.setFillColor(sf::Color( 208.f, 51.f, 255.f ));
 
-	m_damage.setFont(m_damageFont);
+	m_damage.setFont(Resources::instance().font());
 	m_damage.setStyle(sf::Text::Bold);
 	m_damage.setCharacterSize(48.f);
 	m_damage.setOutlineColor(sf::Color(0.f, 0.f, 0.f ));

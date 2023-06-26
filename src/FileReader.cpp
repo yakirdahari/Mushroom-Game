@@ -1,4 +1,5 @@
 #include "FileReader.h"
+#include "Info.h"
 #include "Mushroom.h"
 #include "Ground.h"
 #include "Player.h"
@@ -6,6 +7,9 @@
 #include "MonsterWall.h"
 #include "Ladder.h"
 #include "Heena.h"
+#include "Sera.h"
+#include "Peter.h"
+#include "TutorialJrSentinel.h"
 
 bool readFile(const int& mapID)
 {
@@ -76,8 +80,11 @@ void scan(const std::vector<string>& map)
 			insertObject(static_cast<Objects>(c), position);
 			position.x += 10.f;
 		}
-		position.y += +10.f;
+		position.y += +9.9f;
 	}
+	
+	if (Map::instance().mapID() == Map::MushroomTown)
+		Info::instance().addGUI(Info::Tutorial);
 }
 
 void insertObject(const Objects& object, const sf::Vector2f& position)
@@ -89,9 +96,9 @@ void insertObject(const Objects& object, const sf::Vector2f& position)
 		{
 		case NPC1_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Heena>(position)));
 			break;
-		case Monster4_Char: Map::instance().monsters().push_back(std::move(std::make_unique<Mushroom>(position)));
+		case NPC2_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Sera>(position)));
 			break;
-		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SmallForest, 1)));
+		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SmallForest)));
 		}
 		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::MushroomTown));
 		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::MushroomTown));
@@ -105,7 +112,11 @@ void insertObject(const Objects& object, const sf::Vector2f& position)
 	{
 		switch (object)
 		{
-		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::MushroomTown, 0)));
+		case Monster1_Char: Map::instance().monsters().push_back(std::move(std::make_unique<TutorialJrSentinel>(position)));
+			break;
+		case NPC1_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Peter>(position)));
+			break;
+		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::MushroomTown)));
 		}
 		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::SmallForest));
 		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::SmallForest));
@@ -120,6 +131,8 @@ void insertObject(const Objects& object, const sf::Vector2f& position)
 	case Player_Char:
 		if (!Map::instance().player())
 			Map::instance().player() = std::make_unique<Player>(position);
+		else
+			Map::instance().player()->setSpawn(position);
 		break;
 	case Ground_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<Ground>(position)));
 		break;
@@ -129,6 +142,9 @@ void insertObject(const Objects& object, const sf::Vector2f& position)
 		break;
 	case Ladder_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<Ladder>(position)));
 	}
+
+	// center background
+	Map::instance().background()->setOrigin(sf::Vector2f(Map::instance().background()->getGlobalBounds().width / 2.f, Map::instance().background()->getGlobalBounds().height / 2.f));
 
 	if (Map::instance().music()->getStatus() == sf::Sound::Status::Stopped)
 	{

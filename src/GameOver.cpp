@@ -105,11 +105,9 @@ void GameOver::initTitle()
 
 void GameOver::initButton()
 {
-	buttonsFont.loadFromFile("Buttons_Font.otf");
-
 	// new game
 	newGame.setString("NEW GAME");
-	newGame.setFont(buttonsFont);
+	newGame.setFont(Resources::instance().font());
 	newGame.setFillColor(sf::Color::Red);
 	newGame.setOutlineColor(sf::Color::White);
 	newGame.setCharacterSize(80);
@@ -117,7 +115,7 @@ void GameOver::initButton()
 
 	// exit
 	exit.setString("EXIT");
-	exit.setFont(buttonsFont);
+	exit.setFont(Resources::instance().font());
 	exit.setFillColor(sf::Color(0, 240, 60));
 	exit.setOutlineColor(sf::Color::White);
 	exit.setCharacterSize(80);

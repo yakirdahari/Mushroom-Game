@@ -8,6 +8,7 @@
 class Map
 {
 public:
+    //----------------------
     enum Maps
     {
         Menu = 0,
@@ -39,7 +40,7 @@ private:
     Map();
     int m_mapID;                                                    // each map has its own ID number to identify it
     std::unique_ptr<Player> m_player;                               // our player
-    std::vector<std::unique_ptr<NPC>> m_npcs;                   // NPC = Non-Playable Character
+    std::vector<std::unique_ptr<NPC>> m_npcs;                       // NPC = Non-Playable Character
     std::vector<std::unique_ptr<Monster>> m_monsters;               // monsters
     std::vector<std::unique_ptr<staticObject>> m_unmovables;        // ground, wall, etc
     std::vector<std::unique_ptr<Portal>> m_portals;                 // map portals (transport to another map)

@@ -25,8 +25,8 @@ public:
 	//----------------------
 	enum Settings
 	{
-		WindowWidth = 1710,
-		WindowHeight = 715,
+		WindowWidth = 1366,
+		WindowHeight = 768,
 	};
 	//----------------------
 	// Destructor
@@ -40,6 +40,8 @@ private:
 	sf::Clock gameClock;
 	sf::Sound m_teleportSound;
 	sf::Sprite cursor;
+	sf::View m_view;
+	sf::View m_GUIview;
 	bool m_changingMap;
 
 	// Private Functions
@@ -53,4 +55,5 @@ private:
 	void fadeIn();	  // screen fades in when changing maps
 	void fadeOut();	  // screen fades out when changing maps
 	void checkPortals();      // player on a portal = can change map
+	void updateView();		  // moves camera towards player
 };

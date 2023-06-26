@@ -2,7 +2,7 @@
 
 Portal::Portal(const sf::Vector2f& position, const int& destination)
 	: animatedObject(position, Resources::Portal),
-	  m_destination(destination), m_exitPortal(0)
+	  m_destination(destination), m_exitPortal(-1)
 {
 	m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 2.f, getGlobalBounds().height / 1.08f));
 }

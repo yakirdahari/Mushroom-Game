@@ -5,7 +5,6 @@
 Info::Info()
 	:panel(Resources::instance().texture(Resources::Panel))
 {
-	infoFont.loadFromFile("Buttons_Font.otf");
 	panel.setPosition(sf::Vector2f(0, Controller::WindowHeight - 38.f));
 	init(level, 20, { 48,  Controller::WindowHeight - 31.f });
 	init(job,   12, { 85,  Controller::WindowHeight - 33.f });
@@ -22,7 +21,7 @@ Info::Info()
 
 void Info::init(sf::Text& text, const int& size, const sf::Vector2f& position)
 {
-	text.setFont(infoFont);
+	text.setFont(Resources::instance().font());
 	text.setFillColor(sf::Color::White);
 	text.setCharacterSize(size);
 	text.setPosition(position);
@@ -54,10 +53,6 @@ void Info::draw(sf::RenderWindow& window)
 	for (const auto& damage : damageInfo)
 		damage->draw(window);
 
-	for (auto& monster : Map::instance().monsters())
-		if (monster->getData().wasHit)
-			monster->drawInfo(window);
-
 	for (const auto& gui : GUIs)
 	{
 		gui->draw(window);
@@ -87,40 +82,36 @@ void Info::update(const Data& data)
 	{
 		return gui->closed();
 	});
-
-	/*for (auto damage = damageInfo.begin(); damage != damageInfo.end(); )
-	{
-		(*damage)->update();
-
-		if ((*damage)->deletion())
-			damage = damageInfo.erase(damage);
-		else
-			++damage;
-	}*/
-
-	/*for (auto gui = GUIs.begin(); gui != GUIs.end(); )
-	{
-		if ((*gui)->closed())
-			gui = GUIs.erase(gui);
-		else
-			++gui;
-	}*/
 }
 
 void Info::showDamage(const std::string& type, const int& amount, const sf::Vector2f& location)
 {
 	// add damage to be shown on screen
-	damageInfo.push_back(std::make_unique<Damage>(type, amount, location));
+	if (amount > 1)
+		damageInfo.push_back(std::make_unique<Damage>(type, amount, location));
 }
 
 void Info::addGUI(const int& type)
 {
-	// add GUI to be shown on screen
+	//add GUI to be shown on screen
 	switch (type)
 	{
 	case Revive: GUIs.push_back(std::make_unique<ReviveGUI>());
 		break;
+	case Tutorial: GUIs.push_back(std::make_unique<TutorialGUI>());
 	}
+}
+
+void Info::showDialogue(const Resources::Objects& dialogue, const sf::Text& name, std::shared_ptr<sf::Sprite> sprite)
+{
+	GUIs.push_back(std::make_unique<DialogueGUI>(dialogue, name, sprite));
+}
+
+void Info::drawMonsterInfo(sf::RenderWindow& window)
+{
+	for (auto& monster : Map::instance().monsters())
+		if (monster->getData().wasHit)
+			monster->drawInfo(window);
 }
 
 Info& Info::instance()

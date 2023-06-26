@@ -45,7 +45,7 @@ Direction Player::keyToDirection()
     if (m_climbLadder)
         return Direction::Ladder;
     if (m_jump)
-        return Direction::Jump;
+        return m_dir;
     if (m_attack && m_dir == Direction::Stay)
         m_attack = false;
     return data.wasHit ? Direction::Hit : Direction::Stay;
@@ -54,7 +54,7 @@ Direction Player::keyToDirection()
 Direction Player::attack()
 {
     // cannot attack while climbing
-    if (m_climbLadder || m_climbRope || m_jump)
+    if (m_climbLadder || m_climbRope)
         return m_dir;
 
     m_attack = true;
@@ -77,6 +77,9 @@ Direction Player::attack()
 
 Direction Player::jump()
 {
+    if (m_jump)
+        return m_dir;
+
     if (m_hitTime.getElapsedTime().asSeconds() <= HitDuration)
         return m_dir;
 
@@ -128,6 +131,12 @@ Direction Player::jump()
 
 Direction Player::left()
 {
+    if (m_jump)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+            return attack();
+        else
+            return m_dir;
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
         return jump();
 
@@ -147,6 +156,12 @@ Direction Player::left()
 
 Direction Player::right()
 {
+    if (m_jump)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+            return attack();
+        else
+            return m_dir;
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
         return jump();
 
@@ -175,6 +190,9 @@ Direction Player::up()
 
 Direction Player::prone()
 {
+    if (m_jump)
+        return m_dir;
+
     if (m_climbLadder)
         return Direction::LadderDown;
 
@@ -263,7 +281,7 @@ void Player::update(sf::Time delta)
         return death(delta);
 
     // can't move during attack/jump
-    if (m_attackTime.getElapsedTime().asSeconds() >= AttackSpeed && !m_jump && !data.dead)
+    if (m_attackTime.getElapsedTime().asSeconds() >= AttackSpeed && !data.dead)
         m_dir = keyToDirection();   // check for key input
 
     // remove hit status after hit duration
@@ -288,6 +306,12 @@ void Player::update(sf::Time delta)
     m_animation.direction(m_dir);
     m_animation.update(delta);
     m_sp.move(toVector(m_dir) * delta.asSeconds() * PlayerSpeed);
+}
+
+void Player::setSpawn(const sf::Vector2f& location)
+{
+    m_spawnLocation = location;
+    setPosition(location);
 }
 
 void Player::death(sf::Time delta)
@@ -339,8 +363,8 @@ void Player::handleCollision(Ground& ground)
         physics.velocity.y > -0.41f)
     {
         m_climbLadder = m_climbRope = false;
-        physics.velocity = sf::Vector2f(0.f, 0.f);
-        m_sp.move(0.f, -0.8f);
+        physics.velocity = sf::Vector2f(0.f, 0.1f);
+        m_sp.move(0.f, -0.6f);
 
         if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             m_jump = false;

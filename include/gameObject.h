@@ -25,7 +25,7 @@ public:
 	// Public functions
 	void setImage(const sf::Texture& texture);
 	void setPosition(sf::Vector2f position);
-	void draw(sf::RenderWindow& window) const ;
+	virtual void draw(sf::RenderWindow& window) const ;
 	sf::Vector2f getPosition() const;
 	bool collidesWith(const sf::FloatRect& other) const;
 	sf::FloatRect getGlobalBounds() const;

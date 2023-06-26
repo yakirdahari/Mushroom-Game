@@ -14,7 +14,8 @@ movingObject::movingObject(const sf::Vector2f& position, const Resources::Object
 
 void movingObject::wasHit(const int& damage, const sf::Vector2f& direction)
 {
-	if (m_hitTime.getElapsedTime().asSeconds() >= HitDuration &&
+	if (damage > 1 &&
+		m_hitTime.getElapsedTime().asSeconds() >= HitDuration &&
 		m_dir != Direction::Attack1 && m_dir != Direction::Attack2 &&
 		m_dir != Direction::ProneStab)
 	{
@@ -79,7 +80,7 @@ void movingObject::updatePhysics()
 void movingObject::respawn(bool enable)
 {
 	// once enabled, respawns on next func call so we can add effects in-between calls
-	if (!enable)
+	if (data.respawn)
 	{
 		data.HP = data.MaxHP;
 		data.dead = false;

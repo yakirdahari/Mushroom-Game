@@ -10,7 +10,7 @@ Button::Button(const sf::Texture& normal, const sf::Texture& highlighted,
 	m_button.setPosition(location);
 }
 
-void Button::draw(sf::RenderWindow& window)
+void Button::draw(sf::RenderWindow& window) const
 {
 	window.draw(m_button);
 }
@@ -18,17 +18,16 @@ void Button::draw(sf::RenderWindow& window)
 bool Button::wasClicked(sf::RenderWindow& window)
 {
 	sf::Event event;
-	sf::Vector2f mousePos;
-
-	mousePos.x = (float)(sf::Mouse::getPosition(window).x);
-	mousePos.y = (float)(sf::Mouse::getPosition(window).y);
+	sf::Vector2f mousePos = window.mapPixelToCoords((sf::Mouse::getPosition(window)));
 
 	if (m_button.getGlobalBounds().contains(mousePos))
 	{
 		m_button.setTexture(m_highlighted);
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+			m_clickDelay.getElapsedTime().asSeconds() > 0.6f)
 		{
+			m_clickDelay.restart();
 			m_button.setTexture(m_pressed);
 			return true;
 		}

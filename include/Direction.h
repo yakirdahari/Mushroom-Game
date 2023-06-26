@@ -25,6 +25,9 @@ enum class Direction
     Attack1,
     Attack2,
     Down,
+    QuestPending,
+    QuestComplete,
+    None,
 };
 
 Direction opposite(Direction dir);

@@ -15,8 +15,6 @@ Menu::Menu()
 
 Menu::~Menu()
 {
-	auto help = Help();
-	help.run(m_window);
 }
 
 
@@ -131,7 +129,7 @@ void Menu::updateEvents()
 
 void Menu::initTitle()
 {
-	titleFont.loadFromFile("Buttons_Font.otf");
+	titleFont.loadFromFile("arial.ttf");
 	title.setString("MUSHROOM GAME");
 	title.setFont(titleFont);
 	title.setCharacterSize(160);
@@ -144,7 +142,7 @@ void Menu::initTitle()
 
 void Menu::initButtons()
 {
-	buttonsFont.loadFromFile("Buttons_Font.otf");
+	buttonsFont.loadFromFile("arial.ttf");
 
 	// start
 	start.setString("START");

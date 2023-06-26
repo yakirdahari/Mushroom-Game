@@ -92,7 +92,7 @@ void Victory::updateEvents(sf::RenderWindow& m_window)
 
 void Victory::initTitle()
 {
-	titleFont.loadFromFile("Pacmania.otf");
+	titleFont.loadFromFile("arial.ttf");
 	title.setString("VICTORY!");
 	title.setFont(titleFont);
 	title.setCharacterSize(200);
@@ -104,7 +104,7 @@ void Victory::initTitle()
 
 void Victory::initButton()
 {
-	buttonsFont.loadFromFile("Buttons_Font.otf");
+	buttonsFont.loadFromFile("arial.ttf");
 
 	// new game
 	newGame.setString("NEW GAME");

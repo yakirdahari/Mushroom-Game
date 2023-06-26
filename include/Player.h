@@ -11,6 +11,7 @@ public:
 
     bool isAttacking();
     void update(sf::Time delta) override;
+    void setSpawn(const sf::Vector2f& location);
     
     sf::Vector2f getPosition() const;   
 

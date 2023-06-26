@@ -3,27 +3,32 @@
 
 // Opening file
 Controller::Controller()
-	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Titlebar | sf::Style::Close),
+	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen),
 	  m_transitionScreen(sf::Vector2f(WindowWidth, WindowHeight)),
 	  m_teleportSound(Resources::instance().sound(Resources::Portal_Sound)),
 	  m_changingMap(false),
+	  m_view(sf::FloatRect(sf::Vector2f(0.f,0.f), sf::Vector2f(WindowWidth, WindowHeight))),
+	  m_GUIview(sf::FloatRect(sf::Vector2f(0.f, 0.f), sf::Vector2f(WindowWidth, WindowHeight))),
 	  cursor(Resources::instance().texture(Resources::Cursor))
 {
 	m_window.setFramerateLimit(60);	
 	m_window.setMouseCursorVisible(false);
+	m_window.setView(m_view);
 	m_transitionScreen.setFillColor(sf::Color::Transparent);
 }
 //----------------------------------------------------
 void Controller::run()
 {
-	spawn(Map::MushroomTown);
+	spawn(Map::SmallForest);
 
 	while (m_window.isOpen())
 	{
 		draw();
 		handleEvents();
 		updateGameObjects();
+		updateView();
 		updateInfo();
+		
 	}
 	Controller::~Controller();
 }
@@ -33,7 +38,7 @@ void Controller::draw()
 	m_window.clear();
 	if (auto debugSpriteSheet = 0) // use 1 to debug animation data
 	{
-		displayAll(m_window, Resources::instance().animationData(Resources::LevelUp));
+		displayAll(m_window, Resources::instance().animationData(Resources::TutorialJrSentinel));
 	}
 	else
 	{
@@ -53,16 +58,22 @@ void Controller::draw()
 
 		for (auto& portal : Map::instance().portals())
 			portal->draw(m_window);
-		
+
+		Info::instance().drawMonsterInfo(m_window);
+
+		m_window.setView(m_GUIview);
 		Info::instance().draw(m_window);
 		m_window.draw(cursor);
 		m_window.draw(m_transitionScreen);
+		m_window.setView(m_view);
 	}
 	m_window.display();
 }
 //----------------------------------------------------
 void Controller::handleEvents()
 {
+	cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(m_window)));
+
 	for (auto event = sf::Event{}; m_window.pollEvent(event); )
 	{
 		switch (event.type)
@@ -85,6 +96,11 @@ void Controller::handleEvents()
 				updateGameObjects();
 				fadeOut();
 			}
+			break;
+		case sf::Event::MouseButtonPressed:
+			for (auto& npc : Map::instance().npcs())
+				if (npc->wasClicked(m_window))
+					Info::instance().showDialogue(npc->dialogue(), npc->name(), npc->sprite());
 		}			
 	}
 }
@@ -110,8 +126,6 @@ void Controller::updateGameObjects()
 
 	for (auto& npc : Map::instance().npcs())
 		npc->update(delta);
-
-	cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(m_window)));
 
 	Map::instance().respawn();
 }
@@ -162,7 +176,8 @@ void Controller::changeMap(const int& mapID, const int& exitPortal)
 	readFile(mapID);
 
 	// spawn in exit portal
-	Map::instance().player()->setPosition(Map::instance().portals()[exitPortal]->getPosition());
+	if (exitPortal > -1)
+		Map::instance().player()->setPosition(Map::instance().portals()[exitPortal]->getPosition());
 	
 	// so we don't fall off the map
 	for (auto& monster : Map::instance().monsters())
@@ -208,6 +223,8 @@ void Controller::fadeOut()
 
 	float alpha = 255.f; // Initial alpha value for fading
 
+	updateView();
+
 	while (fadingOut)
 	{
 		// Apply the alpha value to the screen
@@ -236,6 +253,52 @@ void Controller::checkPortals()
 			m_teleportSound.play();
 			changeMap(portal->destination(), portal->exitPortal());
 		}
+	}
+}
+void Controller::updateView()
+{
+	const sf::Vector2f playerCenter(Map::instance().player()->getGlobalBounds().left + Map::instance().player()->getGlobalBounds().width / 2.f,
+		                            Map::instance().player()->getGlobalBounds().top + Map::instance().player()->getGlobalBounds().height / 2.f);
+
+	if (playerCenter.x > WindowWidth / 2.f && playerCenter.y < Map::instance().map()->getGlobalBounds().width - WindowWidth / 2.f)
+	{
+		m_view.setCenter(playerCenter.x, m_view.getCenter().y);
+		m_window.setView(m_view);
+		Map::instance().background()->setPosition(playerCenter.x, Map::instance().background()->getPosition().y);
+	}
+	if (playerCenter.y > Map::instance().map()->getGlobalBounds().top + WindowHeight / 2.f &&
+		playerCenter.y < (Map::instance().map()->getGlobalBounds().top + Map::instance().map()->getGlobalBounds().height) - WindowHeight / 2.f)
+	{
+		m_view.setCenter(m_view.getCenter().x, playerCenter.y);
+		m_window.setView(m_view);
+		Map::instance().background()->setPosition(Map::instance().background()->getPosition().x, playerCenter.y);
+	}
+
+	// fix view if position doesn't fall within the categories above
+	if (playerCenter.x < WindowWidth / 2.f)
+	{
+		m_view.setCenter(WindowWidth / 2.f, m_view.getCenter().y);
+		m_window.setView(m_view);
+		Map::instance().background()->setPosition(WindowWidth / 2.f, Map::instance().background()->getPosition().y);
+	}
+	if (playerCenter.x > Map::instance().map()->getGlobalBounds().width - WindowWidth / 2.f)
+	{
+		m_view.setCenter((Map::instance().map()->getGlobalBounds().width - WindowWidth / 2.f), m_view.getCenter().y);
+		m_window.setView(m_view);
+		Map::instance().background()->setPosition((Map::instance().map()->getGlobalBounds().width - WindowWidth / 2.f), Map::instance().background()->getPosition().y);
+		
+	}
+	if (playerCenter.y < WindowHeight / 2.f)
+	{
+		m_view.setCenter(m_view.getCenter().x, WindowHeight / 2.f);
+		m_window.setView(m_view);
+		Map::instance().background()->setPosition(Map::instance().background()->getPosition().x, WindowHeight / 2.f);
+	}
+	if (playerCenter.y > Map::instance().map()->getGlobalBounds().height - WindowWidth / 2.f)
+	{
+		m_view.setCenter(m_view.getCenter().x, Map::instance().map()->getGlobalBounds().height - WindowHeight / 2.f);
+		m_window.setView(m_view);
+		Map::instance().background()->setPosition(Map::instance().background()->getPosition().x, Map::instance().map()->getGlobalBounds().height - WindowHeight / 2.f);
 	}
 }
 //----------------------------------------------------
