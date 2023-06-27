@@ -25,6 +25,7 @@ private:
 	// Members
 	sf::RenderWindow m_window;
 	sf::Sprite m_background;
+	sf::Sound m_sound;
 	int m_windowHeight;
 	int m_windowWidth;
 

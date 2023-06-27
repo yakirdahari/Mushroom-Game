@@ -7,7 +7,7 @@ class MonsterInfo
 {
 public:
 	MonsterInfo(const Data& data);
-	void update(const Data& data, const sf::Vector2f& location);
+	void update(const Data& data, const sf::Vector2f& location, const sf::FloatRect& boundingRectangle);
 	void draw(sf::RenderWindow& window);
 	void setName(const std::string& newName);
 	void setLevel(const int& newLevel);

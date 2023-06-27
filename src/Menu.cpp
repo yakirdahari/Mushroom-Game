@@ -4,11 +4,14 @@
 // Constractor
 Menu::Menu()
 	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen),
-	  m_background(Resources::instance().texture(Resources::MenuBackground))
+	  m_background(Resources::instance().texture(Resources::MenuBackground)),
+	  m_sound(Resources::instance().music(Resources::Menu))
 {
 	initTitle();
 	initButtons();
 	srand(static_cast<unsigned>(time(nullptr)));
+	m_sound.play();
+	m_sound.setLoop(true);
 }
 
 Menu::~Menu()
@@ -72,6 +75,7 @@ void Menu::updateEvents()
 			start.setPosition(WindowWidth / 2.54f, 400-15);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
+				m_sound.stop();
 				m_window.close();
 				auto c = Controller();
 				c.run();

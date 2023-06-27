@@ -24,7 +24,7 @@ void Monster::update(sf::Time delta)
     if (m_hitTime.getElapsedTime().asSeconds() <= HitDuration)
         physics.drag = 0.9f;
 
-    m_info.update(data, sf::Vector2f(m_sp.getGlobalBounds().left + m_sp.getGlobalBounds().width / 2.f, m_sp.getGlobalBounds().top));
+    m_info.update(data, sf::Vector2f(m_sp.getGlobalBounds().left + m_sp.getGlobalBounds().width / 2.f, m_sp.getGlobalBounds().top), m_sp.getGlobalBounds());
 
     // move in a random direction
     int nextDirection = (rand() % 5) + 1;

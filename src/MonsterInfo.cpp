@@ -14,16 +14,18 @@ MonsterInfo::MonsterInfo(const Data& data)
 	init(HPbackground2, sf::Color::Black, sf::Vector2f(48.f, 5.f));	
 }
 
-void MonsterInfo::update(const Data& data, const sf::Vector2f& location)
+void MonsterInfo::update(const Data& data, const sf::Vector2f& location, const sf::FloatRect& boundingRectangle)
 {
+	const float bottom = location.y + boundingRectangle.height;
+
 	HPbar.setSize(sf::Vector2f(48.f * (data.HP / static_cast<float>(data.MaxHP)), 5.f));
 	HPbar.setPosition(location - sf::Vector2f(22.f, 50.f));
 	HPbackground1.setPosition(location - sf::Vector2f(23.f, 51.f));
 	HPbackground2.setPosition(location - sf::Vector2f(22.f, 50.f));
-	name.setPosition(location + sf::Vector2f(data.name.length() * -3.4f, 40.f));
-	nameBackground.setPosition(location + sf::Vector2f(data.name.length() * -3.4f, 39.f));
-	level.setPosition(sf::Vector2f(nameBackground.getGlobalBounds().left - level.getString().getSize() * 5.f, location.y + 40.f));
-	levelBackground.setPosition(sf::Vector2f(nameBackground.getGlobalBounds().left - level.getString().getSize() * 5.f, location.y + 40.f));
+	name.setPosition(boundingRectangle.left + boundingRectangle.width / 4.f, bottom + 1.f);
+	nameBackground.setPosition(boundingRectangle.left + boundingRectangle.width / 4.f, bottom);
+	level.setPosition(sf::Vector2f(nameBackground.getGlobalBounds().left - level.getString().getSize() * 5.8f, bottom + 2.f));
+	levelBackground.setPosition(sf::Vector2f(nameBackground.getGlobalBounds().left - level.getString().getSize() * 5.8f, bottom + 2.f));
 }
 
 void MonsterInfo::draw(sf::RenderWindow& window)

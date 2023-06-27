@@ -41,7 +41,7 @@ public:
         if (m_hitTime.getElapsedTime().asSeconds() <= HitDuration)
             physics.drag = 0.9f;
 
-        m_info.update(data, m_sp.getPosition());
+        m_info.update(data, m_sp.getPosition(), m_sp.getGlobalBounds());
 
         // move in a random direction
         int nextDirection = (rand() % 5) + 1;

@@ -50,6 +50,7 @@ configure_file ("Background3.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("arial.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Map Music
+configure_file ("Intro.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("music1.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("music2.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("music3.wav" ${CMAKE_BINARY_DIR} COPYONLY)

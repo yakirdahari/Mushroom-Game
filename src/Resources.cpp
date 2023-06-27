@@ -621,7 +621,7 @@ AnimationData BariData()
 {
     const auto size = sf::Vector2i(67, 77);
     const auto initSpace = sf::Vector2i(1510, 9);
-    const auto middleSpace = sf::Vector2i(0, 16);
+    const auto middleSpace = sf::Vector2i(0, 17);
 
     auto Bari = AnimationData{};
     auto currentStart = initSpace;
@@ -756,7 +756,8 @@ void Resources::loadTextures()
 
 void Resources::loadMusic()
 {
-    if (!m_music[MushroomTown].loadFromFile("music1.wav")   ||
+    if (!m_music[Menu].loadFromFile("Intro.wav")            || 
+        !m_music[MushroomTown].loadFromFile("music1.wav")   ||
         !m_music[SmallForest].loadFromFile("music1.wav")    ||
         !m_music[SplitRoad].loadFromFile("music2.wav")      ||
         !m_music[WestAmherst].loadFromFile("music2.wav")    ||
