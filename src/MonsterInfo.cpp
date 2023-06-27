@@ -20,10 +20,10 @@ void MonsterInfo::update(const Data& data, const sf::Vector2f& location)
 	HPbar.setPosition(location - sf::Vector2f(22.f, 50.f));
 	HPbackground1.setPosition(location - sf::Vector2f(23.f, 51.f));
 	HPbackground2.setPosition(location - sf::Vector2f(22.f, 50.f));
-	name.setPosition(location + sf::Vector2f(data.name.length() * -3.4f, 34.f));
-	nameBackground.setPosition(location + sf::Vector2f(data.name.length() * -3.4f, 33.f));
-	level.setPosition(sf::Vector2f(nameBackground.getGlobalBounds().left - level.getString().getSize() * 5.f, location.y + 34.f));
-	levelBackground.setPosition(sf::Vector2f(nameBackground.getGlobalBounds().left - level.getString().getSize() * 5.f, location.y + 34.f));
+	name.setPosition(location + sf::Vector2f(data.name.length() * -3.4f, 38.f));
+	nameBackground.setPosition(location + sf::Vector2f(data.name.length() * -3.4f, 37.f));
+	level.setPosition(sf::Vector2f(nameBackground.getGlobalBounds().left - level.getString().getSize() * 5.f, location.y + 38.f));
+	levelBackground.setPosition(sf::Vector2f(nameBackground.getGlobalBounds().left - level.getString().getSize() * 5.f, location.y + 38.f));
 }
 
 void MonsterInfo::draw(sf::RenderWindow& window)

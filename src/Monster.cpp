@@ -3,8 +3,8 @@
 #include "MonsterWall.h"
 #include "Wall.h"
 #include "Info.h"
+#include "Map.h"
 
-constexpr auto MonsterSpeed = 140.f;
 constexpr auto HitDuration = 0.6f;
 
 Monster::Monster(const sf::Vector2f& position, const Resources::Objects& object,
@@ -12,7 +12,7 @@ Monster::Monster(const sf::Vector2f& position, const Resources::Objects& object,
     : movingObject(position, object, deathSound),
       m_info(data), m_hitSound(Resources::instance().sound(hitSound))
 {
-    physics.knockback = { 4.f, 4.f };
+    physics.knockback = { 3.f, 4.f };
 }
 
 void Monster::update(sf::Time delta)
@@ -37,15 +37,15 @@ void Monster::update(sf::Time delta)
 
         m_dir = static_cast<Direction>(rand() % static_cast<int>(Direction::Max));
         if (m_dir == Direction::Left)
-            m_sp.setScale(-1.f, 1.f);
+            m_sp.setScale(1.f, 1.f);
 
         if (m_dir == Direction::Right)
-            m_sp.setScale(1.f, 1.f);
+            m_sp.setScale(-1.f, 1.f);
     }
 
     m_animation.direction(m_dir);
     m_animation.update(delta);
-    m_sp.move(toVector(m_dir) * delta.asSeconds() * MonsterSpeed);
+    m_sp.move(toVector(m_dir) * delta.asSeconds() * data.Speed);
 }
 
 void Monster::death(sf::Time delta)
@@ -106,23 +106,24 @@ void Monster::handleCollision(Player& player)
 
 void Monster::handleCollision(Ground& ground)
 {
-    if (m_sp.getPosition().y < ground.getPosition().y - 10.f &&
+    if (m_sp.getPosition().y < ground.getPosition().y + 1.f &&
         physics.velocity.y > -0.41f)
     {
-        physics.velocity = sf::Vector2f(0.f, 0.1f);
-        m_sp.move(0.f, -0.6f);
+        //physics.velocity = sf::Vector2f(0.f, -2.f);
+        m_sp.move(0.f, -1.f);
+        physics.drag = 0.5f;
     }
 }
 
-void Monster::handleCollision(Wall& wall)
+void Monster::handleCollision(Wall& wall)   
 {
     if (m_sp.getPosition().x < wall.getPosition().x)
     {
-        m_sp.move(-0.7f, 0.f);
+        m_sp.move(-0.5f, 0.f);
     }
     else
     {
-        m_sp.move(0.7f, 0.f);
+        m_sp.move(0.5f, 0.f);
     }
 }
 
@@ -130,10 +131,10 @@ void Monster::handleCollision(MonsterWall& monsterWall)
 {
     if (m_sp.getPosition().x < monsterWall.getPosition().x)
     {
-        m_sp.move(-0.7f, 0.f);
+        m_sp.move(-0.5f, 0.f);
     }
     else
     {
-        m_sp.move(0.7f, 0.f);
+        m_sp.move(0.5f, 0.f);
     }
 }

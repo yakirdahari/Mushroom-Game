@@ -18,12 +18,12 @@ public:
     // ---------------
 
     static Info& instance();
-    void draw(sf::RenderWindow& window);
+    void drawGUI(sf::RenderWindow& window);
     void update(const Data& data);
     void showDamage(const std::string& type, const int& amount, const sf::Vector2f& location);
     void addGUI(const int& type);
     void showDialogue(const Resources::Objects& dialogue, const sf::Text& name, std::shared_ptr<sf::Sprite> sprite);
-    void drawMonsterInfo(sf::RenderWindow& window);
+    void drawInfo(sf::RenderWindow& window);
 
     Info(const Info&) = delete;
     Info& operator=(const Info&) = delete;

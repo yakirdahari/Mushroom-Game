@@ -6,7 +6,15 @@
 class Menu
 {
 public:
-	// Constractor
+	//----------------------
+	enum Settings
+	{
+		WindowWidth = 1366,
+		WindowHeight = 768,
+	};
+	//----------------------
+	
+	// Constructor
 	Menu();							// Constractor
 	~Menu();						// Destractor
 

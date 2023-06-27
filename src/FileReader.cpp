@@ -6,10 +6,15 @@
 #include "Wall.h"
 #include "MonsterWall.h"
 #include "Ladder.h"
+#include "Rope.h"
 #include "Heena.h"
 #include "Sera.h"
 #include "Peter.h"
 #include "TutorialJrSentinel.h"
+#include "Snail.h"
+#include "BlueSnail.h"
+#include "Shroom.h"
+#include "Maria.h"
 
 bool readFile(const int& mapID)
 {
@@ -116,13 +121,36 @@ void insertObject(const Objects& object, const sf::Vector2f& position)
 			break;
 		case NPC1_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Peter>(position)));
 			break;
-		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::MushroomTown)));
+		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SplitRoad)));
 		}
 		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::SmallForest));
 		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::SmallForest));
 
 		if (!Map::instance().music())
 			Map::instance().music()->setBuffer(Resources::instance().music(Map::SmallForest));
+	}
+
+	// Split Road
+	if (Map::instance().mapID() == Map::SplitRoad)
+	{
+		switch (object)
+		{
+		case Monster1_Char: Map::instance().monsters().push_back(std::move(std::make_unique<Snail>(position)));
+			break;
+		case Monster2_Char: Map::instance().monsters().push_back(std::move(std::make_unique<BlueSnail>(position)));
+			break;
+		case Monster3_Char: Map::instance().monsters().push_back(std::move(std::make_unique<Shroom>(position)));
+			break;
+		case NPC1_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Maria>(position)));
+				break;
+		case Portal_Char:
+		{
+			Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SmallForest, 0)));
+		}
+		}
+		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::SplitRoad));
+		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::SplitRoad));
+		Map::instance().music()->setBuffer(Resources::instance().music(Map::SplitRoad));
 	}
 
 	// everything else
@@ -141,6 +169,8 @@ void insertObject(const Objects& object, const sf::Vector2f& position)
 	case MonsterWall_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<MonsterWall>(position)));
 		break;
 	case Ladder_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<Ladder>(position)));
+		break;
+	case Rope_Char: Map::instance().unmovables().push_back(std::move(std::make_unique<Rope>(position)));
 	}
 
 	// center background

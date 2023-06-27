@@ -34,16 +34,25 @@ configure_file ("Arrival.png" ${CMAKE_BINARY_DIR} COPYONLY)
 # Maps
 configure_file ("MushroomTown.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("SmallForest.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("SplitRoad.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("WestAmherst.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Amherst.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("WestSouthperry.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Southperry.png" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Backgrounds
 configure_file ("MenuBackground.jpg" ${CMAKE_BINARY_DIR} COPYONLY)
-configure_file ("Background1.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Background1.jpg" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Background2.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Background3.png" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Fonts
 configure_file ("arial.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Map Music
 configure_file ("music1.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("music2.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("music3.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Sound
 configure_file ("death.wav" ${CMAKE_BINARY_DIR} COPYONLY)
@@ -51,7 +60,15 @@ configure_file ("LevelUp.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("hitsound1.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("sword.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("jump.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Arrival.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("mushroom_death.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("tutorialJrSentinel_death.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("tutorialJrSentinel_hit.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("snail_death.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("snail_hit.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("shroom_death.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("stump_death.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("stump_hit.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Portal.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 
 

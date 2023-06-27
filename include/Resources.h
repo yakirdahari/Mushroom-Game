@@ -19,7 +19,11 @@ public:
         Heena,
         Sera,
         Peter,
+        Maria,
         TutorialJrSentinel,
+        Snail,
+        BlueSnail,
+        Shroom,
         Max,
     };
     // ---------------
@@ -61,6 +65,11 @@ public:
         Menu,
         MushroomTown,
         SmallForest,
+        SplitRoad,
+        WestAmherst,
+        Amherst,
+        WestSouthperry,
+        Southperry,
     };
     // ---------------
     enum Sound
@@ -70,7 +79,15 @@ public:
         HitSound1,
         Sword_Sound,
         Jump_Sound,
+        Arrival,
+        TutorialJrSentinelDeath_Sound,
+        TutorialJrSentinelHit_Sound,
         MushroomDeath_Sound,
+        SnailDeath_Sound,
+        SnailHit_Sound,
+        ShroomDeath_Sound,
+        StumpDeath_Sound,
+        StumpHit_Sound,
         Portal_Sound,
     };
 

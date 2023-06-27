@@ -196,6 +196,7 @@ AnimationData LevelUpData()
     LevelUp.m_data[Direction::Stay].emplace_back(nextStart(), size);
     LevelUp.m_data[Direction::Stay].emplace_back(nextStart(), size);
     LevelUp.m_data[Direction::Stay].emplace_back(nextStart(), size);
+    LevelUp.m_data[Direction::Stay].emplace_back(currentStart, size);
 
     return LevelUp;
 }
@@ -378,6 +379,120 @@ AnimationData TutorialJrSentinelData()
     return TutorialJrSentinel;
 }
 
+AnimationData SnailData()
+{
+    const auto size = sf::Vector2i(44, 43);
+    const auto initSpace = sf::Vector2i(1303, 9);
+    const auto middleSpace = sf::Vector2i(0, 10);
+
+    auto Snail = AnimationData{};
+    auto currentStart = initSpace;
+
+    auto nextStart = [&]()
+    {
+        currentStart += middleSpace;
+        currentStart.y += size.y;
+        return currentStart;
+    };
+
+    // animations
+    Snail.m_data[Direction::Dead].emplace_back(currentStart, size);
+    Snail.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Hit].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Right].emplace_back(currentStart, size);
+    Snail.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Right].emplace_back(currentStart, size);
+    Snail.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Right].emplace_back(currentStart, size);
+    Snail.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Right].emplace_back(currentStart, size);
+    Snail.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Snail.m_data[Direction::Right].emplace_back(currentStart, size);
+    Snail.m_data[Direction::Stay].emplace_back(nextStart(), size);
+
+    return Snail;
+}
+
+AnimationData BlueSnailData()
+{
+    const auto size = sf::Vector2i(56, 46);
+    const auto initSpace = sf::Vector2i(1368, 9);
+    const auto middleSpace = sf::Vector2i(0, 13);
+
+    auto BlueSnail = AnimationData{};
+    auto currentStart = initSpace;
+
+    auto nextStart = [&]()
+    {
+        currentStart += middleSpace;
+        currentStart.y += size.y;
+        return currentStart;
+    };
+
+    // animations
+    BlueSnail.m_data[Direction::Dead].emplace_back(currentStart, size);
+    BlueSnail.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    BlueSnail.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    BlueSnail.m_data[Direction::Hit].emplace_back(nextStart(), size);
+    BlueSnail.m_data[Direction::Left].emplace_back(nextStart(), size);
+    BlueSnail.m_data[Direction::Right].emplace_back(currentStart, size);
+    BlueSnail.m_data[Direction::Left].emplace_back(nextStart(), size);
+    BlueSnail.m_data[Direction::Right].emplace_back(currentStart, size);
+    BlueSnail.m_data[Direction::Left].emplace_back(nextStart(), size);
+    BlueSnail.m_data[Direction::Right].emplace_back(currentStart, size);
+    BlueSnail.m_data[Direction::Left].emplace_back(nextStart(), size);
+    BlueSnail.m_data[Direction::Right].emplace_back(currentStart, size);
+    BlueSnail.m_data[Direction::Stay].emplace_back(nextStart(), size);
+
+    return BlueSnail;
+}
+
+AnimationData ShroomData()
+{
+    const auto size = sf::Vector2i(45, 44);
+    const auto initSpace = sf::Vector2i(1447, 2);
+    const auto middleSpace = sf::Vector2i(0, 14);
+
+    auto Shroom = AnimationData{};
+    auto currentStart = initSpace;
+
+    auto nextStart = [&]()
+    {
+        currentStart += middleSpace;
+        currentStart.y += size.y;
+        return currentStart;
+    };
+
+    // animations
+    Shroom.m_data[Direction::Dead].emplace_back(currentStart, size);
+    Shroom.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Shroom.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Shroom.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Shroom.m_data[Direction::Hit].emplace_back(nextStart(), size);
+    Shroom.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Shroom.m_data[Direction::Right].emplace_back(currentStart, size);
+    Shroom.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Shroom.m_data[Direction::Right].emplace_back(currentStart, size);
+    Shroom.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Shroom.m_data[Direction::Right].emplace_back(currentStart, size);
+    Shroom.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Shroom.m_data[Direction::Right].emplace_back(currentStart, size);
+    Shroom.m_data[Direction::Stay].emplace_back(nextStart(), size);
+    Shroom.m_data[Direction::Stay].emplace_back(nextStart(), size);
+    Shroom.m_data[Direction::Stay].emplace_back(nextStart(), size);
+
+
+    return Shroom;
+}
+
 Resources& Resources::instance()
 {
     static Resources instance;
@@ -411,19 +526,33 @@ void Resources::loadAnimations()
     m_data[Sera] = SeraData();
     m_data[Peter] = PeterData();
     m_data[TutorialJrSentinel] = TutorialJrSentinelData();
+    m_data[Snail] = SnailData();
+    m_data[BlueSnail] = BlueSnailData();
+    m_data[Shroom] = ShroomData();
+    m_data[Maria] = SeraData();
 }
 
 void Resources::loadBackgrounds()
 {
-    if (!m_backgrounds[MushroomTown].loadFromFile("Background1.png") ||
-        !m_backgrounds[SmallForest].loadFromFile("Background1.png")   )
+    if (!m_backgrounds[MushroomTown].loadFromFile("Background1.jpg")   ||
+        !m_backgrounds[SmallForest].loadFromFile("Background1.png")    ||
+        !m_backgrounds[SplitRoad].loadFromFile("Background2.png")      ||
+        !m_backgrounds[WestAmherst].loadFromFile("Background2.png")    ||
+        !m_backgrounds[Amherst].loadFromFile("Background2.png")        ||
+        !m_backgrounds[WestSouthperry].loadFromFile("Background2.png") ||
+        !m_backgrounds[Southperry].loadFromFile("Background2.png")      )
         throw std::runtime_error("Can't load background");
 }
 
 void Resources::loadMaps()
 {
-    if (!m_maps[MushroomTown].loadFromFile("MushroomTown.png") ||
-        !m_maps[SmallForest].loadFromFile("SmallForest.png")    )
+    if (!m_maps[MushroomTown].loadFromFile("MushroomTown.png")      ||
+        !m_maps[SmallForest].loadFromFile("SmallForest.png")        ||
+        !m_maps[SplitRoad].loadFromFile("SplitRoad.png")            ||
+        !m_maps[WestAmherst].loadFromFile("WestAmherst.png")        ||
+        !m_maps[Amherst].loadFromFile("Amherst.png")                ||
+        !m_maps[WestSouthperry].loadFromFile("WestSouthperry.png")  ||
+        !m_maps[Southperry].loadFromFile("Southperry.png")           )
         throw std::runtime_error("Can't load map");
 }
 
@@ -463,8 +592,14 @@ void Resources::loadTextures()
 
 void Resources::loadMusic()
 {
-    if (!m_music[MushroomTown].loadFromFile("music1.wav") ||
-        !m_music[SmallForest].loadFromFile("music1.wav")   )
+    if (!m_music[MushroomTown].loadFromFile("music1.wav")   ||
+        !m_music[SmallForest].loadFromFile("music1.wav")    ||
+        !m_music[SplitRoad].loadFromFile("music2.wav")      ||
+        !m_music[WestAmherst].loadFromFile("music2.wav")    ||
+        !m_music[Amherst].loadFromFile("music1.wav")        ||
+        !m_music[WestSouthperry].loadFromFile("music2.wav") ||
+        !m_music[Southperry].loadFromFile("music3.wav")      )
+        
         throw std::runtime_error("Can't load music");
 }
 
@@ -475,6 +610,14 @@ void Resources::loadSound()
         !m_sound[HitSound1].loadFromFile("hitSound1.wav")                ||
         !m_sound[Sword_Sound].loadFromFile("sword.wav")                  ||
         !m_sound[Jump_Sound].loadFromFile("jump.wav")                    ||
+        !m_sound[Arrival].loadFromFile("Arrival.wav")                    ||
+        !m_sound[TutorialJrSentinelDeath_Sound].loadFromFile("tutorialJrSentinel_death.wav")  ||
+        !m_sound[TutorialJrSentinelHit_Sound].loadFromFile("tutorialJrSentinel_hit.wav")      ||
+        !m_sound[SnailDeath_Sound].loadFromFile("snail_death.wav")       ||
+        !m_sound[SnailHit_Sound].loadFromFile("snail_hit.wav")           ||
+        !m_sound[ShroomDeath_Sound].loadFromFile("shroom_death.wav")     ||
+        !m_sound[StumpDeath_Sound].loadFromFile("stump_death.wav")       ||
+        !m_sound[StumpHit_Sound].loadFromFile("stump_hit.wav")           ||
         !m_sound[MushroomDeath_Sound].loadFromFile("mushroom_death.wav") ||
         !m_sound[Portal_Sound].loadFromFile("Portal.wav")                 )
         throw std::runtime_error("Can't load sound");
@@ -493,4 +636,6 @@ void Resources::loadDialogue()
     m_dialogue[Peter].push_back(std::make_shared<sf::Text>("Oh, a new traveler! Hey there, my name is Peter. This is \nwhere I teach new travelers like you how to hunt monsters. \nIt'll be quite dangerous for you to go out there, if you aren't \nwell-prepared for it.", m_font, 13));
     m_dialogue[Peter].push_back(std::make_shared<sf::Text>("You see the Jr. Sentinel there? Try attacking it. \nNormally it's a powerful monster, but Grendel the Really \nOld, the head of all magicians, put a seal on it just for \nbeginners like you, so you'll have no trouble practicing \nyour swings against it.", m_font, 13));
     m_dialogue[Peter].push_back(std::make_shared<sf::Text>("To hit the Jr. Sentinel you'll have to press CTRL, \ngood luck!", m_font, 13));
+    m_dialogue[Maria].push_back(std::make_shared<sf::Text>("I'm not Sera, you probably mistaken me for my twin sister.", m_font, 13));
+    m_dialogue[Maria].push_back(std::make_shared<sf::Text>("Watch out for monsters ahead, they may be quite tough \nfor newcomers.", m_font, 13));
 }

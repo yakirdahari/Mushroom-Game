@@ -1,14 +1,14 @@
 #pragma once
 #include "movingObject.h"
 
-constexpr auto HitDuration = 0.8f;
+constexpr auto HitDuration = 0.6f;
 
 movingObject::movingObject(const sf::Vector2f& position, const Resources::Objects& object,
 	                       const int& deathSound)
 	: gameObject(position),
 	  m_deathSound(Resources::instance().sound(deathSound)),
 	  m_animation(Resources::instance().animationData(object), Direction::Stay, m_sp),
-	  m_spawnLocation(position)
+	  m_spawnLocation(position), m_jump(false)
 {
 }
 
@@ -17,7 +17,7 @@ void movingObject::wasHit(const int& damage, const sf::Vector2f& direction)
 	if (damage > 1 &&
 		m_hitTime.getElapsedTime().asSeconds() >= HitDuration &&
 		m_dir != Direction::Attack1 && m_dir != Direction::Attack2 &&
-		m_dir != Direction::ProneStab)
+		m_dir != Direction::ProneStab && !data.dead)
 	{
 		m_hitTime.restart();
 		m_dir = Direction::Hit;
@@ -32,6 +32,9 @@ void movingObject::wasHit(const int& damage, const sf::Vector2f& direction)
 
 void movingObject::knockback(const sf::Vector2f& direction)
 {
+	if (m_jump)
+		return;
+
 	// knocks back object after being hit
 	if (direction == sf::Vector2f(1.f, 1.f)) // attacker is facing right
 	{
@@ -106,7 +109,7 @@ int movingObject::randomDamage() const
 
 bool movingObject::isDead()
 {
-	if (data.HP == 0 && data.dead)
+	if (data.HP == 0 && data.dead && m_dir != Direction::Dead)
 		return true;
 
 	if (data.HP == 0 && !data.dead ||

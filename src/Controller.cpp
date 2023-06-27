@@ -19,7 +19,7 @@ Controller::Controller()
 //----------------------------------------------------
 void Controller::run()
 {
-	spawn(Map::SmallForest);
+	spawn(Map::SplitRoad);
 
 	while (m_window.isOpen())
 	{
@@ -38,7 +38,7 @@ void Controller::draw()
 	m_window.clear();
 	if (auto debugSpriteSheet = 0) // use 1 to debug animation data
 	{
-		displayAll(m_window, Resources::instance().animationData(Resources::TutorialJrSentinel));
+		displayAll(m_window, Resources::instance().animationData(Resources::BlueSnail));
 	}
 	else
 	{
@@ -59,10 +59,11 @@ void Controller::draw()
 		for (auto& portal : Map::instance().portals())
 			portal->draw(m_window);
 
-		Info::instance().drawMonsterInfo(m_window);
+		Info::instance().drawInfo(m_window);
 
+		// GUIview helps us keep GUIs in place while moving
 		m_window.setView(m_GUIview);
-		Info::instance().draw(m_window);
+		Info::instance().drawGUI(m_window);
 		m_window.draw(cursor);
 		m_window.draw(m_transitionScreen);
 		m_window.setView(m_view);
@@ -260,14 +261,15 @@ void Controller::updateView()
 	const sf::Vector2f playerCenter(Map::instance().player()->getGlobalBounds().left + Map::instance().player()->getGlobalBounds().width / 2.f,
 		                            Map::instance().player()->getGlobalBounds().top + Map::instance().player()->getGlobalBounds().height / 2.f);
 
-	if (playerCenter.x > WindowWidth / 2.f && playerCenter.y < Map::instance().map()->getGlobalBounds().width - WindowWidth / 2.f)
+	if (playerCenter.x > WindowWidth / 2.f && playerCenter.x < Map::instance().map()->getGlobalBounds().width - WindowWidth / 2.f &&
+		!Map::instance().player()->isAttacking())
 	{
 		m_view.setCenter(playerCenter.x, m_view.getCenter().y);
 		m_window.setView(m_view);
 		Map::instance().background()->setPosition(playerCenter.x, Map::instance().background()->getPosition().y);
 	}
-	if (playerCenter.y > Map::instance().map()->getGlobalBounds().top + WindowHeight / 2.f &&
-		playerCenter.y < (Map::instance().map()->getGlobalBounds().top + Map::instance().map()->getGlobalBounds().height) - WindowHeight / 2.f)
+	if (playerCenter.y < Map::instance().map()->getGlobalBounds().height - WindowHeight / 2.f &&
+		!Map::instance().player()->isJumping())
 	{
 		m_view.setCenter(m_view.getCenter().x, playerCenter.y);
 		m_window.setView(m_view);
@@ -288,13 +290,7 @@ void Controller::updateView()
 		Map::instance().background()->setPosition((Map::instance().map()->getGlobalBounds().width - WindowWidth / 2.f), Map::instance().background()->getPosition().y);
 		
 	}
-	if (playerCenter.y < WindowHeight / 2.f)
-	{
-		m_view.setCenter(m_view.getCenter().x, WindowHeight / 2.f);
-		m_window.setView(m_view);
-		Map::instance().background()->setPosition(Map::instance().background()->getPosition().x, WindowHeight / 2.f);
-	}
-	if (playerCenter.y > Map::instance().map()->getGlobalBounds().height - WindowWidth / 2.f)
+	if (playerCenter.y > Map::instance().map()->getGlobalBounds().height - WindowWidth / 4.f)
 	{
 		m_view.setCenter(m_view.getCenter().x, Map::instance().map()->getGlobalBounds().height - WindowHeight / 2.f);
 		m_window.setView(m_view);

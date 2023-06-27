@@ -1,11 +1,9 @@
 #pragma once
 #include "Menu.h"
 
-
 // Constractor
 Menu::Menu()
-	: m_windowWidth(1440), m_windowHeight(900),
-	  m_window(sf::VideoMode(1440, 900), "Pacman", sf::Style::Close),
+	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen),
 	  m_background(Resources::instance().texture(Resources::MenuBackground))
 {
 	initTitle();
@@ -38,7 +36,6 @@ void Menu::draw()
 	m_window.draw(m_background);
 	m_window.draw(title);
 	m_window.draw(start);
-	m_window.draw(help);
 	m_window.draw(exit);
 
 	m_window.display();
@@ -72,7 +69,7 @@ void Menu::updateEvents()
 		{
 			start.setCharacterSize(100);
 			start.setOutlineThickness(4);
-			start.setPosition(((m_windowWidth / 2.f) - (start.getGlobalBounds().width / 2.f)), 400-15);
+			start.setPosition(WindowWidth / 2.54f, 400-15);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				m_window.close();
@@ -84,34 +81,14 @@ void Menu::updateEvents()
 		{
 			start.setCharacterSize(80);
 			start.setOutlineThickness(0);
-			start.setPosition(((m_windowWidth / 2.f) - (start.getGlobalBounds().width / 2.f)), 400);
-		}
-
-		if (help.getGlobalBounds().contains(mousePos))
-		{
-			help.setCharacterSize(100);
-			help.setOutlineThickness(4);
-			help.setPosition(((m_windowWidth / 2.f) - (help.getGlobalBounds().width / 2.f)), 550-15);
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
-				//m_window.close();
-				//auto h = Help();
-				//h.run();
-				Menu::~Menu();
-			}
-		}
-		else
-		{
-			help.setCharacterSize(80);
-			help.setOutlineThickness(0);
-			help.setPosition(((m_windowWidth / 2.f) - (help.getGlobalBounds().width / 2.f)), 550);
+			start.setPosition(WindowWidth / 2.54f, 400);
 		}
 
 		if (exit.getGlobalBounds().contains(mousePos))
 		{
 			exit.setCharacterSize(100);
 			exit.setOutlineThickness(4);
-			exit.setPosition(((m_windowWidth / 2.f) - (exit.getGlobalBounds().width / 2.f)), 700-15);
+			exit.setPosition(WindowWidth / 2.4f, 550-15);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				m_window.close();
@@ -121,7 +98,7 @@ void Menu::updateEvents()
 		{
 			exit.setCharacterSize(80);
 			exit.setOutlineThickness(0);
-			exit.setPosition(((m_windowWidth / 2.f) - (exit.getGlobalBounds().width / 2.f)), 700);
+			exit.setPosition(WindowWidth / 2.4f, 550);
 		}
 	}
 }
@@ -132,11 +109,11 @@ void Menu::initTitle()
 	titleFont.loadFromFile("arial.ttf");
 	title.setString("MUSHROOM GAME");
 	title.setFont(titleFont);
-	title.setCharacterSize(160);
+	title.setCharacterSize(140);
 	title.setFillColor(sf::Color::Black);
 	title.setOutlineColor(sf::Color::White);
 	title.setOutlineThickness(6);
-	title.setPosition(((m_windowWidth / 2.f) - (title.getGlobalBounds().width / 2.f)), 30);
+	title.setPosition(40.f, 30);
 }
 
 
@@ -150,23 +127,15 @@ void Menu::initButtons()
 	start.setFillColor(sf::Color::Red);
 	start.setOutlineColor(sf::Color::White);
 	start.setCharacterSize(80);
-	start.setPosition(((m_windowWidth / 2.f) - (start.getGlobalBounds().width / 2.f)), 400);
+	start.setPosition(WindowWidth / 3.f, 400);
 
 	// help
-	help.setString("HELP");
-	help.setFont(buttonsFont);
-	help.setFillColor(sf::Color(0, 240, 60));
-	help.setOutlineColor(sf::Color::White);
-	help.setCharacterSize(80);
-	help.setPosition(((m_windowWidth / 2.f) - (help.getGlobalBounds().width / 2.f)), 550);
-
-	// exit
 	exit.setString("EXIT");
 	exit.setFont(buttonsFont);
-	exit.setFillColor(sf::Color::Blue);
+	exit.setFillColor(sf::Color(0, 240, 60));
 	exit.setOutlineColor(sf::Color::White);
 	exit.setCharacterSize(80);
-	exit.setPosition(((m_windowWidth / 2.f) - (exit.getGlobalBounds().width / 2.f)), 700);
+	exit.setPosition(WindowWidth / 3.f, 550);
 }
 
 

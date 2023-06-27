@@ -33,4 +33,5 @@ protected:
 	Animation m_animation;
 	sf::Clock m_hitTime;		// how long hit effect lasts
 	sf::Sound m_deathSound;
+	bool m_jump;
 };

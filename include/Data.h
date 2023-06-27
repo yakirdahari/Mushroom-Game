@@ -8,11 +8,12 @@ struct Data
 	int EXP = 0;					// current experience points
 	int MaxEXP = 15;				// amount needed to level up
 	int mesos = 0;					// game currency
-	int HP = 100;					// health points
-	int MaxHP = 100;				// maxiumum health points
-	int MP = 100;					// mana points
-	int MaxMP = 100;		   		// maximum mana points
-	int damage = 25;				// amount of damage dealt
+	int HP = 50;					// health points
+	int MaxHP = 50;					// maxiumum health points
+	int MP = 50;					// mana points
+	int MaxMP = 50;		   		    // maximum mana points
+	int damage = 3;					// amount of damage dealt
+	float Speed = 140.f;		    // amount of damage dealt
 	bool wasHit = false;			// for hit detection
 	bool dead = false;				// is object dead?
 	bool respawn = false;			// should object respawn?

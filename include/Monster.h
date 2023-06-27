@@ -25,7 +25,7 @@ public:
     void handleCollision(MonsterWall& monsterWall) override;
     void handleCollision(Ladder& ladder) {};
     void handleCollision(Portal& portal) {};
-    //virtual void handleCollision(Rope& rope) {};
+    virtual void handleCollision(Rope& rope) {};
 
 protected:
     sf::Clock m_aiTime;

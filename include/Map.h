@@ -11,9 +11,14 @@ public:
     //----------------------
     enum Maps
     {
-        Menu = 0,
-        MushroomTown = 1,
-        SmallForest = 2,
+        Menu,
+        MushroomTown,
+        SmallForest,
+        SplitRoad,
+        WestAmherst,
+        Amherst,
+        WestSouthperry,
+        Southperry,
         Max,
     };
     //----------------------

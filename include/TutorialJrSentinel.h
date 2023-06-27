@@ -4,8 +4,13 @@
 
 #include <SFML/Graphics.hpp>
 
-constexpr auto MonsterSpeed = 100.f;
+constexpr auto MonsterSpeed = 80.f;
 constexpr auto HitDuration = 0.6f;
+constexpr auto Name = "Tutorial Jr. Sentinel";
+constexpr auto Level = 0;
+constexpr auto EXP = 0;
+constexpr auto Damage = 1;
+constexpr auto HP = 1;
 
 class TutorialJrSentinel : public Monster
 {
@@ -13,14 +18,16 @@ public:
     using movingObject::handleCollision;
 
     TutorialJrSentinel(const sf::Vector2f& position)
-        : Monster(position, Resources::TutorialJrSentinel, Resources::HitSound1, Resources::MushroomDeath_Sound)
+        : Monster(position, Resources::TutorialJrSentinel, Resources::TutorialJrSentinelHit_Sound, Resources::TutorialJrSentinelDeath_Sound)
     {
         m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 1.5f, getGlobalBounds().height /  2.f));
         data.name = "Tutorial Jr. Sentinel";
         data.expReward = 0;
-        data.level = 1;
+        data.level = 0;
         data.damage = 1;
-
+        data.HP = 1;
+        data.MaxHP = data.HP;
+        data.Speed = 140.f;
         m_info.setName(data.name);
         m_info.setLevel(data.level);
     }
@@ -52,4 +59,6 @@ public:
         m_animation.update(delta);
         m_sp.move(toVector(m_dir) * delta.asSeconds() * MonsterSpeed);
     }
+private:
+    const float speed = 110;
 };

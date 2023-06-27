@@ -10,6 +10,7 @@ public:
     Player(const sf::Vector2f& position);
 
     bool isAttacking();
+    bool isJumping();
     void update(sf::Time delta) override;
     void setSpawn(const sf::Vector2f& location);
     
@@ -24,7 +25,7 @@ public:
     void handleCollision(MonsterWall& monsterWall) override {};    // ignore
     virtual void handleCollision(Ladder& ladder);
     virtual void handleCollision(Portal& portal) {};
-    //virtual void handleCollision(Rope& rope);
+    virtual void handleCollision(Rope& rope);
 
 private:
     Direction keyToDirection();
@@ -41,7 +42,6 @@ private:
 
     bool m_attack;
     bool m_prone;
-    bool m_jump;
     bool m_climbLadder;
     bool m_climbRope;
     bool m_levelingUp;

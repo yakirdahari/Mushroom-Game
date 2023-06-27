@@ -14,10 +14,13 @@ public:
     {
         m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 1.8f, getGlobalBounds().height / 2.f));
         data.name = "Mushroom";
-        data.expReward = 10;
-        data.level = 6;
-
-        m_info.setName("Mushroom");
+        data.expReward = 45;
+        data.level = 8;
+        data.damage = 20;
+        data.HP = 80;
+        data.MaxHP = data.HP;
+        data.Speed = 140.f;
+        m_info.setName(data.name);
         m_info.setLevel(data.level);
     }
 };

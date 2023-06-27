@@ -35,7 +35,7 @@ void Info::init(sf::RectangleShape& bar, const sf::Color& color,
 	bar.setSize(size);
 }
 
-void Info::draw(sf::RenderWindow& window)
+void Info::drawGUI(sf::RenderWindow& window)
 {
 	window.draw(background1);
 	window.draw(background2);
@@ -49,9 +49,6 @@ void Info::draw(sf::RenderWindow& window)
 	window.draw(MP);
 	window.draw(EXP);
 	window.draw(job);
-
-	for (const auto& damage : damageInfo)
-		damage->draw(window);
 
 	for (const auto& gui : GUIs)
 	{
@@ -107,11 +104,14 @@ void Info::showDialogue(const Resources::Objects& dialogue, const sf::Text& name
 	GUIs.push_back(std::make_unique<DialogueGUI>(dialogue, name, sprite));
 }
 
-void Info::drawMonsterInfo(sf::RenderWindow& window)
+void Info::drawInfo(sf::RenderWindow& window)
 {
 	for (auto& monster : Map::instance().monsters())
 		if (monster->getData().wasHit)
 			monster->drawInfo(window);
+
+	for (const auto& damage : damageInfo)
+		damage->draw(window);
 }
 
 Info& Info::instance()
