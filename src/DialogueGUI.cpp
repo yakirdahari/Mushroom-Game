@@ -1,7 +1,7 @@
 #include "DialogueGUI.h"
 
 DialogueGUI::DialogueGUI(const Resources::Objects& npc, const sf::Text& name, std::shared_ptr<sf::Sprite> sprite)
-	: GUI(Resources::instance().texture(Resources::Dialogue), sf::Vector2f(415.f, 300.f),
+	: GUI(Resources::instance().texture(Resources::Dialogue), sf::Vector2f(415.f, 240.f),
 		sf::Vector2f(1.f, 1.f)),
 	OK_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(475.f, 199.f))),
 	NEXT_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(448.f, 150.f))),
@@ -30,14 +30,14 @@ void DialogueGUI::draw(sf::RenderWindow& window) const
 	window.draw(m_name);
 
 	// pages have different buttons
-	if (page == 0)
-	{
-		NEXT_Button.draw(window);
-		END_Button.draw(window);
-	}
-	else if (page == m_dialogue.size() -1)
+	if (page == m_dialogue.size() - 1)
 	{
 		OK_Button.draw(window);
+		END_Button.draw(window);
+	}
+	else if (page == 0)
+	{
+		NEXT_Button.draw(window);
 		END_Button.draw(window);
 	}
 	else

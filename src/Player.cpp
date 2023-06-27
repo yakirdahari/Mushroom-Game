@@ -6,7 +6,7 @@
 #include "Info.h"
 #include "ReviveGUI.h"
 
-constexpr auto AttackSpeed = 0.8f;
+constexpr auto AttackSpeed = 0.9f;
 constexpr auto JumpSpeed = 0.5f;
 constexpr auto HitDuration = 1.5f;
 constexpr auto LevelUpAnimationTime = 3.f;
@@ -437,6 +437,8 @@ void Player::handleCollision(Ladder& ladder)
             m_jump = false;
             m_attack = false;
             m_sp.setPosition(ladder.getPosition().x, m_sp.getPosition().y + 5.f);
+            m_dir = Direction::Ladder;
+            m_animation.direction(m_dir);
         }
         physics.velocity = sf::Vector2f(0.f, -0.4f);
     }

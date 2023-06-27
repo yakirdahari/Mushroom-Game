@@ -1,12 +1,10 @@
 #include "Controller.h"
 
-
 // Opening file
 Controller::Controller()
 	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen),
 	  m_transitionScreen(sf::Vector2f(WindowWidth, WindowHeight)),
 	  m_teleportSound(Resources::instance().sound(Resources::Portal_Sound)),
-	  m_changingMap(false),
 	  m_view(sf::FloatRect(sf::Vector2f(0.f,0.f), sf::Vector2f(WindowWidth, WindowHeight))),
 	  m_GUIview(sf::FloatRect(sf::Vector2f(0.f, 0.f), sf::Vector2f(WindowWidth, WindowHeight))),
 	  cursor(Resources::instance().texture(Resources::Cursor))
@@ -19,7 +17,7 @@ Controller::Controller()
 //----------------------------------------------------
 void Controller::run()
 {
-	spawn(Map::SplitRoad);
+	spawn(Map::WestSouthperry);
 
 	while (m_window.isOpen())
 	{
@@ -94,8 +92,9 @@ void Controller::handleEvents()
 			{
 				fadeIn();
 				Map::instance().player()->respawn();
-				updateGameObjects();
+				updateView();
 				fadeOut();
+				gameClock.restart();
 			}
 			break;
 		case sf::Event::MouseButtonPressed:
@@ -170,29 +169,20 @@ void Controller::spawn(const int& mapID)
 //----------------------------------------------------
 void Controller::changeMap(const int& mapID, const int& exitPortal)
 {
-	m_changingMap = true;
-
+	// make sure we wait before teleporting again
+	teleportTime.restart();
+		
 	fadeIn();			// transition screen
 
 	readFile(mapID);
 
 	// spawn in exit portal
 	if (exitPortal > -1)
-		Map::instance().player()->setPosition(Map::instance().portals()[exitPortal]->getPosition());
-	
-	// so we don't fall off the map
-	for (auto& monster : Map::instance().monsters())
-		for (int i=0 ; i<5 ; i++)
-			handleCollisions(*monster);
-
-	for (int i=0; i<5; i++)
-		handleCollisions(*Map::instance().player());
+		Map::instance().player()->setPosition(Map::instance().portals()[exitPortal]->getPosition() - sf::Vector2f(0.f, 80.f));
 
 	fadeOut();				// transition screen
 
-	gameClock.restart();	// unfreeze clock
-	handleEvents();
-	m_changingMap = false;
+	gameClock.restart();	// unpause the game
 }
 //----------------------------------------------------
 void Controller::fadeIn()
@@ -245,7 +235,9 @@ void Controller::checkPortals()
 	// when player is on a portal he can change map
 	for (auto& portal : Map::instance().portals())
 	{
-		if (!m_changingMap && !Map::instance().player()->isDead() &&
+		if (teleportTime.getElapsedTime().asSeconds() > TimeBetweenTeleports &&
+			portal->destination() != -1 &&
+		   !Map::instance().player()->isDead() &&
 			Map::instance().player()->collidesWith(portal->getGlobalBounds()) &&
 			Map::instance().player()->getGlobalBounds().left > portal->getGlobalBounds().left &&
 			Map::instance().player()->getGlobalBounds().left < portal->getGlobalBounds().left + Map::instance().player()->getGlobalBounds().width &&

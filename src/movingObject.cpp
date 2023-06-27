@@ -1,7 +1,7 @@
 #pragma once
 #include "movingObject.h"
 
-constexpr auto HitDuration = 0.6f;
+constexpr auto HitDuration = 0.5f;
 
 movingObject::movingObject(const sf::Vector2f& position, const Resources::Objects& object,
 	                       const int& deathSound)

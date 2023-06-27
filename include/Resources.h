@@ -24,6 +24,13 @@ public:
         Snail,
         BlueSnail,
         Shroom,
+        Stump,
+        Yoona,
+        Rain,
+        Pio,
+        Maria2,
+        Lucas,
+        Bari,
         Max,
     };
     // ---------------

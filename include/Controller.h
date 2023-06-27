@@ -27,6 +27,7 @@ public:
 	{
 		WindowWidth = 1366,
 		WindowHeight = 768,
+		TimeBetweenTeleports = 3,
 	};
 	//----------------------
 	// Destructor
@@ -38,11 +39,11 @@ private:
 	sf::RenderWindow m_window;
 	sf::RectangleShape m_transitionScreen;
 	sf::Clock gameClock;
+	sf::Clock teleportTime;
 	sf::Sound m_teleportSound;
 	sf::Sprite cursor;
 	sf::View m_view;
 	sf::View m_GUIview;
-	bool m_changingMap;
 
 	// Private Functions
 	void draw();              // draws objects

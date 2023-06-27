@@ -15,6 +15,15 @@
 #include "BlueSnail.h"
 #include "Shroom.h"
 #include "Maria.h"
+#include "Stump.h"
+#include "Yoona.h"
+#include "Rain.h"
+#include "Pio.h"
+#include "Maria2.h"
+#include "Lucas.h"
+#include "Bari.h"
+
+
 
 bool readFile(const int& mapID)
 {
@@ -145,12 +154,116 @@ void insertObject(const Objects& object, const sf::Vector2f& position)
 				break;
 		case Portal_Char:
 		{
-			Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SmallForest, 0)));
+			if (Map::instance().portals().size() == 0)	// so we know which portal leads to where
+				Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::WestAmherst, 0)));
+			else
+				Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::WestSouthperry, 0)));
+			
 		}
 		}
 		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::SplitRoad));
 		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::SplitRoad));
 		Map::instance().music()->setBuffer(Resources::instance().music(Map::SplitRoad));
+	}
+
+	// West Amherst
+	if (Map::instance().mapID() == Map::WestAmherst)
+	{
+		switch (object)
+		{
+		case Monster1_Char: Map::instance().monsters().push_back(std::move(std::make_unique<Snail>(position)));
+			break;
+		case Monster2_Char: Map::instance().monsters().push_back(std::move(std::make_unique<BlueSnail>(position)));
+			break;
+		case Monster3_Char: Map::instance().monsters().push_back(std::move(std::make_unique<Shroom>(position)));
+			break;
+		case Monster4_Char: Map::instance().monsters().push_back(std::move(std::make_unique<Stump>(position)));
+			break;
+		case NPC1_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Yoona>(position)));
+			break;
+		case Portal_Char:
+		{
+			// so we know which portal leads to where
+			switch (Map::instance().portals().size())
+			{
+			case 0: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SplitRoad, 0)));
+				break;
+			case 1: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::Amherst)));
+			}			
+		}
+		}
+		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::WestAmherst));
+		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::WestAmherst));
+		Map::instance().music()->setBuffer(Resources::instance().music(Map::WestAmherst));
+	}
+
+	// Amherst
+	if (Map::instance().mapID() == Map::Amherst)
+	{
+		switch (object)
+		{
+		case NPC1_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Rain>(position)));
+			break;
+		case NPC2_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Pio>(position)));
+			break;
+		case NPC3_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Maria2>(position)));
+			break;
+		case NPC4_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Lucas>(position)));
+			break;
+		case Portal_Char:
+		{
+			// so we know which portal leads to where
+			switch (Map::instance().portals().size())
+			{
+			case 0: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position)));
+				break;
+			case 1: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position)));
+				break;
+			case 2:
+			{
+				Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::WestAmherst, 1)));
+			}
+				break;
+			case 3: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position)));
+				break;
+			case 4: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position)));
+				break;
+			}
+		}
+		}
+		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::Amherst));
+		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::Amherst));
+		Map::instance().music()->setBuffer(Resources::instance().music(Map::Amherst));
+	}
+
+	// West Southperry
+	if (Map::instance().mapID() == Map::WestSouthperry)
+	{
+		switch (object)
+		{
+		case NPC1_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Bari>(position)));
+			break;
+		case Portal_Char:
+		{
+			// so we know which portal leads to where
+			switch (Map::instance().portals().size())
+			{
+			case 0:Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SplitRoad, 1)));
+				break;
+			case 1: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::Southperry, 0)));
+				break;
+			}
+		case Monster1_Char: Map::instance().monsters().push_back(std::move(std::make_unique<BlueSnail>(position)));
+			break;
+		case Monster2_Char: Map::instance().monsters().push_back(std::move(std::make_unique<Stump>(position)));
+			break;
+		case Monster3_Char: Map::instance().monsters().push_back(std::move(std::make_unique<Mushroom>(position)));
+			break;
+		}
+		}
+		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::WestSouthperry));
+		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::WestSouthperry));
+		Map::instance().music()->setBuffer(Resources::instance().music(Map::WestSouthperry));
 	}
 
 	// everything else

@@ -5,7 +5,7 @@
 #include "Info.h"
 #include "Map.h"
 
-constexpr auto HitDuration = 0.6f;
+constexpr auto HitDuration = 0.5f;
 
 Monster::Monster(const sf::Vector2f& position, const Resources::Objects& object,
                  const int& hitSound, const int& deathSound)

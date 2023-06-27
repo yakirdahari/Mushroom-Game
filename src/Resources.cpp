@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 namespace
-{
+{   
     AnimationData MushroomData()
     {
         const auto size = sf::Vector2i(65, 71);
@@ -493,6 +493,163 @@ AnimationData ShroomData()
     return Shroom;
 }
 
+AnimationData StumpData()
+{
+    const auto size = sf::Vector2i(66, 66);
+    const auto initSpace = sf::Vector2i(837, 14);
+    const auto middleSpace = sf::Vector2i(0, 11);
+
+    auto Stump = AnimationData{};
+    auto currentStart = initSpace;
+
+    auto nextStart = [&]()
+    {
+        currentStart += middleSpace;
+        currentStart.y += size.y;
+        return currentStart;
+    };
+
+    // animations
+    Stump.m_data[Direction::Dead].emplace_back(currentStart, size);
+    Stump.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Stump.m_data[Direction::Dead].emplace_back(nextStart(), size);
+    Stump.m_data[Direction::Hit].emplace_back(nextStart(), size);
+    Stump.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Stump.m_data[Direction::Right].emplace_back(currentStart, size);
+    Stump.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Stump.m_data[Direction::Right].emplace_back(currentStart, size);
+    Stump.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Stump.m_data[Direction::Right].emplace_back(currentStart, size);
+    Stump.m_data[Direction::Left].emplace_back(nextStart(), size);
+    Stump.m_data[Direction::Right].emplace_back(currentStart, size);
+    Stump.m_data[Direction::Stay].emplace_back(nextStart(), size);
+
+    return Stump;
+}
+
+AnimationData YoonaData()
+{
+    const auto size = sf::Vector2i(67, 77);
+    const auto initSpace = sf::Vector2i(923, 9);
+    const auto middleSpace = sf::Vector2i(0, 17);
+
+    auto Yoona = AnimationData{};
+    auto currentStart = initSpace;
+
+    auto nextStart = [&]()
+    {
+        currentStart += middleSpace;
+        currentStart.y += size.y;
+        return currentStart;
+    };
+
+    // animations
+    Yoona.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Yoona.m_data[Direction::Stay].emplace_back(nextStart(), size);
+    Yoona.m_data[Direction::Stay].emplace_back(nextStart(), size);
+    Yoona.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Yoona.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Yoona.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Yoona.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Yoona.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Yoona.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Yoona.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Yoona.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Yoona.m_data[Direction::Stay].emplace_back(currentStart, size);
+
+    return Yoona;
+}
+
+AnimationData LucasData()
+{
+    const auto size = sf::Vector2i(67, 77);
+    const auto initSpace = sf::Vector2i(1655, 9);
+    const auto middleSpace = sf::Vector2i(0, 16);
+
+    auto Lucas = AnimationData{};
+    auto currentStart = initSpace;
+
+    auto nextStart = [&]()
+    {
+        currentStart += middleSpace;
+        currentStart.y += size.y;
+        return currentStart;
+    };
+
+    // animations
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Lucas.m_data[Direction::Stay].emplace_back(nextStart(), size);
+    Lucas.m_data[Direction::Stay].emplace_back(currentStart, size);
+
+    return Lucas;
+}
+
+AnimationData PioData()
+{
+    const auto size = sf::Vector2i(67, 70);
+    const auto initSpace = sf::Vector2i(1007, 9);
+    const auto middleSpace = sf::Vector2i(0, 18);
+
+    auto Pio = AnimationData{};
+    auto currentStart = initSpace;
+
+    auto nextStart = [&]()
+    {
+        currentStart += middleSpace;
+        currentStart.y += size.y;
+        return currentStart;
+    };
+
+    // animations
+    Pio.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Pio.m_data[Direction::Stay].emplace_back(nextStart(), size);
+    Pio.m_data[Direction::Stay].emplace_back(nextStart(), size);
+
+    return Pio;
+}
+
+AnimationData BariData()
+{
+    const auto size = sf::Vector2i(67, 77);
+    const auto initSpace = sf::Vector2i(1510, 9);
+    const auto middleSpace = sf::Vector2i(0, 16);
+
+    auto Bari = AnimationData{};
+    auto currentStart = initSpace;
+
+    auto nextStart = [&]()
+    {
+        currentStart += middleSpace;
+        currentStart.y += size.y;
+        return currentStart;
+    };
+
+    // animations
+    Bari.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Bari.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Bari.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Bari.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Bari.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Bari.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Bari.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Bari.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Bari.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Bari.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Bari.m_data[Direction::Stay].emplace_back(nextStart(), size);
+    Bari.m_data[Direction::Stay].emplace_back(nextStart(), size);
+
+    return Bari;
+}
+
 Resources& Resources::instance()
 {
     static Resources instance;
@@ -530,17 +687,24 @@ void Resources::loadAnimations()
     m_data[BlueSnail] = BlueSnailData();
     m_data[Shroom] = ShroomData();
     m_data[Maria] = SeraData();
+    m_data[Stump] = StumpData();
+    m_data[Yoona] = YoonaData();
+    m_data[Rain] = HeenaData();
+    m_data[Pio] = PioData();
+    m_data[Maria2] = SeraData();
+    m_data[Lucas] = LucasData();
+    m_data[Bari] = BariData();
 }
 
 void Resources::loadBackgrounds()
 {
     if (!m_backgrounds[MushroomTown].loadFromFile("Background1.jpg")   ||
-        !m_backgrounds[SmallForest].loadFromFile("Background1.png")    ||
+        !m_backgrounds[SmallForest].loadFromFile("Background1.jpg")    ||
         !m_backgrounds[SplitRoad].loadFromFile("Background2.png")      ||
         !m_backgrounds[WestAmherst].loadFromFile("Background2.png")    ||
-        !m_backgrounds[Amherst].loadFromFile("Background2.png")        ||
+        !m_backgrounds[Amherst].loadFromFile("Background1.jpg")        ||
         !m_backgrounds[WestSouthperry].loadFromFile("Background2.png") ||
-        !m_backgrounds[Southperry].loadFromFile("Background2.png")      )
+        !m_backgrounds[Southperry].loadFromFile("Background1.jpg")      )
         throw std::runtime_error("Can't load background");
 }
 
@@ -605,21 +769,21 @@ void Resources::loadMusic()
 
 void Resources::loadSound()
 {
-    if (!m_sound[Death_Sound].loadFromFile("death.wav")                  ||
-        !m_sound[LevelUp_Sound].loadFromFile("LevelUp.wav")              ||
-        !m_sound[HitSound1].loadFromFile("hitSound1.wav")                ||
-        !m_sound[Sword_Sound].loadFromFile("sword.wav")                  ||
-        !m_sound[Jump_Sound].loadFromFile("jump.wav")                    ||
-        !m_sound[Arrival].loadFromFile("Arrival.wav")                    ||
+    if (!m_sound[Death_Sound].loadFromFile("death.wav")                                       ||
+        !m_sound[LevelUp_Sound].loadFromFile("LevelUp.wav")                                   ||
+        !m_sound[HitSound1].loadFromFile("hitSound1.wav")                                     ||
+        !m_sound[Sword_Sound].loadFromFile("sword.wav")                                       ||
+        !m_sound[Jump_Sound].loadFromFile("jump.wav")                                         ||
+        !m_sound[Arrival].loadFromFile("Arrival.wav")                                         ||
         !m_sound[TutorialJrSentinelDeath_Sound].loadFromFile("tutorialJrSentinel_death.wav")  ||
         !m_sound[TutorialJrSentinelHit_Sound].loadFromFile("tutorialJrSentinel_hit.wav")      ||
-        !m_sound[SnailDeath_Sound].loadFromFile("snail_death.wav")       ||
-        !m_sound[SnailHit_Sound].loadFromFile("snail_hit.wav")           ||
-        !m_sound[ShroomDeath_Sound].loadFromFile("shroom_death.wav")     ||
-        !m_sound[StumpDeath_Sound].loadFromFile("stump_death.wav")       ||
-        !m_sound[StumpHit_Sound].loadFromFile("stump_hit.wav")           ||
-        !m_sound[MushroomDeath_Sound].loadFromFile("mushroom_death.wav") ||
-        !m_sound[Portal_Sound].loadFromFile("Portal.wav")                 )
+        !m_sound[SnailDeath_Sound].loadFromFile("snail_death.wav")                            ||
+        !m_sound[SnailHit_Sound].loadFromFile("snail_hit.wav")                                ||
+        !m_sound[ShroomDeath_Sound].loadFromFile("shroom_death.wav")                          ||
+        !m_sound[StumpDeath_Sound].loadFromFile("stump_death.wav")                            ||
+        !m_sound[StumpHit_Sound].loadFromFile("stump_hit.wav")                                ||
+        !m_sound[MushroomDeath_Sound].loadFromFile("mushroom_death.wav")                      ||
+        !m_sound[Portal_Sound].loadFromFile("Portal.wav")                                      )
         throw std::runtime_error("Can't load sound");
 }
 
@@ -638,4 +802,13 @@ void Resources::loadDialogue()
     m_dialogue[Peter].push_back(std::make_shared<sf::Text>("To hit the Jr. Sentinel you'll have to press CTRL, \ngood luck!", m_font, 13));
     m_dialogue[Maria].push_back(std::make_shared<sf::Text>("I'm not Sera, you probably mistaken me for my twin sister.", m_font, 13));
     m_dialogue[Maria].push_back(std::make_shared<sf::Text>("Watch out for monsters ahead, they may be quite tough \nfor newcomers.", m_font, 13));
+    m_dialogue[Yoona].push_back(std::make_shared<sf::Text>("Oh hello! Already lost are we?", m_font, 13));
+    m_dialogue[Yoona].push_back(std::make_shared<sf::Text>("Amherst you say? Well you got the right person!", m_font, 13));
+    m_dialogue[Yoona].push_back(std::make_shared<sf::Text>("Just go to the portal on your right and \nyou'll be there in no time!", m_font, 13));
+    m_dialogue[Rain].push_back(std::make_shared<sf::Text>("Sorry... not in the mood right now.", m_font, 13));
+    m_dialogue[Pio].push_back(std::make_shared<sf::Text>("NO! I'M NOT BOB THE BUILDER!!!", m_font, 13));
+    m_dialogue[Maria2].push_back(std::make_shared<sf::Text>("My my.. looks like you've found your way here!", m_font, 13));
+    m_dialogue[Maria2].push_back(std::make_shared<sf::Text>("Hope you enjoy your time at Amherst!", m_font, 13));
+    m_dialogue[Lucas].push_back(std::make_shared<sf::Text>("A way out here you say? Well glad you asked!", m_font, 13));
+    m_dialogue[Lucas].push_back(std::make_shared<sf::Text>("My grandson Shanks in Southperry has a ship. \nI'm sure he'll give you a ride.", m_font, 13));
 }

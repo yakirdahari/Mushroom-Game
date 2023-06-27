@@ -8,6 +8,7 @@ public:
 	using staticObject::handleCollision;
 
 	// Constructor
+	Portal(const sf::Vector2f& position);
 	Portal(const sf::Vector2f& position, const int& destination);
 	Portal(const sf::Vector2f& position, const int& destination, const int& exitPortal);
 
@@ -24,5 +25,4 @@ public:
 private:
 	int m_destination;	// mapID of destination
 	int m_exitPortal;	// which portal to exit from?
-	sf::Sound m_teleportSound;
 };
