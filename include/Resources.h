@@ -31,6 +31,8 @@ public:
         Maria2,
         Lucas,
         Bari,
+        Biggs,
+        Shanks,
         Max,
     };
     // ---------------
@@ -64,7 +66,8 @@ public:
         END_Button_Highlighted,
         END_Button_Pressed,
         Cursor,
-        Tutorial
+        Tutorial,
+        Arrival_Texture
     };
     // ---------------
     enum Maps

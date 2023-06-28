@@ -5,10 +5,7 @@ set (MY_AUTHORS "yakir_dahari-elinor_ribiyev")
 
 include (cmake/CompilerSettings.cmake)
 
-add_executable (${CMAKE_PROJECT_NAME} WIN32)
-
-target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:-fsanitize=address>)
-target_link_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:-fsanitize=address>)
+add_executable (${CMAKE_PROJECT_NAME})
 
 add_subdirectory (include)
 add_subdirectory (src)
