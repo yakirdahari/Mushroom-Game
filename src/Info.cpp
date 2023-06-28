@@ -96,6 +96,8 @@ void Info::addGUI(const int& type)
 	case Revive: GUIs.push_back(std::make_unique<ReviveGUI>());
 		break;
 	case Tutorial: GUIs.push_back(std::make_unique<TutorialGUI>());
+		break;
+	case Arrival: GUIs.push_back(std::make_unique<TutorialGUI>());
 	}
 }
 

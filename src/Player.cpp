@@ -337,6 +337,11 @@ void Player::setSpawn(const sf::Vector2f& location)
     setPosition(location);
 }
 
+void Player::gameFinished()
+{
+    data.gameFinished = true;
+}
+
 void Player::death(sf::Time delta)
 {
     if (!data.dead)

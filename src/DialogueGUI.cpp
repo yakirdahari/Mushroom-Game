@@ -7,8 +7,8 @@ DialogueGUI::DialogueGUI(const Resources::Objects& npc, const sf::Text& name, st
 	NEXT_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(448.f, 150.f))),
 	BACK_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(393.f, 150.f))),
 	END_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(8.f, 200.f))),
-	YES_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(448.f, 135.f))),
-	NO_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(393.f, 135.f))),
+	YES_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(448.f, 200.f))),
+	NO_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(393.f, 200.f))),
 	page(0),
 	m_dialogue(Resources::instance().dialogues(npc)),
 	m_name(name),
@@ -32,18 +32,15 @@ void DialogueGUI::draw(sf::RenderWindow& window) const
 	window.draw(m_name);
 
 	// pages have different buttons
-	if (page == m_dialogue.size() - 1)
+	if (page == m_dialogue.size() - 2 && m_name.getString() == "Shanks")
 	{
-		if (m_name.getString() == "Shanks")
-		{
-			YES_Button.draw(window);
-			NO_Button.draw(window);
-		}
-		else
-		{
-			OK_Button.draw(window);
-			END_Button.draw(window);
-		}
+		YES_Button.draw(window);
+		NO_Button.draw(window);
+	}
+	else if (page == m_dialogue.size() - 1)
+	{
+		OK_Button.draw(window);
+		END_Button.draw(window);
 	}
 	else if (page == 0)
 	{
@@ -64,13 +61,22 @@ void DialogueGUI::draw(sf::RenderWindow& window) const
 void DialogueGUI::handleEvents(sf::RenderWindow& window)
 {
 	// detect click
-	if ( OK_Button.wasClicked(window) ||
-		 END_Button.wasClicked(window) )
+	if (OK_Button.wasClicked(window) ||
+		END_Button.wasClicked(window) ||
+		NO_Button.wasClicked(window))
 		m_closed = true;
 
-	else if (NEXT_Button.wasClicked(window) && page < m_dialogue.size() -1)
+	else if (NEXT_Button.wasClicked(window) && page < m_dialogue.size() - 1)
 		page++;
 
 	else if (BACK_Button.wasClicked(window) && page > 0)
 		page--;
+
+	else if (YES_Button.wasClicked(window) && page == m_dialogue.size() - 2)
+	{
+		if (Map::instance().player()->getData().level >= 10)
+			Map::instance().player()->gameFinished();
+		else
+			page++;
+	}
 }

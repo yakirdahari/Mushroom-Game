@@ -22,7 +22,7 @@ public:
 	int randomDamage() const;
 	bool isDead();													// checks if HP is negative
 	void respawn(bool enable = false);								// revives object and sends back to spawn
-	const Data& getData() const;									// read data of object
+	Data getData() const;									// read data of object
 
 	// Variables
 protected:

@@ -53,8 +53,9 @@ private:
 	void handleCollisions(gameObject& gameObject);
 	void spawn(const int& mapID);
 	void changeMap(const int& mapID, const int& exitPortal);
-	void fadeIn();	  // screen fades in when changing maps
-	void fadeOut();	  // screen fades out when changing maps
+	void fadeIn();			  // screen fades in when changing maps
+	void fadeOut();			  // screen fades out when changing maps
 	void checkPortals();      // player on a portal = can change map
 	void updateView();		  // moves camera towards player
+	void gameOver();	  
 };

@@ -13,6 +13,7 @@ public:
     bool isJumping();
     void update(sf::Time delta) override;
     void setSpawn(const sf::Vector2f& location);
+    void gameFinished();
     
     sf::Vector2f getPosition() const;   
 

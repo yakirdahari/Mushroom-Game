@@ -5,7 +5,7 @@ set (MY_AUTHORS "yakir_dahari-elinor_ribiyev")
 
 include (cmake/CompilerSettings.cmake)
 
-add_executable (${CMAKE_PROJECT_NAME})
+add_executable (${CMAKE_PROJECT_NAME} WIN32)
 
 add_subdirectory (include)
 add_subdirectory (src)

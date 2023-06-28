@@ -123,7 +123,7 @@ bool movingObject::isDead()
 	return false;
 }
 
-const Data& movingObject::getData() const
+Data movingObject::getData() const
 {
 	return data;
 }

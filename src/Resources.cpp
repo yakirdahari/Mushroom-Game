@@ -808,7 +808,7 @@ void Resources::loadTextures()
         !m_textures[END_Button].loadFromFile("END_Button.png")                           ||
         !m_textures[END_Button_Highlighted].loadFromFile("END_Button_Highlighted.png")   ||
         !m_textures[END_Button_Pressed].loadFromFile("END_Button_Pressed.png")           ||
-        !m_textures[Arrival_Texture].loadFromFile("Arrival.png")            )
+        !m_textures[Arrival_Texture].loadFromFile("Arrival.png")                          )
         throw std::runtime_error("Can't load texture");
 }
 
@@ -881,4 +881,5 @@ void Resources::loadDialogue()
     m_dialogue[Shanks].push_back(std::make_shared<sf::Text>("You know my grandfather?!", m_font, 13));
     m_dialogue[Shanks].push_back(std::make_shared<sf::Text>("Very well.. I'll give u a ride to Victoria Island.", m_font, 13));
     m_dialogue[Shanks].push_back(std::make_shared<sf::Text>("Are you ready to go? (Level 10 required)", m_font, 13));
+    m_dialogue[Shanks].push_back(std::make_shared<sf::Text>("Not sure you have trained enough for this journey.", m_font, 13));
 }

@@ -5,6 +5,7 @@
 #include "ReviveGUI.h"
 #include "TutorialGUI.h"
 #include "DialogueGUI.h"
+#include "ArrivalGUI.h"
 
 class Info
 {
@@ -14,6 +15,7 @@ public:
     {
         Revive,
         Tutorial,
+        Arrival,
     };
     // ---------------
 

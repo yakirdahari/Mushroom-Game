@@ -2,8 +2,8 @@
 #include "Resources.h"
 
 ArrivalGUI::ArrivalGUI()
-	: GUI(Resources::instance().texture(Resources::Arrival_Texture), sf::Vector2f(375.f, 250.f),
-		sf::Vector2f(1.f, 1.f)), m_sound(Resources::instance().sound(Resources::Arrival))
+	: GUI(Resources::instance().texture(Resources::Arrival_Texture), sf::Vector2f(185.f, 250.f),
+		sf::Vector2f(1.1f, 1.1f)), m_sound(Resources::instance().sound(Resources::Arrival))
 {
 	m_sound.play();
 }
