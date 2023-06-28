@@ -685,8 +685,8 @@ AnimationData BiggsData()
 
 AnimationData ShanksData()
 {
-    const auto size = sf::Vector2i(70, 79);
-    const auto initSpace = sf::Vector2i(1780, 0);
+    const auto size = sf::Vector2i(75, 79);
+    const auto initSpace = sf::Vector2i(1775, 0);
     const auto middleSpace = sf::Vector2i(0, 15);
 
     auto Shanks = AnimationData{};

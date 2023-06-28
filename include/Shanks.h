@@ -6,6 +6,6 @@ class Shanks : public NPC
 {
 public:
 	Shanks(const sf::Vector2f& position)
-		: NPC(position, Resources::Shanks, "Shanks")
+		: NPC(position + sf::Vector2f(0.f, 7.f), Resources::Shanks, "Shanks")
 	{}
 };

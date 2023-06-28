@@ -6,6 +6,8 @@
 #include "NextButton.h"
 #include "BackButton.h"
 #include "EndButton.h"
+#include "YesButton.h"
+#include "NoButton.h"
 #include "Animation.h"
 
 class DialogueGUI : public GUI
@@ -25,4 +27,6 @@ private:
 	NextButton NEXT_Button;
 	BackButton BACK_Button;
 	EndButton END_Button;
+	YesButton YES_Button;
+	NoButton NO_Button;
 };	
