@@ -22,6 +22,8 @@
 #include "Maria2.h"
 #include "Lucas.h"
 #include "Bari.h"
+#include "Biggs.h"
+#include "Shanks.h"
 
 
 
@@ -248,9 +250,9 @@ void insertObject(const Objects& object, const sf::Vector2f& position)
 			// so we know which portal leads to where
 			switch (Map::instance().portals().size())
 			{
-			case 0:Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SplitRoad, 1)));
+			case 1:Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SplitRoad, 1)));
 				break;
-			case 1: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::Southperry, 0)));
+			case 0: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::Southperry)));
 				break;
 			}
 		case Monster1_Char: Map::instance().monsters().push_back(std::move(std::make_unique<BlueSnail>(position)));
@@ -264,6 +266,23 @@ void insertObject(const Objects& object, const sf::Vector2f& position)
 		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::WestSouthperry));
 		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::WestSouthperry));
 		Map::instance().music()->setBuffer(Resources::instance().music(Map::WestSouthperry));
+	}
+
+	// Southperry
+	if (Map::instance().mapID() == Map::Southperry)
+	{
+		switch (object)
+		{
+		case NPC1_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Biggs>(position)));
+			break;
+		case NPC2_Char: Map::instance().npcs().push_back(std::move(std::make_unique<Shanks>(position)));
+			break;
+		case Portal_Char: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::WestSouthperry, 1)));
+			break;
+		}
+		Map::instance().map() = std::make_unique<sf::Sprite>(Resources::instance().maps(Map::Southperry));
+		Map::instance().background() = std::make_unique<sf::Sprite>(Resources::instance().backgrounds(Map::Southperry));
+		Map::instance().music()->setBuffer(Resources::instance().music(Map::Southperry));
 	}
 
 	// everything else

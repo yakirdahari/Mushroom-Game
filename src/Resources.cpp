@@ -650,6 +650,61 @@ AnimationData BariData()
     return Bari;
 }
 
+AnimationData BiggsData()
+{
+    const auto size = sf::Vector2i(67, 77);
+    const auto initSpace = sf::Vector2i(1727, 9);
+    const auto middleSpace = sf::Vector2i(0, 17);
+
+    auto Biggs = AnimationData{};
+    auto currentStart = initSpace;
+
+    auto nextStart = [&]()
+    {
+        currentStart += middleSpace;
+        currentStart.y += size.y;
+        return currentStart;
+    };
+
+    // animations
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Biggs.m_data[Direction::Stay].emplace_back(nextStart(), size);
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+    Biggs.m_data[Direction::Stay].emplace_back(currentStart, size);
+
+    return Biggs;
+}
+
+AnimationData ShanksData()
+{
+    const auto size = sf::Vector2i(70, 79);
+    const auto initSpace = sf::Vector2i(1780, 0);
+    const auto middleSpace = sf::Vector2i(0, 15);
+
+    auto Shanks = AnimationData{};
+    auto currentStart = initSpace;
+
+    auto nextStart = [&]()
+    {
+        currentStart += middleSpace;
+        currentStart.y += size.y;
+        return currentStart;
+    };
+
+    // animations
+    Shanks.m_data[Direction::Stay].emplace_back(currentStart, size);
+
+    return Shanks;
+}
+
 Resources& Resources::instance()
 {
     static Resources instance;
@@ -694,6 +749,8 @@ void Resources::loadAnimations()
     m_data[Maria2] = SeraData();
     m_data[Lucas] = LucasData();
     m_data[Bari] = BariData();
+    m_data[Biggs] = BiggsData();
+    m_data[Shanks] = ShanksData();
 }
 
 void Resources::loadBackgrounds()
@@ -704,7 +761,7 @@ void Resources::loadBackgrounds()
         !m_backgrounds[WestAmherst].loadFromFile("Background2.png")    ||
         !m_backgrounds[Amherst].loadFromFile("Background1.jpg")        ||
         !m_backgrounds[WestSouthperry].loadFromFile("Background2.png") ||
-        !m_backgrounds[Southperry].loadFromFile("Background1.jpg")      )
+        !m_backgrounds[Southperry].loadFromFile("Background3.jpg")      )
         throw std::runtime_error("Can't load background");
 }
 
@@ -750,7 +807,8 @@ void Resources::loadTextures()
         !m_textures[NO_Button_Pressed].loadFromFile("NO_Button_Pressed.png")             ||
         !m_textures[END_Button].loadFromFile("END_Button.png")                           ||
         !m_textures[END_Button_Highlighted].loadFromFile("END_Button_Highlighted.png")   ||
-        !m_textures[END_Button_Pressed].loadFromFile("END_Button_Pressed.png")            )
+        !m_textures[END_Button_Pressed].loadFromFile("END_Button_Pressed.png")           ||
+        !m_textures[Arrival_Texture].loadFromFile("Arrival.png")            )
         throw std::runtime_error("Can't load texture");
 }
 
@@ -812,4 +870,15 @@ void Resources::loadDialogue()
     m_dialogue[Maria2].push_back(std::make_shared<sf::Text>("Hope you enjoy your time at Amherst!", m_font, 13));
     m_dialogue[Lucas].push_back(std::make_shared<sf::Text>("A way out here you say? Well glad you asked!", m_font, 13));
     m_dialogue[Lucas].push_back(std::make_shared<sf::Text>("My grandson Shanks in Southperry has a ship. \nI'm sure he'll give you a ride.", m_font, 13));
+    m_dialogue[Bari].push_back(std::make_shared<sf::Text>("Our ship is almost ready to set sail.", m_font, 13));
+    m_dialogue[Bari].push_back(std::make_shared<sf::Text>("Our captain? He's probably somewhere in Southperry.", m_font, 13));
+    m_dialogue[Bari].push_back(std::make_shared<sf::Text>("Don't be like that, our captain is nice. \nI'm sure he'll let you sail with us.", m_font, 13));
+    m_dialogue[Bari].push_back(std::make_shared<sf::Text>("To get to Southperry take the portal on your right, \nour captain Shanks must be there.", m_font, 13));
+    m_dialogue[Biggs].push_back(std::make_shared<sf::Text>("What a clear sky... Finally some fresh air!", m_font, 13));
+    m_dialogue[Biggs].push_back(std::make_shared<sf::Text>("Huh? Who you lookin at?", m_font, 13));
+    m_dialogue[Biggs].push_back(std::make_shared<sf::Text>("Shanks? He must be at our ship.. \nKeep walking right he'll be there.", m_font, 13));
+    m_dialogue[Shanks].push_back(std::make_shared<sf::Text>("Yo!", m_font, 13));
+    m_dialogue[Shanks].push_back(std::make_shared<sf::Text>("You know my grandfather?!", m_font, 13));
+    m_dialogue[Shanks].push_back(std::make_shared<sf::Text>("Very well.. I'll give u a ride to Victoria Island.", m_font, 13));
+    m_dialogue[Shanks].push_back(std::make_shared<sf::Text>("Are you ready to go? (Level 10 required)", m_font, 13));
 }
