@@ -44,7 +44,7 @@ configure_file ("Southperry.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("MenuBackground1.jpg" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Background1.jpg" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Background2.png" ${CMAKE_BINARY_DIR} COPYONLY)
-configure_file ("Background3.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Background3.jpg" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Fonts
 configure_file ("arial.ttf" ${CMAKE_BINARY_DIR} COPYONLY)

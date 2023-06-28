@@ -652,7 +652,7 @@ AnimationData BariData()
 
 AnimationData BiggsData()
 {
-    const auto size = sf::Vector2i(67, 77);
+    const auto size = sf::Vector2i(46, 70);
     const auto initSpace = sf::Vector2i(1727, 9);
     const auto middleSpace = sf::Vector2i(0, 17);
 
