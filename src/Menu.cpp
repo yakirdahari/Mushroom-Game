@@ -2,12 +2,8 @@
 
 // Constractor
 Menu::Menu()
-	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen | sf::Style::Close),
-	m_menuSprite(Resources::instance().texture(Resources::MenuBackground))
-	//: m_windowWidth(1440), m_windowHeight(900),
-	//m_window(sf::VideoMode(1440, 900), "Mushroom Game", sf::Style::Close),
-	//m_menuSprite(Resources::instance().texture(Resources::MenuBackground))
-	///*m_teleportSound(Resources::instance().sound(Resources::Portal_Sound))*/
+	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen),
+	  m_menuSprite(Resources::instance().texture(Resources::MenuBackground))
 {
 	m_menuSprite.setScale(0.72f, 0.72f);
 	initTitle();

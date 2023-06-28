@@ -2,7 +2,7 @@
 
 // Opening file
 Controller::Controller()
-	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", /*sf::Style::Fullscreen |*/ sf::Style::Close),
+	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen),
 	  m_transitionScreen(sf::Vector2f(WindowWidth, WindowHeight)),
 	  m_teleportSound(Resources::instance().sound(Resources::Portal_Sound)),
 	  m_view(sf::FloatRect(sf::Vector2f(0.f,0.f), sf::Vector2f(WindowWidth, WindowHeight))),
