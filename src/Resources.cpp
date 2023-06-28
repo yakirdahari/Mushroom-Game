@@ -722,7 +722,7 @@ void Resources::loadMaps()
 
 void Resources::loadTextures()
 {
-    if (!m_textures[MenuBackground].loadFromFile("MenuBackground.jpg")                   ||
+    if (!m_textures[MenuBackground].loadFromFile("MenuBackground1.jpg")                  ||
         !m_textures[Ground].loadFromFile("Ground.png")                                   ||
         !m_textures[Wall].loadFromFile("Wall.png")                                       ||
         !m_textures[MonsterWall].loadFromFile("MonsterWall.png")                         ||

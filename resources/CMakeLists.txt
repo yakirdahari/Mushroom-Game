@@ -41,13 +41,15 @@ configure_file ("WestSouthperry.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Southperry.png" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Backgrounds
-configure_file ("MenuBackground.jpg" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("MenuBackground1.jpg" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Background1.jpg" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Background2.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Background3.png" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Fonts
 configure_file ("arial.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Blueberry.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("helpFont.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
 
 # Map Music
 configure_file ("Intro.wav" ${CMAKE_BINARY_DIR} COPYONLY)

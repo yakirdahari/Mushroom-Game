@@ -1,7 +1,11 @@
 #pragma once
 #include "Controller.h"
+#include "HelpScreen.h"
 #include <iostream>
-
+#include <vector>
+#include <map>
+#include <string>
+#include <memory>
 
 class Menu
 {
@@ -13,33 +17,34 @@ public:
 		WindowHeight = 768,
 	};
 	//----------------------
-	
+
 	// Constructor
 	Menu();							// Constractor
-	~Menu();						// Destractor
 
-	// Public Functions
-	void run();						// running the program.
+	// Public functions
+	void run();
 
 private:
 	// Members
 	sf::RenderWindow m_window;
-	sf::Sprite m_background;
-	sf::Sound m_sound;
 	int m_windowHeight;
 	int m_windowWidth;
+	sf::Sprite m_menuSprite;
 
-	// Texts
+	// Textes & Fonts
 	sf::Font titleFont;
 	sf::Font buttonsFont;
-	sf::Text title;
+	sf::Text title1;
+	sf::Text title2;
 	sf::Text start;
 	sf::Text help;
 	sf::Text exit;
 
-	// Private Functions
+	// Private functions
 	void draw();					// Draws the objects on the screen.
 	void updateEvents();			// Handles screen events.
-	void initTitle();				// Creates the title.
-	void initButtons();				// Creates the buttons.
+	void initTitle();
+	void initButtons();
+
+
 };

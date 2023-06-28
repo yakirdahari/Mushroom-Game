@@ -1,21 +1,17 @@
-#pragma once
 #include "Menu.h"
 
 // Constractor
 Menu::Menu()
-	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen),
-	  m_background(Resources::instance().texture(Resources::MenuBackground)),
-	  m_sound(Resources::instance().music(Resources::Menu))
+	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen | sf::Style::Close),
+	m_menuSprite(Resources::instance().texture(Resources::MenuBackground))
+	//: m_windowWidth(1440), m_windowHeight(900),
+	//m_window(sf::VideoMode(1440, 900), "Mushroom Game", sf::Style::Close),
+	//m_menuSprite(Resources::instance().texture(Resources::MenuBackground))
+	///*m_teleportSound(Resources::instance().sound(Resources::Portal_Sound))*/
 {
+	m_menuSprite.setScale(0.72f, 0.72f);
 	initTitle();
 	initButtons();
-	srand(static_cast<unsigned>(time(nullptr)));
-	m_sound.play();
-	m_sound.setLoop(true);
-}
-
-Menu::~Menu()
-{
 }
 
 
@@ -29,27 +25,27 @@ void Menu::run()
 	}
 }
 
-
-// Private Functions
 void Menu::draw()
 {
 	m_window.clear(sf::Color::Black);
 
 	// Draw the screen
-	m_window.draw(m_background);
-	m_window.draw(title);
+	m_window.draw(m_menuSprite);
+	m_window.draw(title1);
+	m_window.draw(title2);
 	m_window.draw(start);
+	m_window.draw(help);
 	m_window.draw(exit);
 
 	m_window.display();
 }
-
 
 void Menu::updateEvents()
 {
 	sf::Vector2f mousePos;
 	mousePos.x = (float)(sf::Mouse::getPosition(m_window).x);
 	mousePos.y = (float)(sf::Mouse::getPosition(m_window).y);
+
 	for (auto event = sf::Event(); m_window.pollEvent(event); )
 	{
 		switch (event.type)
@@ -66,16 +62,12 @@ void Menu::updateEvents()
 			}
 		}
 
-
-
 		if (start.getGlobalBounds().contains(mousePos))
 		{
-			start.setCharacterSize(100);
-			start.setOutlineThickness(4);
-			start.setPosition(WindowWidth / 2.54f, 400-15);
+			start.setCharacterSize(77);
+			start.setPosition(510 - 15, 370 - 10);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				m_sound.stop();
 				m_window.close();
 				auto c = Controller();
 				c.run();
@@ -83,16 +75,30 @@ void Menu::updateEvents()
 		}
 		else
 		{
-			start.setCharacterSize(80);
-			start.setOutlineThickness(0);
-			start.setPosition(WindowWidth / 2.54f, 400);
+			start.setCharacterSize(67);
+			start.setPosition(510, 370);
+		}
+		if (help.getGlobalBounds().contains(mousePos))
+		{
+			help.setCharacterSize(77);
+			help.setPosition(550 - 10, 470 - 10);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				m_window.close();
+				auto h = HelpScreen(WindowWidth, WindowHeight);
+				h.run();
+			}
+		}
+		else
+		{
+			help.setCharacterSize(67);
+			help.setPosition(550, 470);
 		}
 
 		if (exit.getGlobalBounds().contains(mousePos))
 		{
-			exit.setCharacterSize(100);
-			exit.setOutlineThickness(4);
-			exit.setPosition(WindowWidth / 2.4f, 550-15);
+			exit.setCharacterSize(77);
+			exit.setPosition(550 - 10, 570 - 10);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				m_window.close();
@@ -100,48 +106,52 @@ void Menu::updateEvents()
 		}
 		else
 		{
-			exit.setCharacterSize(80);
-			exit.setOutlineThickness(0);
-			exit.setPosition(WindowWidth / 2.4f, 550);
+			exit.setCharacterSize(67);
+			exit.setPosition(550, 570);
 		}
 	}
 }
 
-
 void Menu::initTitle()
 {
-	titleFont.loadFromFile("arial.ttf");
-	title.setString("MUSHROOM GAME");
-	title.setFont(titleFont);
-	title.setCharacterSize(140);
-	title.setFillColor(sf::Color::Black);
-	title.setOutlineColor(sf::Color::White);
-	title.setOutlineThickness(6);
-	title.setPosition(40.f, 30);
-}
+	titleFont.loadFromFile("Blueberry.ttf");
 
+	title1.setString("MUSHROOM");
+	title1.setFont(titleFont);
+	title1.setCharacterSize(130);
+	title1.setFillColor(sf::Color::Black);
+	title1.setPosition(80, 30);
+
+	title2.setString("GAME");
+	title2.setFont(titleFont);
+	title2.setCharacterSize(130);
+	title2.setFillColor(sf::Color::Black);
+	title2.setPosition((((title1.getGlobalBounds().width + 80) / 2.f) - (title2.getGlobalBounds().width / 2.f)), 180);
+}
 
 void Menu::initButtons()
 {
-	buttonsFont.loadFromFile("arial.ttf");
+	buttonsFont.loadFromFile("Blueberry.ttf");
 
 	// start
 	start.setString("START");
 	start.setFont(buttonsFont);
-	start.setFillColor(sf::Color::Red);
-	start.setOutlineColor(sf::Color::White);
-	start.setCharacterSize(80);
-	start.setPosition(WindowWidth / 3.f, 400);
+	start.setFillColor(sf::Color::Black);
+	start.setCharacterSize(67);
+	start.setPosition(510, 370);
 
 	// help
+	help.setString("HELP");
+	help.setFont(buttonsFont);
+	help.setFillColor(sf::Color::Black);
+	help.setCharacterSize(67);
+	help.setPosition(550, 470);
+
+	// exit
 	exit.setString("EXIT");
 	exit.setFont(buttonsFont);
-	exit.setFillColor(sf::Color(0, 240, 60));
-	exit.setOutlineColor(sf::Color::White);
-	exit.setCharacterSize(80);
-	exit.setPosition(WindowWidth / 3.f, 550);
+	exit.setFillColor(sf::Color::Black);
+	exit.setCharacterSize(67);
+	exit.setPosition(550, 570);
 }
-
-
-
 
