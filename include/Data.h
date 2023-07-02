@@ -13,11 +13,10 @@ struct Data
 	int MP = 50;					// mana points
 	int MaxMP = 50;		   		    // maximum mana points
 	int damage = 3;					// amount of damage dealt
-	float Speed = 340.f;		    // amount of damage dealt
+	float Speed = 140.f;		    // movement speed
 	bool wasHit = false;			// for hit detection
 	bool dead = false;				// is object dead?
 	bool respawn = false;			// should object respawn?
-	bool gameFinished = false;      // signals the end of the game
 	std::string job = "Beginner";	// current job
 	std::string name;
 

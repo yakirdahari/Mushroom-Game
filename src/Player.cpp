@@ -8,7 +8,7 @@
 
 constexpr auto AttackSpeed = 0.9f;
 constexpr auto JumpSpeed = 0.5f;
-constexpr auto HitDuration = 1.5f;
+constexpr auto HitDuration = 0.7f;
 constexpr auto LevelUpAnimationTime = 3.f;
 
 Direction Player::keyToDirection()

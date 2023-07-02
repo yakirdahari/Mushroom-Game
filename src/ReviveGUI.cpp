@@ -8,7 +8,7 @@ ReviveGUI::ReviveGUI()
 {
 }
 
-void ReviveGUI::draw(sf::RenderWindow& window) const
+void ReviveGUI::draw(sf::RenderWindow& window)
 {
 	window.draw(m_GUI);
 	OK_Button.draw(window);

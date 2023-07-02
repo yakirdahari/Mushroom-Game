@@ -8,7 +8,7 @@ public:
     GUI(const sf::Texture& texture, const sf::Vector2f& location,
         const sf::Vector2f& size);
 
-    virtual void draw(sf::RenderWindow& window) const = 0;
+    virtual void draw(sf::RenderWindow& window) = 0;
     virtual void handleEvents(sf::RenderWindow& window) = 0;
     bool closed() { return m_closed; }
     

@@ -58,11 +58,7 @@ void HelpScreen::updateEvents()
 			back.setCharacterSize(77);
 			back.setPosition(710 - 10, 480 - 10);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
 				m_window.close();
-				auto m = Menu();
-				m.run();
-			}
 		}
 		else
 		{

@@ -8,7 +8,7 @@ TutorialGUI::TutorialGUI()
 {
 }
 
-void TutorialGUI::draw(sf::RenderWindow& window) const
+void TutorialGUI::draw(sf::RenderWindow& window)
 {
 	window.draw(m_GUI);
 	OK_Button.draw(window);

@@ -3,7 +3,8 @@
 // Constractor
 Menu::Menu()
 	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen),
-	  m_menuSprite(Resources::instance().texture(Resources::MenuBackground))
+	  m_menuSprite(Resources::instance().texture(Resources::MenuBackground)),
+	  m_sound(Resources::instance().music(Resources::Menu))
 {
 	m_menuSprite.setScale(0.72f, 0.72f);
 	initTitle();
@@ -14,6 +15,9 @@ Menu::Menu()
 // Public Functions
 void Menu::run()
 {
+	m_sound.play();
+	m_sound.setLoop(true);
+
 	while (m_window.isOpen())
 	{
 		draw();
@@ -54,59 +58,61 @@ void Menu::updateEvents()
 			{
 				m_window.clear(sf::Color::Cyan);
 				m_window.display();
-
 			}
-		}
-
-		if (start.getGlobalBounds().contains(mousePos))
+			break;
+		case sf::Event::MouseButtonReleased:
 		{
-			start.setCharacterSize(77);
-			start.setPosition(510 - 15, 370 - 10);
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			if (start.getGlobalBounds().contains(mousePos))
 			{
+				m_sound.stop();
 				m_window.close();
 				auto c = Controller();
 				c.run();
 			}
-		}
-		else
-		{
-			start.setCharacterSize(67);
-			start.setPosition(510, 370);
-		}
-		if (help.getGlobalBounds().contains(mousePos))
-		{
-			help.setCharacterSize(77);
-			help.setPosition(550 - 10, 470 - 10);
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			else if (help.getGlobalBounds().contains(mousePos))
 			{
-				m_window.close();
 				auto h = HelpScreen(WindowWidth, WindowHeight);
 				h.run();
 			}
-		}
-		else
-		{
-			help.setCharacterSize(67);
-			help.setPosition(550, 470);
-		}
-
-		if (exit.getGlobalBounds().contains(mousePos))
-		{
-			exit.setCharacterSize(77);
-			exit.setPosition(550 - 10, 570 - 10);
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
+			else if (exit.getGlobalBounds().contains(mousePos))
 				m_window.close();
-			}
 		}
-		else
-		{
-			exit.setCharacterSize(67);
-			exit.setPosition(550, 570);
 		}
 	}
+
+	if (start.getGlobalBounds().contains(mousePos))
+	{
+		start.setCharacterSize(77);
+		start.setPosition(510 - 15, 370 - 10);
+	}
+	else
+	{
+		start.setCharacterSize(67);
+		start.setPosition(510, 370);
+	}
+	if (help.getGlobalBounds().contains(mousePos))
+	{
+		help.setCharacterSize(77);
+		help.setPosition(550 - 10, 470 - 10);
+
+	}
+	else
+	{
+		help.setCharacterSize(67);
+		help.setPosition(550, 470);
+	}
+	if (exit.getGlobalBounds().contains(mousePos))
+	{
+		exit.setCharacterSize(77);
+		exit.setPosition(550 - 10, 570 - 10);
+	}
+	else
+	{
+		exit.setCharacterSize(67);
+		exit.setPosition(550, 570);
+	}
 }
+
 
 void Menu::initTitle()
 {

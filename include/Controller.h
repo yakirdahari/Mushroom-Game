@@ -21,6 +21,7 @@ public:
 
 	// Public Functions
 	void run();
+	static void finishGame();
 
 	//----------------------
 	enum Settings
@@ -45,6 +46,9 @@ private:
 	sf::View m_view;
 	sf::View m_GUIview;
 
+	static bool gameFinished;
+	
+
 	// Private Functions
 	void draw();              // draws objects
 	void handleEvents();
@@ -56,6 +60,5 @@ private:
 	void fadeIn();			  // screen fades in when changing maps
 	void fadeOut();			  // screen fades out when changing maps
 	void checkPortals();      // player on a portal = can change map
-	void updateView();		  // moves camera towards player
-	void gameOver();	  
+	void updateView();		  // moves camera towards player  
 };

@@ -1,4 +1,5 @@
 #include "DialogueGUI.h"
+#include "Info.h"
 
 DialogueGUI::DialogueGUI(const Resources::Objects& npc, const sf::Text& name, std::shared_ptr<sf::Sprite> sprite)
 	: GUI(Resources::instance().texture(Resources::Dialogue), sf::Vector2f(415.f, 240.f),
@@ -7,8 +8,8 @@ DialogueGUI::DialogueGUI(const Resources::Objects& npc, const sf::Text& name, st
 	NEXT_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(448.f, 150.f))),
 	BACK_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(393.f, 150.f))),
 	END_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(8.f, 200.f))),
-	YES_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(448.f, 200.f))),
-	NO_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(393.f, 200.f))),
+	YES_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(475.f, 199.f))),
+	NO_Button(sf::Vector2f(m_GUI.getPosition() + sf::Vector2f(420.f, 199.f))),
 	page(0),
 	m_dialogue(Resources::instance().dialogues(npc)),
 	m_name(name),
@@ -25,7 +26,7 @@ DialogueGUI::DialogueGUI(const Resources::Objects& npc, const sf::Text& name, st
 	m_name.setFillColor(sf::Color::White);
 }
 
-void DialogueGUI::draw(sf::RenderWindow& window) const
+void DialogueGUI::draw(sf::RenderWindow& window)
 {
 	window.draw(m_GUI);
 	window.draw(*m_npc);
@@ -61,7 +62,7 @@ void DialogueGUI::draw(sf::RenderWindow& window) const
 void DialogueGUI::handleEvents(sf::RenderWindow& window)
 {
 	// detect click
-	if (OK_Button.wasClicked(window) ||
+	if (OK_Button.wasClicked(window) && page == m_dialogue.size() - 1 ||
 		END_Button.wasClicked(window) ||
 		NO_Button.wasClicked(window))
 		m_closed = true;
@@ -75,7 +76,10 @@ void DialogueGUI::handleEvents(sf::RenderWindow& window)
 	else if (YES_Button.wasClicked(window) && page == m_dialogue.size() - 2)
 	{
 		if (Map::instance().player()->getData().level >= 10)
-			Map::instance().player()->gameFinished();
+		{
+			Info::instance().addGUI(Info::Arrival);
+			m_closed = true;
+		}
 		else
 			page++;
 	}

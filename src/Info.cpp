@@ -97,7 +97,7 @@ void Info::addGUI(const int& type)
 		break;
 	case Tutorial: GUIs.push_back(std::make_unique<TutorialGUI>());
 		break;
-	case Arrival: GUIs.push_back(std::make_unique<TutorialGUI>());
+	case Arrival: GUIs.push_back(std::make_unique<ArrivalGUI>());
 	}
 }
 

@@ -1,5 +1,7 @@
 #include "Controller.h"
 
+bool Controller::gameFinished = false;
+
 // Opening file
 Controller::Controller()
 	: m_window(sf::VideoMode(WindowWidth, WindowHeight), "Mushroom Game", sf::Style::Fullscreen),
@@ -17,9 +19,7 @@ Controller::Controller()
 //----------------------------------------------------
 void Controller::run()
 {
-	spawn(Map::WestSouthperry);
-
-	auto gameFinished = false;
+	spawn(Map::MushroomTown);
 
 	while (m_window.isOpen() && !gameFinished)
 	{
@@ -28,8 +28,12 @@ void Controller::run()
 		updateGameObjects();
 		updateView();
 		updateInfo();
-		gameFinished = Map::instance().player()->getData().gameFinished;
 	}
+}
+//----------------------------------------------------
+void Controller::finishGame()
+{
+	gameFinished = true;
 }
 //----------------------------------------------------
 void Controller::draw()
@@ -66,9 +70,6 @@ void Controller::draw()
 		m_window.draw(cursor);
 		m_window.draw(m_transitionScreen);
 		m_window.setView(m_view);
-
-		if (Map::instance().player()->getData().gameFinished)
-			gameOver();
 	}
 	m_window.display();
 }
@@ -292,18 +293,6 @@ void Controller::updateView()
 		m_window.setView(m_view);
 		Map::instance().background()->setPosition(Map::instance().background()->getPosition().x, Map::instance().map()->getGlobalBounds().height - WindowHeight / 2.f);
 	}
-}
-void Controller::gameOver()
-{
-	gameClock.restart();
-	Map::instance().music()->resetBuffer();
-
-	fadeIn();
-	ArrivalGUI arrival;
-	arrival.draw(m_window);
-	m_window.display();
-
-	while (gameClock.getElapsedTime().asSeconds() < 10.f);
 }
 //----------------------------------------------------
 Controller::~Controller()

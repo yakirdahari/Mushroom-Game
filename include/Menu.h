@@ -30,6 +30,7 @@ private:
 	int m_windowHeight;
 	int m_windowWidth;
 	sf::Sprite m_menuSprite;
+	sf::Sound m_sound;
 
 	// Textes & Fonts
 	sf::Font titleFont;

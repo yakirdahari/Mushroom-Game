@@ -250,9 +250,9 @@ void insertObject(const Objects& object, const sf::Vector2f& position)
 			// so we know which portal leads to where
 			switch (Map::instance().portals().size())
 			{
-			case 1:Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SplitRoad, 1)));
+			case 0:Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::SplitRoad, 1)));
 				break;
-			case 0: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::Southperry)));
+			case 1: Map::instance().portals().push_back(std::move(std::make_unique<Portal>(position, Map::Southperry)));
 				break;
 			}
 		case Monster1_Char: Map::instance().monsters().push_back(std::move(std::make_unique<BlueSnail>(position)));
