@@ -12,7 +12,7 @@ public:
     {
         m_sp.setOrigin(sf::Vector2f(getGlobalBounds().width / 1.8f, getGlobalBounds().height / 2.f));
         data.name = "Blue Snail";
-        data.expReward = 20000;
+        data.expReward = 12;
         data.level = 2;
         data.damage = 4;
         data.HP = 15;
